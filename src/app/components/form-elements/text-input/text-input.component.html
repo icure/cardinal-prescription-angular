@@ -1,0 +1,23 @@
+<div class="textInput">
+  <label [for]="id" [ngClass]="{ required: required, error: errorMessage }">
+    <span *ngIf="required">*</span>{{ label }}
+  </label>
+
+  <input
+    #inputRef
+    [id]="id"
+    [name]="id"
+    [type]="type"
+    [placeholder]="label"
+    [disabled]="disabled"
+    [attr.min]="min"
+    [attr.max]="max"
+    [attr.accept]="accept"
+    [ngClass]="{ disabled: disabled, error: errorMessage }"
+    [value]="value"
+    (input)="onInputChange($event)" />
+
+  <p class="textInput__error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </p>
+</div>

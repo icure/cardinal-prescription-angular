@@ -1,0 +1,16 @@
+<div class="switch">
+  <p *ngIf="label" class="switch__label">{{ label }}</p>
+
+  <div class="toggleWrapper" [class.checked]="checked">
+    <label class="toggle">
+      <input
+        type="checkbox"
+        [id]="id"
+        [name]="id"
+        [checked]="checked"
+        (change)="toggle()" />
+      <span class="slider"></span>
+    </label>
+    <p (click)="toggle()">{{ value }}</p>
+  </div>
+</div>

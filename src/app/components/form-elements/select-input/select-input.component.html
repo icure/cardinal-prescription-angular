@@ -1,0 +1,21 @@
+<div class="selectInput">
+  <label [for]="id" [ngClass]="{ required: required, error: errorMessage }">
+    <span *ngIf="required">*</span>{{ label }}
+  </label>
+
+  <select
+    [id]="id"
+    [name]="id"
+    [ngClass]="{ disabled: disabled, error: errorMessage }"
+    [disabled]="disabled"
+    [value]="value"
+    (change)="onChange($event)">
+    <option *ngFor="let option of options" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+
+  <p class="selectInput__error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </p>
+</div>

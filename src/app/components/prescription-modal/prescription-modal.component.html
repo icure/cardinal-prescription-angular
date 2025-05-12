@@ -1,0 +1,200 @@
+<div class="addMedicationModal">
+  <div class="addMedicationModal__content">
+    <form
+      id="prescriptionForm"
+      class="addMedicationForm"
+      [formGroup]="prescriptionForm"
+      (ngSubmit)="onSubmit()">
+      <div class="addMedicationForm__header">
+        <h3>{{ modalTitle }}</h3>
+        <button
+          type="reset"
+          class="addMedicationForm__header__closeIcn"
+          (click)="onCancel()">
+          <app-close-icn color="#4B6682" />
+        </button>
+      </div>
+      <div class="addMedicationForm__body">
+        <div class="addMedicationForm__body__content">
+          <app-text-input
+            [required]="true"
+            [label]="'Nom du groupe DCI'"
+            [id]="'medicationTitle'"
+            formControlName="medicationTitle"
+            [errorMessage]="getErrorMessage('medicationTitle')" />
+          <div class="dosageInput">
+            <app-text-input
+              [label]="'Posologie'"
+              [id]="'dosage'"
+              [required]="true"
+              formControlName="dosage"
+              [errorMessage]="getErrorMessage('dosage')" />
+          </div>
+
+          <div class="addMedicationForm__body__content__inputsGroup">
+            <app-text-input
+              [label]="'Durée (nombre d’unités)'"
+              [id]="'duration'"
+              [type]="'number'"
+              formControlName="duration"
+              [min]="1"
+              [required]="true" />
+
+            <app-select-input
+              [label]="'Unité de temps'"
+              [id]="'durationTimeUnit'"
+              [required]="true"
+              [options]="durationTimeUnits"
+              formControlName="durationTimeUnit" />
+          </div>
+          <div class="addMedicationForm__body__content__inputsGroup">
+            <app-text-input
+              [label]="'Date début du traitement'"
+              [id]="'treatmentStartDate'"
+              [type]="'date'"
+              [required]="true"
+              formControlName="treatmentStartDate" />
+
+            <app-text-input
+              [label]="'Exécutable jusqu`au'"
+              [id]="'executableUntil'"
+              [type]="'date'"
+              [required]="true"
+              formControlName="executableUntil" />
+          </div>
+
+          <div class="addMedicationForm__body__content__inputsGroup">
+            <app-text-input
+              [label]="'Nombre de prescriptions'"
+              [id]="'prescriptionsNumber'"
+              [type]="'number'"
+              [min]="1"
+              [required]="true"
+              formControlName="prescriptionsNumber" />
+
+            <app-select-input
+              [label]="'Périodicité'"
+              [id]="'periodicityTimeUnit'"
+              [required]="true"
+              [options]="periodicityTimeUnits"
+              formControlName="periodicityTimeUnit"
+              *ngIf="
+                prescriptionForm.get('prescriptionsNumber')?.value &&
+                prescriptionForm.get('prescriptionsNumber')?.value > 1
+              " />
+
+            <app-text-input
+              [label]="'Nombre de jours'"
+              [id]="'periodicityDaysNumber'"
+              [type]="'number'"
+              [min]="1"
+              [required]="true"
+              formControlName="periodicityDaysNumber"
+              *ngIf="
+                prescriptionForm.get('prescriptionsNumber')?.value &&
+                prescriptionForm.get('periodicityTimeUnit')?.value &&
+                prescriptionForm.get('periodicityTimeUnit')?.value === '1'
+              " />
+          </div>
+
+          <div class="addMedicationForm__body__content__radioBtns">
+            <app-radio-input
+              [name]="'substitutionAllowed'"
+              [label]="'Substitution autorisée'"
+              [options]="[
+                { id: 'yes', label: 'Oui', value: true },
+                { id: 'no', label: 'Non', value: false },
+              ]"
+              formControlName="substitutionAllowed"
+              [required]="true" />
+          </div>
+        </div>
+        <app-toggle-switch
+          [id]="'showExtraFields'"
+          formControlName="showExtraFields"
+          [value]="'Afficher plus'" />
+
+        <div
+          class="addMedicationForm__body__extraFieldsPreview"
+          *ngIf="prescriptionForm.get('showExtraFields')?.value === false">
+          <p>
+            <span>Instructions pour le patient:</span>
+            <i
+              ><span>
+                {{
+                  prescriptionFormValues.recipeInstructionForPatient ?? 'Aucun'
+                }}</span
+              ></i
+            >
+          </p>
+          <p>
+            <span>Instructions remboursement:</span>
+            <i
+              ><span>{{ selectedReimbursementLabel }}</span></i
+            >
+          </p>
+          <p>
+            <span>Visibilité prescripteur: </span>
+            <i
+              ><span> {{ selectedPractitionerVisibilityLabel }}</span></i
+            >
+          </p>
+
+          <p>
+            <span>Visibilité officine:</span>
+            <i
+              ><span> {{ selectedPharmacistVisibilityLabel }}</span></i
+            >
+          </p>
+
+          <p></p>
+        </div>
+
+        <div
+          class="addMedicationForm__body__content"
+          *ngIf="prescriptionForm.get('showExtraFields')?.value === true">
+          <app-textarea-input
+            [label]="'Instructions pour le patient'"
+            [id]="'recipeInstructionForPatient'"
+            formControlName="recipeInstructionForPatient"
+            *ngIf="prescriptionForm.get('showExtraFields')?.value === true" />
+
+          <app-select-input
+            [label]="'Instructions remboursement'"
+            [id]="'instructionsForReimbursement'"
+            [options]="reimbursementOptions"
+            formControlName="instructionsForReimbursement"
+            *ngIf="prescriptionForm.get('showExtraFields')?.value === true" />
+
+          <app-select-input
+            [label]="'Visibilité prescripteur'"
+            [id]="'prescriberVisibility'"
+            [options]="practitionerVisibilityOptions"
+            formControlName="prescriberVisibility"
+            *ngIf="prescriptionForm.get('showExtraFields')?.value === true" />
+
+          <app-select-input
+            [label]="'Visibilité officine'"
+            [id]="'pharmacistVisibility'"
+            [options]="pharmacistVisibilityOptions"
+            formControlName="pharmacistVisibility"
+            *ngIf="prescriptionForm.get('showExtraFields')?.value === true" />
+        </div>
+      </div>
+      <div class="addMedicationForm__footer">
+        <app-button
+          [view]="'outlined'"
+          [type]="'reset'"
+          (handleClick)="onCancel()">
+          Cancel
+        </app-button>
+        <app-button
+          [type]="'submit'"
+          (handleClick)="onSubmit()"
+          [view]="'primary'">
+          Submit
+        </app-button>
+      </div>
+    </form>
+  </div>
+</div>

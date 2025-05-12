@@ -1,0 +1,12 @@
+<app-button
+  [type]="'submit'"
+  (handleClick)="togglePrescriptionModalOpen()"
+  [view]="'primary'">
+  Submit
+</app-button>
+
+<app-prescription-modal
+  *ngIf="isPrescriptionModalOpen"
+  [modalTitle]="'Créer la prescription'"
+  (handleSubmit)="handlePrescriptionModalSubmit()"
+  (handleCancel)="handlePrescriptionModalClose()" />

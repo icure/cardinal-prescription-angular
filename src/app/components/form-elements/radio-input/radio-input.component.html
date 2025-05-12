@@ -1,0 +1,31 @@
+<div class="radioBtnsGroup">
+  <p
+    [ngClass]="{ required: required, error: errorMessage }"
+    class="radioBtnsGroup__label">
+    <span *ngIf="required">*</span>{{ label }}
+  </p>
+
+  <div class="radioBtnsGroup__buttons">
+    <label
+      *ngFor="let option of options"
+      [for]="option.id"
+      class="radioButton"
+      [ngClass]="{ error: errorMessage }">
+      <input
+        type="radio"
+        [id]="option.id"
+        [name]="name"
+        [value]="option.value"
+        [checked]="value === option.value"
+        (change)="onSelectionChange(option.value)" />
+      <span class="radioButton__toggle" [ngClass]="{ error: errorMessage }">
+        <span class="radioButton__toggle__inside"></span>
+      </span>
+      <span class="radioButton__label" [ngClass]="{ error: errorMessage }">{{
+        option.label
+      }}</span>
+    </label>
+  </div>
+
+  <p *ngIf="errorMessage" class="radioBtnsGroup__error">{{ errorMessage }}</p>
+</div>

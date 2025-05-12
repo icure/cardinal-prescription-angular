@@ -1,0 +1,25 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 12px;
+
+  .inputGroup {
+    width: 100%;
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+
+    app-text-input,
+    app-select-input {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+
+  .buttonsGroup {
+    display: flex;
+    gap: 8px;
+  }
+}

@@ -1,0 +1,18 @@
+<div class="textareaInput">
+  <label [for]="id" [ngClass]="{ required: required, error: errorMessage }">
+    <span *ngIf="required">*</span>{{ label }}
+  </label>
+  <textarea
+    #textareaRef
+    [id]="id"
+    [name]="id"
+    [attr.placeholder]="label"
+    [disabled]="disabled"
+    [ngClass]="{ disabled: disabled }"
+    rows="2"
+    [value]="value"
+    (input)="onInputChange($event)"></textarea>
+  <p class="textareaInput__error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </p>
+</div>
