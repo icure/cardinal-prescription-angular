@@ -16,16 +16,16 @@ import { PrescribedMedicationType } from '../../types';
 import {
   getTreatmentStartDate,
   getExecutableUntilDate,
-} from '../../services/date-helpers.service';
+} from '../../services/helpers/date-helpers.service';
 import {
   durationTimeUnits,
   periodicityTimeUnits,
-} from '../../services/medication-helpers.service';
+} from '../../services/helpers/medication-helpers.service';
 import {
   practitionerVisibilityOptions,
   pharmacistVisibilityOptions,
-} from '../../services/visibility-helpers.service';
-import { reimbursementOptions } from '../../services/reimbursement-helpers.service';
+} from '../../services/helpers/visibility-helpers.service';
+import { reimbursementOptions } from '../../services/helpers/reimbursement-helpers.service';
 import { CloseIcnComponent } from '../icons/close-icn/close-icn.component';
 
 @Component({

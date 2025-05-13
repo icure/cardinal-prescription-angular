@@ -1,12 +1,19 @@
-<app-button
-  [type]="'submit'"
-  (handleClick)="togglePrescriptionModalOpen()"
-  [view]="'primary'">
-  Submit
-</app-button>
+<div class="home">
+  <div class="home__divider"></div>
+  <p>
+    Sam version: <strong>{{ samVersion?.version }}</strong>
+  </p>
+  <div class="home__divider"></div>
+  <app-button
+    [type]="'submit'"
+    (handleClick)="togglePrescriptionModalOpen()"
+    [view]="'primary'">
+    Submit
+  </app-button>
 
-<app-prescription-modal
-  *ngIf="isPrescriptionModalOpen"
-  [modalTitle]="'Créer la prescription'"
-  (handleSubmit)="handlePrescriptionModalSubmit()"
-  (handleCancel)="handlePrescriptionModalClose()" />
+  <app-prescription-modal
+    *ngIf="isPrescriptionModalOpen"
+    [modalTitle]="'Créer la prescription'"
+    (handleSubmit)="handlePrescriptionModalSubmit()"
+    (handleCancel)="handlePrescriptionModalClose()" />
+</div>

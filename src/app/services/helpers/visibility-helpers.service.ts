@@ -1,4 +1,4 @@
-import { PharmacistVisibility, PractitionerVisibility } from '../types';
+import { PharmacistVisibility, PractitionerVisibility } from '../../types';
 
 export const practitionerVisibilityOptions: {
   value: PractitionerVisibility;

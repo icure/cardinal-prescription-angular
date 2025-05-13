@@ -1,4 +1,4 @@
-import { PrescribedMedicationType } from '../types';
+import { PrescribedMedicationType } from '../../types';
 
 export const formatDateForInput = (dateNumber: number): string => {
   const year = Math.floor(dateNumber / 10000);
