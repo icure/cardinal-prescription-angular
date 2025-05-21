@@ -6,7 +6,11 @@ import {
   forwardRef,
   AfterViewInit,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { NgClass, NgIf } from '@angular/common';
 
 @Component({
@@ -14,7 +18,7 @@ import { NgClass, NgIf } from '@angular/common';
   templateUrl: './textarea-input.component.html',
   styleUrls: ['./textarea-input.component.scss'],
   standalone: true,
-  imports: [NgClass, NgIf],
+  imports: [NgClass, NgIf, FormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

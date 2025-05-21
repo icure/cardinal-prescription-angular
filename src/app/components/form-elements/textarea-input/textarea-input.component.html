@@ -10,7 +10,7 @@
     [disabled]="disabled"
     [ngClass]="{ disabled: disabled }"
     rows="2"
-    [value]="value"
+    [(ngModel)]="value"
     (input)="onInputChange($event)"></textarea>
   <p class="textareaInput__error" *ngIf="errorMessage">
     {{ errorMessage }}

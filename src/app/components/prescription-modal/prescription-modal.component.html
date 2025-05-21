@@ -38,14 +38,16 @@
               [type]="'number'"
               formControlName="duration"
               [min]="1"
-              [required]="true" />
+              [required]="true"
+              [errorMessage]="getErrorMessage('duration')" />
 
             <app-select-input
               [label]="'Unité de temps'"
               [id]="'durationTimeUnit'"
               [required]="true"
               [options]="durationTimeUnits"
-              formControlName="durationTimeUnit" />
+              formControlName="durationTimeUnit"
+              [errorMessage]="getErrorMessage('durationTimeUnit')" />
           </div>
           <div class="addMedicationForm__body__content__inputsGroup">
             <app-text-input
@@ -53,14 +55,16 @@
               [id]="'treatmentStartDate'"
               [type]="'date'"
               [required]="true"
-              formControlName="treatmentStartDate" />
+              formControlName="treatmentStartDate"
+              [errorMessage]="getErrorMessage('treatmentStartDate')" />
 
             <app-text-input
               [label]="'Exécutable jusqu`au'"
               [id]="'executableUntil'"
               [type]="'date'"
               [required]="true"
-              formControlName="executableUntil" />
+              formControlName="executableUntil"
+              [errorMessage]="getErrorMessage('executableUntil')" />
           </div>
 
           <div class="addMedicationForm__body__content__inputsGroup">
@@ -70,7 +74,8 @@
               [type]="'number'"
               [min]="1"
               [required]="true"
-              formControlName="prescriptionsNumber" />
+              formControlName="prescriptionsNumber"
+              [errorMessage]="getErrorMessage('prescriptionsNumber')" />
 
             <app-select-input
               [label]="'Périodicité'"
@@ -81,7 +86,8 @@
               *ngIf="
                 prescriptionForm.get('prescriptionsNumber')?.value &&
                 prescriptionForm.get('prescriptionsNumber')?.value > 1
-              " />
+              "
+              [errorMessage]="getErrorMessage('periodicityTimeUnit')" />
 
             <app-text-input
               [label]="'Nombre de jours'"
@@ -94,7 +100,8 @@
                 prescriptionForm.get('prescriptionsNumber')?.value &&
                 prescriptionForm.get('periodicityTimeUnit')?.value &&
                 prescriptionForm.get('periodicityTimeUnit')?.value === '1'
-              " />
+              "
+              [errorMessage]="getErrorMessage('periodicityDaysNumber')" />
           </div>
 
           <div class="addMedicationForm__body__content__radioBtns">
@@ -106,7 +113,8 @@
                 { id: 'no', label: 'Non', value: false },
               ]"
               formControlName="substitutionAllowed"
-              [required]="true" />
+              [required]="true"
+              [errorMessage]="getErrorMessage('substitutionAllowed')" />
           </div>
         </div>
         <app-toggle-switch

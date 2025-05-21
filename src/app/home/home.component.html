@@ -1,12 +1,47 @@
-<app-button
-  [type]="'submit'"
-  (handleClick)="togglePrescriptionModalOpen()"
-  [view]="'primary'">
-  Submit
-</app-button>
+<div class="home">
+  <app-practitioner-certificate
+    [certificateValid]="certificateValid"
+    (onUploadCertificate)="onUploadCertificate($event)" />
+  <div class="home__divider"></div>
+  <p>
+    Sam version: <strong>{{ samVersion?.version }}</strong>
+  </p>
+  <div class="home__divider"></div>
 
-<app-prescription-modal
-  *ngIf="isPrescriptionModalOpen"
-  [modalTitle]="'Créer la prescription'"
-  (handleSubmit)="handlePrescriptionModalSubmit()"
-  (handleCancel)="handlePrescriptionModalClose()" />
+  <app-medication-search
+    *ngIf="certificateValid"
+    [onAddPrescription]="onCreatePrescription.bind(this)"
+    [deliveryEnvironment]="deliveryEnvironment" />
+
+  <div class="home__divider"></div>
+
+  <app-prescription-list
+    *ngIf="prescriptions"
+    [prescribedMedications]="prescriptions"
+    (handleModifyPrescription)="onModifyPrescription($event)"
+    (handleDeletePrescription)="onDeletePrescription($event)"
+    [onSendPrescriptions]="onSendPrescriptions"
+    [onPrintPrescriptions]="onPrintPrescriptions"
+    [onSendAndPrintPrescriptions]="onSendAndPrintPrescriptions" />
+
+  <app-prescription-modal
+    *ngIf="prescriptionModalMode === 'create'"
+    [modalTitle]="'Créer la prescription'"
+    (handleSubmit)="onSubmitCreatePrescription($event)"
+    (handleCancel)="onClosePrescriptionModal()"
+    [medicationToPrescribe]="medicationToPrescribe" />
+
+  <app-prescription-modal
+    *ngIf="prescriptionModalMode === 'modify'"
+    [modalTitle]="'Modifier la prescription'"
+    (handleSubmit)="onSubmitModifyPrescription()"
+    (handleCancel)="onClosePrescriptionModal()"
+    [prescriptionToModify]="prescriptionToModify" />
+
+  <app-print-prescription-modal
+    *ngIf="prescriptions && showPrintPrescriptionsModal"
+    [prescribedMedications]="prescriptions"
+    [prescriber]="hcp"
+    [patient]="patient"
+    (onCloseModal)="onClosePrintPrescriptionsModal()" />
+</div>

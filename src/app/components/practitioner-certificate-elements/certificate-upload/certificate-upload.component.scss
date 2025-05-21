@@ -1,0 +1,43 @@
+@use '../../../../styles/index' as global;
+
+.uploadCertificate {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  border-radius: 12px;
+  border: 1px solid global.$grey-300;
+  background: #fff;
+  padding: 24px;
+  gap: 12px;
+
+  @include global.media-breakpoint-down(global.$l) {
+    padding: 18px;
+  }
+
+  h3 {
+    color: global.$grey-900;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  &__inputs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    gap: 12px;
+
+    app-text-input,
+    app-select-input,
+    app-textarea-input {
+      flex: 1 1 0;
+      width: 100%;
+      min-width: 0;
+    }
+  }
+}

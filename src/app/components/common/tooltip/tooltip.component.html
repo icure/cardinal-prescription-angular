@@ -1,0 +1,27 @@
+<div
+  class="tooltip"
+  [class.active]="active"
+  (mouseenter)="handleMouseEnter()"
+  (mouseleave)="handleMouseLeave()"
+  [ngClass]="tooltipOrientation">
+  <div class="icon">
+    <ng-container #iconContainer></ng-container>
+    <ng-container *ngIf="iconSnippet">
+      <ng-container *ngTemplateOutlet="iconSnippet"></ng-container>
+    </ng-container>
+  </div>
+  <div class="chevron"></div>
+  <div class="popup">
+    <div class="popup__iconWrap">
+      <div class="popup__icon">
+        <ng-container *ngIf="iconSnippet">
+          <ng-container *ngTemplateOutlet="iconSnippet"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <p *ngIf="content">{{ content }}</p>
+    <ng-container *ngIf="contentSnippet">
+      <ng-container *ngTemplateOutlet="contentSnippet"></ng-container>
+    </ng-container>
+  </div>
+</div>

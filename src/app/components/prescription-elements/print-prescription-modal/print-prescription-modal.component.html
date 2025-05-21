@@ -1,0 +1,34 @@
+<div class="printPrescriptionModal">
+  <div class="printPrescriptionModal__contentWrap">
+    <div class="printPrescriptionModal__content">
+      <div class="printPrescriptionModal__content__header">
+        <h3>Imprimer la prescription</h3>
+        <button
+          type="reset"
+          class="printPrescriptionModal__content__header__closeIcn"
+          (click)="onCloseModal.emit()">
+          <app-close-icn color="#4B6682" />
+        </button>
+      </div>
+      <div class="printPrescriptionModal__content__body">
+        <div #printContainer id="print-container">
+          <app-prescription-document-to-print
+            [prescribedMedications]="sentPrescriptions"
+            [prescriber]="prescriber"
+            [patient]="patient" />
+        </div>
+      </div>
+      <div class="printPrescriptionModal__content__footer">
+        <app-button
+          [view]="'outlined'"
+          [type]="'reset'"
+          (click)="onCloseModal.emit()">
+          Close
+        </app-button>
+        <app-button [type]="'submit'" (click)="print()" [view]="'primary'">
+          Imprimer
+        </app-button>
+      </div>
+    </div>
+  </div>
+</div>

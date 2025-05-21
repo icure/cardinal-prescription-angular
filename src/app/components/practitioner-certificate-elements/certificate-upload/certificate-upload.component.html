@@ -1,0 +1,30 @@
+<form
+  class="uploadCertificate"
+  id="uploadCertificateForm"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="uploadCertificateForm">
+  <h3>Télécharger le certificat</h3>
+  <div class="uploadCertificate__inputs">
+    <app-text-input
+      [label]="'Certificat du praticien'"
+      [id]="'certificateFile'"
+      [type]="'file'"
+      [required]="true"
+      [accept]="'.p12,.acc-p12'"
+      formControlName="certificateFile"
+      (change)="handleFileChange($event)"
+      [errorMessage]="getErrorMessage('certificateFile')" />
+
+    <app-text-input
+      [label]="'Mot de passe du certificat'"
+      [id]="'certificatePassword'"
+      [type]="'password'"
+      [required]="true"
+      formControlName="certificatePassword"
+      [errorMessage]="getErrorMessage('certificatePassword')" />
+  </div>
+
+  <app-button [type]="'submit'" (handleClick)="onSubmit()" [view]="'primary'">
+    Crypter et télécharger
+  </app-button>
+</form>

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms';
-import { SpinnerIcnComponent } from '../../icons/spinner-icn/spinner-icn.component';
+import { SpinnerIcnComponent } from '../../common/icons/spinner-icn/spinner-icn.component';
 
 @Component({
   selector: 'app-button',

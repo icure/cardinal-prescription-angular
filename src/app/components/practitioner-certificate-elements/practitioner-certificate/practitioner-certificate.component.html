@@ -1,0 +1,17 @@
+<div class="certificate">
+  <app-certificate-status
+    *ngIf="certificateValid"
+    [status]="'success'"
+    [title]="certificateStatusFeedback.success.title"
+    [description]="certificateStatusFeedback.success.description" />
+
+  <app-certificate-status
+    *ngIf="!certificateValid"
+    [status]="'error'"
+    [title]="certificateStatusFeedback.error.title"
+    [description]="certificateStatusFeedback.error.description" />
+
+  <app-certificate-upload
+    *ngIf="!certificateValid"
+    (onUploadCertificate)="onUploadCertificate.emit($event)" />
+</div>
