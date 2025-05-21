@@ -1,0 +1,35 @@
+<div
+  *ngIf="prescribedMedication"
+  class="prescriptionCard"
+  [class.prescribed]="prescribedMedication.rid">
+  <div class="header">
+    <div class="header__prescription">
+      <div class="header__prescription__content">
+        <div class="header__prescription__content__title">
+          <h3>
+            {{
+              prescribedMedication.medication.medicinalProduct?.intendedname ||
+                prescribedMedication.medication.substanceProduct
+                  ?.intendedname ||
+                prescribedMedication.medication.compoundPrescription
+            }}
+          </h3>
+        </div>
+        <p>{{ prescribedMedication.medication.instructionForPatient }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!prescribedMedication.rid" class="actions">
+    <button class="actions__btn actions__btn--edit" (click)="onModifyClick()">
+      <app-edit-icn [color]="'#383A3C'" />
+    </button>
+    <button class="actions__btn actions__btn--delete" (click)="onDeleteClick()">
+      <app-delete-icn [color]="'#383A3C'" />
+    </button>
+  </div>
+
+  <div *ngIf="prescribedMedication.rid" class="rid">
+    {{ prescribedMedication.rid }}
+  </div>
+</div>

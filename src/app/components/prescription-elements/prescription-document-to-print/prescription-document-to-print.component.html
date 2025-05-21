@@ -1,0 +1,72 @@
+<div *ngIf="prescribedMedications?.length">
+  <div *ngFor="let chunk of chunks; let chunkIndex = index">
+    <div class="prescription">
+      <div class="header">
+        <h1>PREUVE DE PRESCRIPTION ELECTRONIQUE</h1>
+        <p>
+          Veuillez présenter ce document à votre pharmacien pour scanner le
+          code-barres et vous délivrer les médicaments prescrits.
+        </p>
+      </div>
+      <div class="divider"></div>
+      <div class="options">
+        <p>
+          <strong
+            >De quelles options disposez-vous pour vous rendre à la pharmacie si
+            vous avez perdu ce document ?</strong
+          >
+        </p>
+        <ol>
+          <li>
+            Via Masanté.be - MyHealthViewer - App MesMédicaments ou toute autre
+            App, vous pouvez montrer votre prescription au pharmacien, qui lira
+            le code-barres.
+          </li>
+          <li>
+            Vous pouvez également aller chercher les produits prescrits avec
+            votre eID (ou votre numéro de registre national si votre eID a été
+            lue par le pharmacien qui vous délivre les produits dans les 15 mois
+            précédents).
+          </li>
+        </ol>
+      </div>
+      <div class="divider"></div>
+
+      <div class="prescription-section">
+        <div class="prescription-section__persons">
+          <p>
+            <strong>Prescripteur :</strong> {{ prescriber?.lastName }}
+            {{ prescriber?.firstName }} {{ prescriber?.nihii }}
+          </p>
+          <p>
+            <strong>Bénéficiaire :</strong> {{ patient?.lastName }}
+            {{ patient?.firstName }} {{ patient?.ssin }}
+          </p>
+        </div>
+        <h3>Contenu de la prescription électronique:</h3>
+
+        <div
+          *ngFor="let item of chunk; let idx = index"
+          class="prescription-item">
+          <div class="prescription-item__block">
+            <p>
+              <strong>Produit {{ idx + 1 }}:</strong>
+            </p>
+            <p>Date : {{ formatDate(item.medication.beginMoment) }}</p>
+            <p>
+              Date de fin pour l'exécution :
+              {{ item.medication.endMoment ? item.medication.endMoment : '-' }}
+            </p>
+          </div>
+          <div class="prescription-item__block prescription-item__block--right">
+            <strong class="ridTitle">RID {{ idx + 1 }}</strong>
+
+            <div class="barcode">
+              <svg #ridElements [attr.id]="'barcode' + idx"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

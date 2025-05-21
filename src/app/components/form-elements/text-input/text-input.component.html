@@ -14,7 +14,7 @@
     [attr.max]="max"
     [attr.accept]="accept"
     [ngClass]="{ disabled: disabled, error: errorMessage }"
-    [value]="value"
+    [(ngModel)]="value"
     (input)="onInputChange($event)" />
 
   <p class="textInput__error" *ngIf="errorMessage">

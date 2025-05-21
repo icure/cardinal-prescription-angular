@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import {
   ControlValueAccessor,
+  FormsModule,
   NG_VALUE_ACCESSOR,
   NgControl,
   Validators,
@@ -30,7 +31,7 @@ import { NgClass, NgIf } from '@angular/common';
     },
   ],
   standalone: true,
-  imports: [NgClass, NgIf],
+  imports: [NgClass, NgIf, FormsModule],
 })
 export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
   @Input() label!: string;

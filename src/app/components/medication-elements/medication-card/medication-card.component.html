@@ -1,0 +1,696 @@
+<div
+  #medicationCardRef
+  [class.focused]="focused"
+  [class.isExpanded]="isExpanded"
+  [id]="index"
+  class="medicationRow">
+  <div class="header">
+    <div
+      class="header__medication"
+      (click)="handleMedicationClick()"
+      (keydown)="handleMedicationEnter($event)"
+      tabindex="0">
+      <div class="header__medication__content">
+        <div class="header__medication__content__heading">
+          <div class="header__medication__content__heading__title">
+            <!-- Choose the appropriate icon based on the drug type: medications,molecules, non-medicinal products -->
+            <ng-template #medicationIcn>
+              <app-solid-pill-icn [color]="'#3D87C5'" />
+            </ng-template>
+            <app-tooltip
+              *ngIf="!!medication.ampId"
+              [iconSnippet]="medicationIcn"
+              content="Medication"
+              [containerWithHiddenOverflowRect]="
+                testMedicationSearchDropdownRect
+              " />
+
+            <ng-template #moleculeIcn>
+              <app-molecule-icn [color]="'#EFAC2F'" />
+            </ng-template>
+            <app-tooltip
+              *ngIf="!!medication.vmpGroupId"
+              [iconSnippet]="moleculeIcn"
+              content="Molecule"
+              [containerWithHiddenOverflowRect]="
+                testMedicationSearchDropdownRect
+              " />
+
+            <ng-template #naturalIcn>
+              <app-leaf-icn [color]="'#197437'" />
+            </ng-template>
+
+            <app-tooltip
+              *ngIf="!!medication.nmpId"
+              [iconSnippet]="naturalIcn"
+              content="Homologation"
+              [containerWithHiddenOverflowRect]="
+                testMedicationSearchDropdownRect
+              " />
+
+            <h3>{{ medication.title }}</h3>
+            <div class="header__medication__content__heading__infographics">
+              <div class="medicationInfographics">
+                <div
+                  class="medicationInfographics__item"
+                  *ngIf="!!medication.blackTriangle">
+                  <ng-template #blackTriangleIcn>
+                    <app-triangle-icn [color]="'#000000'" />
+                  </ng-template>
+                  <app-tooltip
+                    [iconSnippet]="blackTriangleIcn"
+                    content="Black triangle"
+                    [containerWithHiddenOverflowRect]="
+                      testMedicationSearchDropdownRect
+                    " />
+                </div>
+                <div
+                  class="medicationInfographics__item"
+                  *ngIf="!!medication.rmaProfessionalLink">
+                  <ng-template #rmaContent>
+                    <p *ngIf="medication?.rmakeyMessages">
+                      {{ medication.rmakeyMessages }}
+                    </p>
+                    <a
+                      class="snippetLink"
+                      [href]="medication.rmaProfessionalLink"
+                      target="_blank">
+                      Risk Minimisation Activities (RMA)
+                    </a>
+                  </ng-template>
+                  <ng-template #orangeTriangleIcn>
+                    <app-triangle-icn [color]="'#FF5E00'" />
+                  </ng-template>
+                  <app-tooltip
+                    [iconSnippet]="orangeTriangleIcn"
+                    [contentSnippet]="rmaContent"
+                    [containerWithHiddenOverflowRect]="
+                      testMedicationSearchDropdownRect
+                    " />
+                </div>
+                <div
+                  class="medicationInfographics__item"
+                  *ngIf="!!medication.speciallyRegulated">
+                  <ng-template #specialRegulationsIcn>
+                    <app-pills-bottle-icn [color]="'#000000'" />
+                  </ng-template>
+                  <app-tooltip
+                    [content]="
+                      getSpecialRegulation(medication.speciallyRegulated)
+                    "
+                    [iconSnippet]="specialRegulationsIcn"
+                    [containerWithHiddenOverflowRect]="
+                      testMedicationSearchDropdownRect
+                    " />
+                </div>
+                <div
+                  class="medicationInfographics__item"
+                  *ngIf="!!medication.genericPrescriptionRequired">
+                  <ng-template #prescriptionIcn>
+                    <app-prescription-icn [color]="'#000000'" />
+                  </ng-template>
+                  <app-tooltip
+                    content="Generic prescription required"
+                    [iconSnippet]="prescriptionIcn"
+                    [containerWithHiddenOverflowRect]="
+                      testMedicationSearchDropdownRect
+                    " />
+                </div>
+              </div>
+              <div class="medicationAvailabilityInfographics">
+                <ng-template #supplyProblemsContent>
+                  <div
+                    class="supplyProblemsTooltip"
+                    *ngIf="!!medicationSupplyProblem">
+                    <p
+                      class="supplyProblemsTooltip__title supplyProblemsTooltip__title--orange">
+                      Temporary supply Problem:
+                    </p>
+
+                    <div class="supplyProblemsTooltip__content">
+                      <div *ngIf="medicationSupplyProblem.from">
+                        <span>Limited availability since:</span>
+                        <p>
+                          {{ formatTimestamp(medicationSupplyProblem.from) }}
+                        </p>
+                      </div>
+                      <div *ngIf="medicationSupplyProblem.expectedEndOn">
+                        <span>Presumed end date:</span>
+                        <p>
+                          {{
+                            formatTimestamp(
+                              medicationSupplyProblem.expectedEndOn
+                            )
+                          }}
+                        </p>
+                      </div>
+                      <div *ngIf="medicationSupplyProblem.reason?.fr">
+                        <span>Reason:</span>
+                        <p>{{ medicationSupplyProblem.reason?.fr }}</p>
+                      </div>
+                      <div *ngIf="medicationSupplyProblem.impact?.fr">
+                        <span>Impact:</span>
+                        <p>{{ medicationSupplyProblem.impact?.fr }}</p>
+                      </div>
+
+                      <div
+                        *ngIf="
+                          medicationSupplyProblem.impact?.fr ===
+                          'Importation possible par le pharmacien'
+                        ">
+                        <span>Déclaration du prescripteur:</span>
+                        <a
+                          target="_blank"
+                          href="https://www.afmps.be/sites/default/files/content/INSP/NARC/declaration-medecin.pdf"
+                          >Télécharger le document en .pdf</a
+                        >
+                      </div>
+
+                      <div
+                        *ngIf="
+                          medicationSupplyProblem.additionalInformation?.fr
+                        ">
+                        <span>Additional Information:</span>
+                        <p
+                          *ngFor="
+                            let problem of medicationSupplyProblemExtraInfo
+                          ">
+                          {{ problem }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+                <div
+                  class="medicationAvailabilityInfographics__item medicationAvailabilityInfographics__item--orange"
+                  *ngIf="!!medication.supplyProblems">
+                  <ng-template #supplyIcn>
+                    <app-supply-icn [color]="'#FF5E00'" />
+                  </ng-template>
+                  <app-tooltip
+                    [iconSnippet]="supplyIcn"
+                    [contentSnippet]="supplyProblemsContent"
+                    [containerWithHiddenOverflowRect]="
+                      testMedicationSearchDropdownRect
+                    " />
+                </div>
+                <ng-template #endOfCommercialisationContent>
+                  <div
+                    class="supplyProblemsTooltip"
+                    *ngIf="!!medicationCommercialization">
+                    <p
+                      class="supplyProblemsTooltip__title supplyProblemsTooltip__title--red">
+                      End of Commercialisation:
+                    </p>
+                    <div class="supplyProblemsTooltip__content">
+                      <div *ngIf="medicationCommercialization.from">
+                        <span>Limited availability since:</span>
+                        <p>
+                          {{
+                            formatTimestamp(medicationCommercialization.from)
+                          }}
+                        </p>
+                      </div>
+                      <div *ngIf="medicationCommercialization.to">
+                        <span>Unavailable from:</span>
+                        <p>
+                          {{ formatTimestamp(medicationCommercialization.to) }}
+                        </p>
+                      </div>
+
+                      <div
+                        *ngIf="
+                          medicationCommercialization.endOfComercialization?.fr
+                        ">
+                        <span>End of Commercialization:</span>
+                        <p>
+                          {{
+                            medicationCommercialization.endOfComercialization
+                          }}
+                        </p>
+                      </div>
+
+                      <div *ngIf="medicationCommercialization.reason?.fr">
+                        <span>Reason:</span>
+                        <p>{{ medicationCommercialization.reason?.fr }}</p>
+                      </div>
+
+                      <div *ngIf="medicationCommercialization.impact?.fr">
+                        <span>Impact:</span>
+                        <p>{{ medicationCommercialization.impact?.fr }}</p>
+                      </div>
+
+                      <div
+                        *ngIf="
+                          medicationCommercialization.additionalInformation?.fr
+                        ">
+                        <span>Additional Information:</span>
+
+                        <p
+                          *ngFor="
+                            let line of medicationCommercializationExtraInfo
+                          ">
+                          {{ line }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+                <div
+                  class="medicationAvailabilityInfographics__item medicationAvailabilityInfographics__item--red"
+                  *ngIf="medicationCommercialization?.endOfComercialization">
+                  <ng-template #endOfCommercialisationIcn>
+                    <app-end-of-commercialisation-icn [color]="'#EE1313'" />
+                  </ng-template>
+                  <app-tooltip
+                    [iconSnippet]="endOfCommercialisationIcn"
+                    [contentSnippet]="endOfCommercialisationContent"
+                    [containerWithHiddenOverflowRect]="
+                      testMedicationSearchDropdownRect
+                    " />
+                </div>
+                <ng-template #startOfCommercialisationContent>
+                  <div
+                    class="supplyProblemsTooltip"
+                    *ngIf="!!medicationCommercialization">
+                    <p
+                      class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
+                      Start of Commercialisation:
+                    </p>
+                    <div class="supplyProblemsTooltip__content">
+                      <div *ngIf="medicationCommercialization.from">
+                        <span>Availability from:</span>
+                        <p>
+                          {{
+                            formatTimestamp(medicationCommercialization.from)
+                          }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+                <div
+                  class="medicationAvailabilityInfographics__item medicationAvailabilityInfographics__item--green"
+                  *ngIf="
+                    medicationCommercialization &&
+                    !medicationCommercialization?.endOfComercialization
+                  ">
+                  <ng-template #startOfCommercialisationIcn>
+                    <app-start-of-commercialisation-icn [color]="'#09853D'" />
+                  </ng-template>
+                  <app-tooltip
+                    [iconSnippet]="startOfCommercialisationIcn"
+                    [contentSnippet]="startOfCommercialisationContent"
+                    [containerWithHiddenOverflowRect]="
+                      testMedicationSearchDropdownRect
+                    " />
+                </div>
+              </div>
+              <div class="deliveryPrescriptionConditions">
+                <ng-template #reimbursementsIcn>
+                  <div class="textToIcon textToIcon--green">
+                    <p>
+                      {{
+                        medicationReimbursement?.reimbursementCriterion
+                          ?.category
+                      }}
+                    </p>
+                  </div>
+                </ng-template>
+                <ng-template #reimbursementsContent>
+                  <div *ngIf="medicationReimbursement; else noReimbursement">
+                    <div class="supplyProblemsTooltip">
+                      <p
+                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
+                        Remboursement:
+                      </p>
+                      <div class="supplyProblemsTooltip__content">
+                        <div
+                          *ngIf="
+                            medicationReimbursement.reimbursementCriterion
+                              ?.category
+                          ">
+                          <span>Catégorie de remboursement:</span>
+                          <p>
+                            {{
+                              medicationReimbursement.reimbursementCriterion
+                                ?.category
+                            }}
+                          </p>
+                        </div>
+
+                        <div *ngIf="medicationReimbursement.copayments">
+                          <div
+                            *ngFor="
+                              let el of medicationReimbursement.copayments
+                            ">
+                            <div *ngIf="el.regimeType === 1">
+                              <span
+                                >Copayment type
+                                <strong>Preferential</strong>:</span
+                              >
+                            </div>
+                            <div *ngIf="el.regimeType === 2">
+                              <span
+                                >Copayment type <strong>Active</strong>:</span
+                              >
+                            </div>
+                            <div *ngIf="el.feeAmount">
+                              <p class="feeAmount">
+                                <!--                                TODO-->
+                                <!--                                {{-->
+                                <!--                                   // (el.feeAmount * 100) / 100 | number: '1.2-2'-->
+                                <!--                                }}€-->
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div *ngIf="medicationReimbursement.temporary">
+                          <span>Remboursement temporaire (art. 111):</span>
+                          <p class="textRed">
+                            {{ medicationReimbursement.temporary }}
+                          </p>
+                        </div>
+
+                        <div
+                          *ngIf="
+                            medicationReimbursement.reimbursementCriterion
+                              ?.description?.fr
+                          ">
+                          <span>Chapitre:</span>
+                          <p>
+                            {{
+                              medicationReimbursement.reimbursementCriterion
+                                ?.description?.fr
+                            }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <ng-template #noReimbursement>
+                    <div class="supplyProblemsTooltip">
+                      <p
+                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
+                        Conditions de prescription
+                      </p>
+                      <div class="supplyProblemsTooltip__content">
+                        <div>
+                          <p>Not applicable</p>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ng-template>
+                <app-tooltip
+                  *ngIf="medicationReimbursement"
+                  [iconSnippet]="reimbursementsIcn"
+                  [contentSnippet]="reimbursementsContent"
+                  [containerWithHiddenOverflowRect]="
+                    testMedicationSearchDropdownRect
+                  " />
+
+                <ng-template #deliveryConditionsIcn>
+                  <div class="textToIcon textToIcon--orange">
+                    <p>{{ medication.deliveryModusCode }}</p>
+                  </div>
+                </ng-template>
+                <ng-template #deliveryConditionsContent>
+                  <div
+                    *ngIf="medication.deliveryModusCode; else noDeliveryModus">
+                    <div class="supplyProblemsTooltip">
+                      <p
+                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--orange">
+                        Conditions de livraison:
+                      </p>
+                      <div class="supplyProblemsTooltip__content">
+                        <div *ngIf="medication.deliveryModusCode">
+                          <span>Delivery Modus Code:</span>
+                          <p>{{ medication.deliveryModusCode }}</p>
+                        </div>
+
+                        <div *ngIf="medication.deliveryModus">
+                          <span>Delivery Modus:</span>
+                          <p>{{ medication.deliveryModus }}</p>
+                        </div>
+
+                        <div *ngIf="medication.deliveryModusSpecification">
+                          <span>Delivery Modus Specification:</span>
+                          <p>{{ medication.deliveryModusSpecification }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <ng-template #noDeliveryModus>
+                    <div class="supplyProblemsTooltip">
+                      <p
+                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
+                        Conditions de livraison:
+                      </p>
+                      <div class="supplyProblemsTooltip__content">
+                        <div>
+                          <p>Free of prescription</p>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ng-template>
+                <app-tooltip
+                  *ngIf="!!medication.deliveryModusCode"
+                  [iconSnippet]="deliveryConditionsIcn"
+                  [contentSnippet]="deliveryConditionsContent"
+                  [containerWithHiddenOverflowRect]="
+                    testMedicationSearchDropdownRect
+                  " />
+
+                <ng-template #prescriptionConditionsIcn>
+                  <div
+                    *ngIf="
+                      medication.deliveryModusSpecificationCode &&
+                      getDeliveryModusLabel(
+                        medication.deliveryModusSpecificationCode
+                      )
+                    ">
+                    <div class="textToIcon textToIcon--red">
+                      <p>{{ medication.deliveryModusSpecificationCode }}</p>
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template #prescriptionConditionsContent>
+                  <div
+                    *ngIf="
+                      medication.deliveryModusSpecificationCode;
+                      else noDeliveryModus
+                    ">
+                    <div class="supplyProblemsTooltip">
+                      <p
+                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--red">
+                        Conditions de prescription:
+                      </p>
+                      <div class="supplyProblemsTooltip__content">
+                        <div *ngIf="medication.deliveryModusSpecificationCode">
+                          <span>Delivery Modus Code:</span>
+                          <p>{{ medication.deliveryModusSpecificationCode }}</p>
+                        </div>
+
+                        <div *ngIf="medication.deliveryModusSpecification">
+                          <span>Delivery Modus Specification:</span>
+                          <p>
+                            {{
+                              getDeliveryModusLabel(
+                                medication.deliveryModusSpecificationCode
+                              )
+                            }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <ng-template #noDeliveryModus>
+                    <div class="supplyProblemsTooltip">
+                      <p
+                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
+                        Conditions de prescription
+                      </p>
+                      <div class="supplyProblemsTooltip__content">
+                        <div>
+                          <p>Not applicable</p>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ng-template>
+                <app-tooltip
+                  *ngIf="!!medication.deliveryModusSpecificationCode"
+                  [iconSnippet]="prescriptionConditionsIcn"
+                  [contentSnippet]="prescriptionConditionsContent"
+                  [containerWithHiddenOverflowRect]="
+                    testMedicationSearchDropdownRect
+                  " />
+              </div>
+            </div>
+          </div>
+
+          <p class="header__medication__content__heading__activeIngredient">
+            {{ medication.activeIngredient }}
+          </p>
+        </div>
+
+        <div class="header__medication__content__description">
+          <div
+            class="header__medication__content__description__item price"
+            *ngIf="medication.price">
+            <span>Prix:</span>
+            <p>{{ medication.price }}</p>
+          </div>
+
+          <div
+            *ngIf="medication.price"
+            class="header__medication__content__description__item price">
+            <span>Reimbursement:</span>
+            <div *ngIf="medicationReimbursement; else noReimbursement">
+              <div class="textToIcon textToIcon--green">
+                <p>
+                  {{ medicationReimbursement.reimbursementCriterion?.category }}
+                </p>
+              </div>
+            </div>
+            <ng-template #noReimbursement>
+              <div class="textToIcon textToIcon--gray">
+                <p>Non</p>
+              </div>
+            </ng-template>
+          </div>
+
+          <div class="header__medication__content__description__item">
+            <span>Conditions de livraison:</span>
+            <div *ngIf="medication.deliveryModusCode; else freeOfPrescription">
+              <div class="textToIcon textToIcon--orange">
+                <p>{{ medication.deliveryModusCode }}</p>
+              </div>
+            </div>
+            <ng-template #freeOfPrescription>
+              <div class="textToIcon textToIcon--green">
+                <p>Free of prescription</p>
+              </div>
+            </ng-template>
+          </div>
+
+          <div class="header__medication__content__description__item">
+            <span>Conditions de prescription:</span>
+            <div
+              *ngIf="
+                medication.deliveryModusSpecificationCode &&
+                  getDeliveryModusLabel(
+                    medication.deliveryModusSpecificationCode
+                  );
+                else notApplicable
+              ">
+              <div class="textToIcon textToIcon--red">
+                <p>{{ medication.deliveryModusSpecificationCode }}</p>
+              </div>
+            </div>
+            <ng-template #notApplicable>
+              <div class="textToIcon textToIcon--green">
+                <p>Not applicable</p>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      *ngIf="showChevron"
+      class="header__arrow"
+      [class.isExpanded]="isExpanded"
+      (click)="toggleMedicationDetails()">
+      <app-chevron-icn color="#3D87C5" />
+    </button>
+  </div>
+
+  <div *ngIf="isExpanded" class="content">
+    <div *ngIf="medication.vmp" class="content__vmp">
+      <div *ngIf="medication.vmp.name?.fr" class="content__vmp__item">
+        <span>VMP:</span>
+        <p>{{ medication.vmp.name?.fr }}</p>
+      </div>
+      <div *ngIf="medication.vmp.vmpGroup?.name?.fr" class="content__vmp__item">
+        <span>VMP-group:</span>
+        <p>{{ medication.vmp.vmpGroup?.name?.fr }}</p>
+      </div>
+    </div>
+
+    <div class="content__divider"></div>
+
+    <div class="content__links">
+      <a *ngIf="medication.crmLink" [href]="medication.crmLink" target="_blank"
+        >Commented Medicines Directory (CBIP)</a
+      >
+      <a
+        *ngIf="medication.patientInformationLeafletLink"
+        [href]="medication.patientInformationLeafletLink"
+        target="_blank"
+        >Patient information leaflet</a
+      >
+      <a
+        *ngIf="medication.rmaProfessionalLink"
+        [href]="medication.rmaProfessionalLink"
+        target="_blank"
+        >Risk Minimisation Activities (RMA)</a
+      >
+      <a *ngIf="medication.spcLink" [href]="medication.spcLink" target="_blank"
+        >Summary of Product Characteristics (SPC)</a
+      >
+      <a
+        *ngIf="medication.dhpcLink"
+        [href]="medication.dhpcLink"
+        target="_blank"
+        >Direct Healthcare Professional Communication (DHPC)</a
+      >
+    </div>
+
+    <div class="content__divider" *ngIf="medicationReimbursement"></div>
+    <div *ngIf="medicationReimbursement">
+      <ng-container *ngTemplateOutlet="reimbursementsContent"></ng-container>
+    </div>
+
+    <div class="content__divider"></div>
+    <ng-container
+      *ngTemplateOutlet="prescriptionConditionsContent"></ng-container>
+
+    <div class="content__divider"></div>
+    <ng-container *ngTemplateOutlet="deliveryConditionsContent"></ng-container>
+
+    <div *ngIf="medication.supplyProblems" class="content__divider"></div>
+    <div *ngIf="medication.supplyProblems">
+      <ng-container *ngTemplateOutlet="supplyProblemsContent"></ng-container>
+    </div>
+
+    <div
+      *ngIf="medicationCommercialization?.endOfComercialization"
+      class="content__divider"></div>
+    <div *ngIf="medicationCommercialization?.endOfComercialization">
+      <ng-container
+        *ngTemplateOutlet="endOfCommercialisationContent"></ng-container>
+    </div>
+
+    <div
+      *ngIf="
+        medicationCommercialization &&
+        !medicationCommercialization.endOfComercialization
+      "
+      class="content__divider"></div>
+    <div
+      *ngIf="
+        medicationCommercialization &&
+        !medicationCommercialization.endOfComercialization
+      ">
+      <ng-container
+        *ngTemplateOutlet="startOfCommercialisationContent"></ng-container>
+    </div>
+  </div>
+</div>

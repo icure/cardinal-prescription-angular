@@ -1,0 +1,104 @@
+@use '../../../../styles/index' as global;
+.prescriptionsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.prescriptions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 50%;
+  min-width: 700px;
+
+  @include global.media-breakpoint-down(global.$m) {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  &__title {
+    @include global.label-common-styles;
+  }
+
+  &__rows {
+    width: 100%;
+    height: auto;
+    max-height: 380px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+
+    padding: 6px 8px 6px 6px;
+    gap: 5px;
+    border-radius: 8px;
+    border: 1px solid global.$grey-300;
+    background: white;
+
+    app-prescription-card {
+      width: 100%;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+    //border-top: 1px solid global.$gray-300;
+    background: #fff;
+  }
+}
+
+.print {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    margin: 0;
+    font-size: 18px;
+    border-bottom: 1px solid #000;
+  }
+
+  .options {
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .prescription-section {
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .prescription-item {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #000;
+    margin-bottom: 20px;
+  }
+
+  .prescription-item div {
+    width: 48%;
+  }
+
+  .barcode {
+    border: 1px solid #000;
+    width: 12mm;
+    height: 12mm;
+    margin: 5px 0;
+  }
+
+  .right {
+    margin-left: auto;
+  }
+}

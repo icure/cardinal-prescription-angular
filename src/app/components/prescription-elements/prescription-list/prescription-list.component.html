@@ -1,0 +1,50 @@
+<div class="prescriptionsWrap">
+  <div *ngIf="sentPrescriptions.length" class="prescriptions">
+    <p class="prescriptions__title">Ordonnances envoyées:</p>
+    <div class="prescriptions__rows">
+      <app-prescription-card
+        *ngFor="let medication of sentPrescriptions"
+        [prescribedMedication]="medication"
+        (handleModifyPrescription)="handleModifyPrescription.emit($event)"
+        (handleDeletePrescription)="handleDeletePrescription.emit($event)" />
+    </div>
+    <div class="prescriptions__footer">
+      <app-button
+        [disabled]="sending"
+        [view]="printing ? 'withSpinner' : 'outlined'"
+        type="submit"
+        (click)="onPrintPrescriptions()">
+        Imprimer
+      </app-button>
+    </div>
+  </div>
+
+  <div *ngIf="pendingPrescriptions.length" class="prescriptions">
+    <p class="prescriptions__title">Ordonnances en attente:</p>
+    <div class="prescriptions__rows">
+      <app-prescription-card
+        *ngFor="let medication of pendingPrescriptions"
+        [prescribedMedication]="medication"
+        (handleModifyPrescription)="handleModifyPrescription.emit($event)"
+        (handleDeletePrescription)="handleDeletePrescription.emit($event)" />
+    </div>
+
+    <div class="prescriptions__footer">
+      <app-button
+        [disabled]="sending"
+        [view]="printing ? 'withSpinner' : 'outlined'"
+        type="submit"
+        (click)="spinPrint()">
+        Envoyer et imprimer
+      </app-button>
+
+      <app-button
+        [disabled]="printing"
+        [view]="sending ? 'withSpinner' : 'primary'"
+        type="submit"
+        (click)="spinSend()">
+        Envoyer
+      </app-button>
+    </div>
+  </div>
+</div>

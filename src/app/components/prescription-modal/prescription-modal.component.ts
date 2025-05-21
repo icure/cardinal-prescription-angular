@@ -12,21 +12,23 @@ import { SelectInputComponent } from '../form-elements/select-input/select-input
 import { RadioInputComponent } from '../form-elements/radio-input/radio-input.component';
 import { ToggleSwitchComponent } from '../form-elements/toggle-switch/toggle-switch.component';
 import { TextareaInputComponent } from '../form-elements/textarea-input/textarea-input.component';
-import { PrescribedMedicationType } from '../../types';
+import { MedicationType, PrescribedMedicationType } from '../../types';
 import {
   getTreatmentStartDate,
   getExecutableUntilDate,
-} from '../../services/helpers/date-helpers.service';
+} from '../../utils/date-helpers';
 import {
   durationTimeUnits,
+  getDurationFromDays,
   periodicityTimeUnits,
-} from '../../services/helpers/medication-helpers.service';
+} from '../../utils/prescription-duration-helpers';
 import {
   practitionerVisibilityOptions,
   pharmacistVisibilityOptions,
-} from '../../services/helpers/visibility-helpers.service';
-import { reimbursementOptions } from '../../services/helpers/reimbursement-helpers.service';
-import { CloseIcnComponent } from '../icons/close-icn/close-icn.component';
+} from '../../utils/visibility-helpers';
+import { reimbursementOptions } from '../../utils/reimbursement-helpers';
+import { CloseIcnComponent } from '../common/icons/close-icn/close-icn.component';
+import { CreatePrescriptionService } from '../../services/prescription/create-prescription.service';
 
 @Component({
   selector: 'app-prescription-modal',
@@ -46,15 +48,20 @@ import { CloseIcnComponent } from '../icons/close-icn/close-icn.component';
   styleUrl: './prescription-modal.component.scss',
 })
 export class PrescriptionModalComponent implements OnInit {
-  @Input() prescribedMedication: PrescribedMedicationType | undefined;
+  @Input() medicationToPrescribe?: MedicationType;
+  @Input() prescriptionToModify?: PrescribedMedicationType;
   @Input() modalTitle!: string;
 
-  @Output() handleSubmit = new EventEmitter<void>();
+  @Output() handleSubmit: EventEmitter<PrescribedMedicationType[]> =
+    new EventEmitter();
   @Output() handleCancel = new EventEmitter<void>();
 
   prescriptionForm!: FormGroup;
 
-  constructor(private fb: NonNullableFormBuilder) {}
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private createPrescriptionService: CreatePrescriptionService
+  ) {}
 
   ngOnInit(): void {
     this.prescriptionForm = this.fb.group({
@@ -67,7 +74,7 @@ export class PrescriptionModalComponent implements OnInit {
       ],
       dosage: ['', Validators.required],
       duration: [1, Validators.required],
-      durationTimeUnit: [durationTimeUnits[0].value, Validators.required],
+      durationTimeUnit: [durationTimeUnits[0].label, Validators.required],
       treatmentStartDate: [getTreatmentStartDate(), Validators.required],
       executableUntil: [getExecutableUntilDate(), Validators.required],
       prescriptionsNumber: [1, Validators.required],
@@ -81,16 +88,39 @@ export class PrescriptionModalComponent implements OnInit {
       pharmacistVisibility: [pharmacistVisibilityOptions[0].value],
     });
 
-    if (this.prescribedMedication) {
+    if (this.prescriptionToModify) {
+      const recoveredDuration = getDurationFromDays(
+        this.prescriptionToModify.medication.duration?.value ?? 1
+      );
       this.prescriptionForm.patchValue({
         medicationTitle:
-          this.prescribedMedication.medication.medicinalProduct?.intendedname ??
+          this.prescriptionToModify.medication.medicinalProduct?.intendedname ??
           '',
-        treatmentStartDate: getTreatmentStartDate(this.prescribedMedication),
-        executableUntil: getExecutableUntilDate(this.prescribedMedication),
+        dosage: this.prescriptionToModify.medication.instructionForPatient,
+        duration: recoveredDuration.duration,
+        durationTimeUnit: recoveredDuration.durationTimeUnit,
+        treatmentStartDate: getTreatmentStartDate(this.prescriptionToModify),
+        executableUntil: getExecutableUntilDate(this.prescriptionToModify),
+        recipeInstructionForPatient:
+          this.prescriptionToModify.medication.recipeInstructionForPatient,
+        substitutionAllowed:
+          this.prescriptionToModify.medication.substitutionAllowed,
+        instructionsForReimbursement: this.prescriptionToModify.medication
+          .instructionsForReimbursement ?? [reimbursementOptions[0].value],
+        prescriberVisibility: this.prescriptionToModify
+          .prescriberVisibility ?? [practitionerVisibilityOptions[0].value],
+        pharmacistVisibility: this.prescriptionToModify
+          .pharmacistVisibility ?? [pharmacistVisibilityOptions[0].value],
       });
     }
 
+    if (this.medicationToPrescribe) {
+      this.prescriptionForm.patchValue({
+        medicationTitle: this.medicationToPrescribe?.title ?? '',
+        treatmentStartDate: getTreatmentStartDate(this.prescriptionToModify),
+        executableUntil: getExecutableUntilDate(this.prescriptionToModify),
+      });
+    }
     this.subscribeToValidationChanges();
   }
 
@@ -117,7 +147,7 @@ export class PrescriptionModalComponent implements OnInit {
   }
   get selectedPractitionerVisibilityLabel(): string {
     const option = this.practitionerVisibilityOptions?.find(
-      x => x.value === this.prescriptionFormValues.practitionerVisibility
+      x => x.value === this.prescriptionFormValues.prescriberVisibility
     );
     return option?.label ?? 'Aucun';
   }
@@ -134,9 +164,15 @@ export class PrescriptionModalComponent implements OnInit {
       return;
     }
 
-    this.handleSubmit.emit();
     if (this.prescriptionForm.valid) {
-      console.log('Form submitted!', this.prescriptionForm.value);
+      const formValues = this.prescriptionForm.value;
+      const prescribedMedications =
+        this.createPrescriptionService.createPrescribedMedication(
+          formValues,
+          this.prescriptionToModify,
+          this.medicationToPrescribe
+        );
+      this.handleSubmit.emit(prescribedMedications);
       this.prescriptionForm.reset();
     }
   }

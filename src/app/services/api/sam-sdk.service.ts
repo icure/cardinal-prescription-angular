@@ -28,7 +28,6 @@ export class SamSdkService {
           )
         );
         this.sdk = instance.sam;
-        console.log('SDK initialized');
       } catch (error) {
         console.error('Error initializing SDK:', error);
       }

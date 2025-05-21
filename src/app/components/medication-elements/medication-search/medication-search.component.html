@@ -1,0 +1,44 @@
+<div class="medicationSearch">
+  <div
+    [class.dropdownDisplayed]="dropdownDisplayed"
+    class="medicationSearch__input">
+    <p>Trouver un médicament:</p>
+    <label for="medicationSearch">
+      <input
+        #inputRef
+        id="medicationSearch"
+        type="text"
+        placeholder="Trouver un médicament"
+        autocomplete="off"
+        autocapitalize="off"
+        (input)="onSearchChange($event)"
+        [value]="searchQuery$ | async" />
+      <app-search-icn color="#9CA8B2" />
+    </label>
+    <p
+      class="error"
+      *ngIf="currentSearchQuery && currentSearchQuery.length < 3">
+      Entrez au moins 3 lettres du nom du médicament
+    </p>
+  </div>
+
+  <div
+    #medicationSearchDropdown
+    *ngIf="pages?.length"
+    class="medicationSearchDropdown"
+    (keydown)="handleKeyDown($event)">
+    <div
+      *ngFor="let med of pages; let i = index"
+      #resultRef
+      class="medicationSearchDropdown__cardWrap"
+      [class.focused]="focusedMedicationIndex === i">
+      <app-medication-card
+        class="medication-card"
+        [medication]="med"
+        [index]="i"
+        [focused]="focusedMedicationIndex === i"
+        [handleAddPrescription]="onAddPrescription" />
+    </div>
+    <div #scrollAnchor style="height: 1px"></div>
+  </div>
+</div>

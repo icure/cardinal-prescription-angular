@@ -8,7 +8,7 @@
     [name]="id"
     [ngClass]="{ disabled: disabled, error: errorMessage }"
     [disabled]="disabled"
-    [value]="value"
+    [(ngModel)]="value"
     (change)="onChange($event)">
     <option *ngFor="let option of options" [value]="option.value">
       {{ option.label }}
