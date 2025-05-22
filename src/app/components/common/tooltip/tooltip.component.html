@@ -1,11 +1,11 @@
 <div
+  #tooltipRef
   class="tooltip"
   [class.active]="active"
   (mouseenter)="handleMouseEnter()"
   (mouseleave)="handleMouseLeave()"
   [ngClass]="tooltipOrientation">
   <div class="icon">
-    <ng-container #iconContainer></ng-container>
     <ng-container *ngIf="iconSnippet">
       <ng-container *ngTemplateOutlet="iconSnippet"></ng-container>
     </ng-container>

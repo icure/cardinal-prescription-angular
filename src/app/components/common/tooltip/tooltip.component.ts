@@ -5,8 +5,12 @@ import {
   TemplateRef,
   ElementRef,
   OnInit,
+  OnDestroy,
+  AfterViewInit,
 } from '@angular/core';
 import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
+import { TooltipContextService } from '../../../services/common/tooltip-context.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tooltip',
@@ -15,55 +19,62 @@ import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
   styleUrls: ['./tooltip.component.scss'],
   imports: [NgIf, NgTemplateOutlet, NgClass],
 })
-export class TooltipComponent implements OnInit {
+export class TooltipComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() content?: string;
   @Input() contentSnippet?: TemplateRef<any>;
-
   @Input() iconSnippet?: TemplateRef<any>;
-
   @Input() orientation?: 'tr' | 'tl' | 'bl' | 'br';
-  @Input() containerWithHiddenOverflowRect?: DOMRect | undefined;
+
+  @ViewChild('tooltipRef') tooltipRef!: ElementRef<HTMLElement>;
+
+  constructor(private tooltipContext: TooltipContextService) {}
 
   active = false;
   tooltipOrientation: 'tr' | 'tl' | 'bl' | 'br' = this.orientation ?? 'bl';
-  @ViewChild('tooltipRef')
-  tooltipRef!: ElementRef<HTMLElement>;
 
-  ngOnInit(): void {
-    if (this.containerWithHiddenOverflowRect) {
-      this.calculateTooltipPosition();
+  private rectSub?: Subscription;
+  private hasViewInitialized = false;
+  private latestRect: DOMRect | null = null;
 
-      console.log(this.containerWithHiddenOverflowRect);
+  ngOnInit() {
+    // Subscribe to reactive rect updates
+    this.rectSub = this.tooltipContext.dropdownRect$.subscribe(rect => {
+      this.latestRect = rect;
+      if (rect && this.hasViewInitialized) {
+        this.repositionTooltip(rect);
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.hasViewInitialized = true;
+
+    // Tooltip view now ready — safe to reposition if we already got the rect
+    if (this.latestRect) {
+      this.repositionTooltip(this.latestRect);
     }
   }
 
-  calculateTooltipPosition() {
+  repositionTooltip(rect: DOMRect) {
+    const tooltipElement = this.tooltipRef?.nativeElement;
+    if (!tooltipElement || !rect) return;
+
     const tooltipRect = this.tooltipRef?.nativeElement?.getBoundingClientRect();
+    const widthOfTooltipPopUp = 300;
 
-    if (!tooltipRect || !this.containerWithHiddenOverflowRect) return;
-
-    // Calculate available space in the parent container
-    const distanceToParentTop =
-      tooltipRect.top - this.containerWithHiddenOverflowRect.top;
-    const distanceToParentBottom =
-      this.containerWithHiddenOverflowRect.bottom - tooltipRect.bottom;
-    const distanceToParentLeft =
-      tooltipRect.left - this.containerWithHiddenOverflowRect.left;
-    const distanceToParentRight =
-      this.containerWithHiddenOverflowRect.right - tooltipRect.right;
-
-    // Determine the position of the tooltip based on available space
-    if (distanceToParentBottom >= tooltipRect.height) {
+    // By default, we don't set up top origination, bcs it's not unfriendly
+    if (rect.right - tooltipRect.right > widthOfTooltipPopUp) {
       this.tooltipOrientation = 'bl';
-    } else if (distanceToParentTop >= tooltipRect.height) {
-      this.tooltipOrientation = 'tl';
-    } else if (distanceToParentLeft >= tooltipRect.width) {
-      this.tooltipOrientation = 'tr';
-    } else if (distanceToParentRight >= tooltipRect.width) {
+    } else if (
+      rect.right - tooltipRect.right < widthOfTooltipPopUp ||
+      rect.right - tooltipRect.right === widthOfTooltipPopUp
+    ) {
       this.tooltipOrientation = 'br';
-    } else {
-      this.tooltipOrientation = 'tl';
     }
+  }
+
+  ngOnDestroy() {
+    this.rectSub?.unsubscribe();
   }
 
   handleMouseEnter() {

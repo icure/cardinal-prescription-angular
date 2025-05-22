@@ -33,6 +33,7 @@ import { MedicationType } from '../../../types';
 import { MedicationLoaderService } from '../../../services/loaders/medication-loader.service';
 import { MedicationCardComponent } from '../medication-card/medication-card.component';
 import { SpinnerIcnComponent } from '../../common/icons/spinner-icn/spinner-icn.component';
+import { TooltipContextService } from '../../../services/common/tooltip-context.service';
 
 @Component({
   selector: 'app-medication-search',
@@ -53,20 +54,21 @@ export class MedicationSearchComponent
   @ViewChild('inputRef') inputRef!: ElementRef<HTMLInputElement>;
   @ViewChild('scrollAnchor', { static: false }) scrollAnchor!: ElementRef;
   @ViewChildren('resultRef') resultRefs!: QueryList<ElementRef<HTMLElement>>;
-  @ViewChild('medicationSearchDropdown')
-  medicationSearchDropdown!: ElementRef<HTMLElement>;
+  @ViewChild('medicationSearchDropdown', { static: false })
+  medicationSearchDropdown!: ElementRef<HTMLDivElement>;
 
   @Input() onAddPrescription!: (med: MedicationType) => void;
   @Input() deliveryEnvironment!: string;
 
   constructor(
     private samSdkService: SamSdkService,
-    private loader: MedicationLoaderService
+    private loader: MedicationLoaderService,
+    private tooltipContext: TooltipContextService
   ) {}
+
   private intersectionObserver?: IntersectionObserver;
   private observerInitialized = false;
-
-  isLoadingMore = false;
+  private medicationSearchDropdownRectInitialized = false;
 
   searchQuery$ = new BehaviorSubject<string>('');
   destroy$ = new Subject<void>();
@@ -143,7 +145,6 @@ export class MedicationSearchComponent
               this.moleculesPage = updated.moleculesPage;
               this.productsPage = updated.productsPage;
 
-              // this.isLoadingMore = false;
               return result;
             })
         ),
@@ -164,6 +165,17 @@ export class MedicationSearchComponent
     ) {
       this.initIntersectionObserver();
       this.observerInitialized = true;
+    }
+
+    // If medicationSearchDropdown is present and rect hasn't been set yet
+    if (
+      !this.medicationSearchDropdownRectInitialized &&
+      this.medicationSearchDropdown
+    ) {
+      const rect =
+        this.medicationSearchDropdown.nativeElement.getBoundingClientRect();
+      this.tooltipContext.setDropdownRect(rect);
+      this.medicationSearchDropdownRectInitialized = true;
     }
   }
 
