@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   Commercialization,
   Reimbursement,
@@ -63,8 +53,6 @@ export class MedicationCardComponent {
   @Input() medicationSearchDropdownRect: DOMRect | undefined;
   @Input() handleAddPrescription!: (med: MedicationType) => void;
 
-  @ViewChild('medicationCardRef') medicationCardRef!: ElementRef<HTMLElement>;
-
   handleMedicationClick() {
     this.handleAddPrescription(this.medication);
   }
@@ -78,17 +66,6 @@ export class MedicationCardComponent {
   toggleMedicationDetails() {
     this.isExpanded = !this.isExpanded;
   }
-
-  // TODO
-  testMedicationSearchDropdownRect: DOMRect | undefined;
-  // TODO
-  // ngAfterViewInit(): void {
-  //   const medicationCar = this.medicationCardRef.nativeElement;
-  //   const parent = medicationCar.parentElement;
-  //   const grandParent = parent?.parentElement?.getBoundingClientRect();
-  //
-  //   this.testMedicationSearchDropdownRect = grandParent;
-  // }
 
   get showChevron(): boolean {
     const m = this.medication;

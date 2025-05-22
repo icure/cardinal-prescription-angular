@@ -1,5 +1,4 @@
 <div
-  #medicationCardRef
   [class.focused]="focused"
   [class.isExpanded]="isExpanded"
   [id]="index"
@@ -20,10 +19,7 @@
             <app-tooltip
               *ngIf="!!medication.ampId"
               [iconSnippet]="medicationIcn"
-              content="Medication"
-              [containerWithHiddenOverflowRect]="
-                testMedicationSearchDropdownRect
-              " />
+              content="Medication" />
 
             <ng-template #moleculeIcn>
               <app-molecule-icn [color]="'#EFAC2F'" />
@@ -31,10 +27,7 @@
             <app-tooltip
               *ngIf="!!medication.vmpGroupId"
               [iconSnippet]="moleculeIcn"
-              content="Molecule"
-              [containerWithHiddenOverflowRect]="
-                testMedicationSearchDropdownRect
-              " />
+              content="Molecule" />
 
             <ng-template #naturalIcn>
               <app-leaf-icn [color]="'#197437'" />
@@ -43,10 +36,7 @@
             <app-tooltip
               *ngIf="!!medication.nmpId"
               [iconSnippet]="naturalIcn"
-              content="Homologation"
-              [containerWithHiddenOverflowRect]="
-                testMedicationSearchDropdownRect
-              " />
+              content="Homologation" />
 
             <h3>{{ medication.title }}</h3>
             <div class="header__medication__content__heading__infographics">
@@ -59,10 +49,7 @@
                   </ng-template>
                   <app-tooltip
                     [iconSnippet]="blackTriangleIcn"
-                    content="Black triangle"
-                    [containerWithHiddenOverflowRect]="
-                      testMedicationSearchDropdownRect
-                    " />
+                    content="Black triangle" />
                 </div>
                 <div
                   class="medicationInfographics__item"
@@ -83,10 +70,7 @@
                   </ng-template>
                   <app-tooltip
                     [iconSnippet]="orangeTriangleIcn"
-                    [contentSnippet]="rmaContent"
-                    [containerWithHiddenOverflowRect]="
-                      testMedicationSearchDropdownRect
-                    " />
+                    [contentSnippet]="rmaContent" />
                 </div>
                 <div
                   class="medicationInfographics__item"
@@ -98,10 +82,7 @@
                     [content]="
                       getSpecialRegulation(medication.speciallyRegulated)
                     "
-                    [iconSnippet]="specialRegulationsIcn"
-                    [containerWithHiddenOverflowRect]="
-                      testMedicationSearchDropdownRect
-                    " />
+                    [iconSnippet]="specialRegulationsIcn" />
                 </div>
                 <div
                   class="medicationInfographics__item"
@@ -111,10 +92,7 @@
                   </ng-template>
                   <app-tooltip
                     content="Generic prescription required"
-                    [iconSnippet]="prescriptionIcn"
-                    [containerWithHiddenOverflowRect]="
-                      testMedicationSearchDropdownRect
-                    " />
+                    [iconSnippet]="prescriptionIcn" />
                 </div>
               </div>
               <div class="medicationAvailabilityInfographics">
@@ -189,10 +167,7 @@
                   </ng-template>
                   <app-tooltip
                     [iconSnippet]="supplyIcn"
-                    [contentSnippet]="supplyProblemsContent"
-                    [containerWithHiddenOverflowRect]="
-                      testMedicationSearchDropdownRect
-                    " />
+                    [contentSnippet]="supplyProblemsContent" />
                 </div>
                 <ng-template #endOfCommercialisationContent>
                   <div
@@ -264,10 +239,7 @@
                   </ng-template>
                   <app-tooltip
                     [iconSnippet]="endOfCommercialisationIcn"
-                    [contentSnippet]="endOfCommercialisationContent"
-                    [containerWithHiddenOverflowRect]="
-                      testMedicationSearchDropdownRect
-                    " />
+                    [contentSnippet]="endOfCommercialisationContent" />
                 </div>
                 <ng-template #startOfCommercialisationContent>
                   <div
@@ -300,10 +272,7 @@
                   </ng-template>
                   <app-tooltip
                     [iconSnippet]="startOfCommercialisationIcn"
-                    [contentSnippet]="startOfCommercialisationContent"
-                    [containerWithHiddenOverflowRect]="
-                      testMedicationSearchDropdownRect
-                    " />
+                    [contentSnippet]="startOfCommercialisationContent" />
                 </div>
               </div>
               <div class="deliveryPrescriptionConditions">
@@ -407,10 +376,7 @@
                 <app-tooltip
                   *ngIf="medicationReimbursement"
                   [iconSnippet]="reimbursementsIcn"
-                  [contentSnippet]="reimbursementsContent"
-                  [containerWithHiddenOverflowRect]="
-                    testMedicationSearchDropdownRect
-                  " />
+                  [contentSnippet]="reimbursementsContent" />
 
                 <ng-template #deliveryConditionsIcn>
                   <div class="textToIcon textToIcon--orange">
@@ -461,10 +427,7 @@
                 <app-tooltip
                   *ngIf="!!medication.deliveryModusCode"
                   [iconSnippet]="deliveryConditionsIcn"
-                  [contentSnippet]="deliveryConditionsContent"
-                  [containerWithHiddenOverflowRect]="
-                    testMedicationSearchDropdownRect
-                  " />
+                  [contentSnippet]="deliveryConditionsContent" />
 
                 <ng-template #prescriptionConditionsIcn>
                   <div
@@ -527,10 +490,7 @@
                 <app-tooltip
                   *ngIf="!!medication.deliveryModusSpecificationCode"
                   [iconSnippet]="prescriptionConditionsIcn"
-                  [contentSnippet]="prescriptionConditionsContent"
-                  [containerWithHiddenOverflowRect]="
-                    testMedicationSearchDropdownRect
-                  " />
+                  [contentSnippet]="prescriptionConditionsContent" />
               </div>
             </div>
           </div>
