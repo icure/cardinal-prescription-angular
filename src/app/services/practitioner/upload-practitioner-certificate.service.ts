@@ -135,6 +135,9 @@ export class UploadPractitionerCertificateService {
           certificate
         );
 
+        console.log('encryptedCertificate');
+        console.log(encryptedCertificate);
+
         // Start a transaction
         const transaction = db.transaction('certificates', 'readwrite');
         const store = transaction.objectStore('certificates');

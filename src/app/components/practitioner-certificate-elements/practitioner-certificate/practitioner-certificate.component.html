@@ -1,17 +1,23 @@
 <div class="certificate">
   <app-certificate-status
-    *ngIf="certificateValid"
+    *ngIf="certificateValid && !errorWhileVerifyingCertificate"
     [status]="'success'"
-    [title]="certificateStatusFeedback.success.title"
-    [description]="certificateStatusFeedback.success.description" />
+    [title]="certificateAvailabilityFeedback.present.title"
+    [description]="certificateAvailabilityFeedback.present.description" />
 
   <app-certificate-status
     *ngIf="!certificateValid"
     [status]="'error'"
-    [title]="certificateStatusFeedback.error.title"
-    [description]="certificateStatusFeedback.error.description" />
+    [title]="certificateAvailabilityFeedback.absent.title"
+    [description]="certificateAvailabilityFeedback.absent.description" />
 
   <app-certificate-upload
     *ngIf="!certificateValid"
     (onUploadCertificate)="onUploadCertificate.emit($event)" />
+
+  <app-certificate-status
+    *ngIf="errorWhileVerifyingCertificate"
+    [status]="'error'"
+    [title]="certificateAvailabilityFeedback.error.title"
+    [description]="errorWhileVerifyingCertificate" />
 </div>

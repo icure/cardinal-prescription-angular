@@ -112,4 +112,7 @@ export class MedicationCardComponent {
   getDeliveryModusLabel(code?: DeliveryModusSpecificationCodeType): string {
     return code ? (deliveryModusSpecifications[code]?.fr ?? code) : '';
   }
+  computeFeeAmount(fee: string): string {
+    return Math.round(+fee * 100) / 100 + '€';
+  }
 }

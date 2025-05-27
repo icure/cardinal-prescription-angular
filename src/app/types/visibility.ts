@@ -1,2 +1,2 @@
-export type PractitionerVisibility = 'open' | 'locked' | 'gmd_prescriber';
-export type PharmacistVisibility = null | 'locked';
+export type PractitionerVisibilityType = 'open' | 'locked' | 'gmd_prescriber';
+export type PharmacistVisibilityType = null | 'locked';

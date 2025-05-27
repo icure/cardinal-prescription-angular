@@ -16,6 +16,13 @@ import {
 export class SamSdkService {
   private sdk: SamV2Api | null = null;
 
+  // To create new Credentials.UsernamePassword(), follow these steps:
+  // 1. Go to https://cockpit.icure.dev/ — the management platform for Cardinal.
+  // 2. Register and log in.
+  // 3. Create a solution, then a database, and then a healthcare professional (HCP).
+  // 4. For this HCP, generate an Active Authentication Token.
+  // 5. Use the HCP's email address as the username, and the token as the password.
+
   async initialize(): Promise<void> {
     if (!this.sdk) {
       try {
@@ -24,7 +31,7 @@ export class SamSdkService {
           'https://nightly.icure.cloud',
           new Credentials.UsernamePassword(
             'larisa.shashuk+medicationsTest@gmail.com',
-            '75b00167-a1e3-4825-b262-396617c71cab'
+            '5aa9d0f0-2fab-4f9f-9f6a-5d8244280873'
           )
         );
         this.sdk = instance.sam;

@@ -4,7 +4,6 @@ import {
   forwardRef,
   Output,
   EventEmitter,
-  OnInit,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -43,7 +42,7 @@ export class SelectInputComponent implements ControlValueAccessor {
   onTouchedFn: () => void = () => {};
 
   writeValue(value: any): void {
-    this.value = value ?? '';
+    this.value = value;
   }
 
   registerOnChange(fn: any): void {

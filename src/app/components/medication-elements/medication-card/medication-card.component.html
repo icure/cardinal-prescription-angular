@@ -13,30 +13,36 @@
         <div class="header__medication__content__heading">
           <div class="header__medication__content__heading__title">
             <!-- Choose the appropriate icon based on the drug type: medications,molecules, non-medicinal products -->
+            <ng-container *ngIf="!!medication.ampId; else checkVmpGroup">
+              <app-tooltip [iconSnippet]="medicationIcn" content="Medication" />
+            </ng-container>
+
+            <ng-template #checkVmpGroup>
+              <ng-container *ngIf="!!medication.vmpGroupId; else checkNmp">
+                <app-tooltip [iconSnippet]="moleculeIcn" content="Molecule" />
+              </ng-container>
+            </ng-template>
+
+            <ng-template #checkNmp>
+              <ng-container *ngIf="!!medication.nmpId">
+                <app-tooltip
+                  [iconSnippet]="naturalIcn"
+                  content="Homologation" />
+              </ng-container>
+            </ng-template>
+
+            <!-- Templates for icons -->
             <ng-template #medicationIcn>
               <app-solid-pill-icn [color]="'#3D87C5'" />
             </ng-template>
-            <app-tooltip
-              *ngIf="!!medication.ampId"
-              [iconSnippet]="medicationIcn"
-              content="Medication" />
 
             <ng-template #moleculeIcn>
               <app-molecule-icn [color]="'#EFAC2F'" />
             </ng-template>
-            <app-tooltip
-              *ngIf="!!medication.vmpGroupId"
-              [iconSnippet]="moleculeIcn"
-              content="Molecule" />
 
             <ng-template #naturalIcn>
               <app-leaf-icn [color]="'#197437'" />
             </ng-template>
-
-            <app-tooltip
-              *ngIf="!!medication.nmpId"
-              [iconSnippet]="naturalIcn"
-              content="Homologation" />
 
             <h3>{{ medication.title }}</h3>
             <div class="header__medication__content__heading__infographics">
@@ -326,10 +332,7 @@
                             </div>
                             <div *ngIf="el.feeAmount">
                               <p class="feeAmount">
-                                <!--                                TODO-->
-                                <!--                                {{-->
-                                <!--                                   // (el.feeAmount * 100) / 100 | number: '1.2-2'-->
-                                <!--                                }}€-->
+                                {{ computeFeeAmount(el.feeAmount) }}
                               </p>
                             </div>
                           </div>
