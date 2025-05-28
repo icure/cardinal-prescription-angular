@@ -6,18 +6,19 @@
     [description]="certificateAvailabilityFeedback.present.description" />
 
   <app-certificate-status
-    *ngIf="!certificateValid"
+    *ngIf="!certificateValid && !certificateUploaded"
     [status]="'error'"
     [title]="certificateAvailabilityFeedback.absent.title"
     [description]="certificateAvailabilityFeedback.absent.description" />
-
-  <app-certificate-upload
-    *ngIf="!certificateValid"
-    (onUploadCertificate)="onUploadCertificate.emit($event)" />
 
   <app-certificate-status
     *ngIf="errorWhileVerifyingCertificate"
     [status]="'error'"
     [title]="certificateAvailabilityFeedback.error.title"
     [description]="errorWhileVerifyingCertificate" />
+
+  <app-certificate-upload
+    [hcp]="hcp"
+    *ngIf="!certificateValid || !certificateUploaded"
+    (onUploadCertificate)="onUploadCertificate.emit($event)" />
 </div>

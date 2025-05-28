@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   prescriptionToModify?: PrescribedMedicationType;
   prescriptions?: PrescribedMedicationType[];
   showPrintPrescriptionsModal = false;
-  cache: Record<string, string> = {};
+  db!: IDBDatabase;
 
   patient: Patient = {
     firstName: 'Antoine',
@@ -73,24 +73,29 @@ export class HomeComponent implements OnInit {
     private certificateService: UploadPractitionerCertificateService
   ) {}
 
-  get localStorageTokenStore(): TokenStore {
+  get indexedDbTokenStore(): TokenStore {
     return {
       get: (key: string) => {
-        console.log('get: key');
-        console.log(key);
-
-        const value = localStorage.getItem(key);
-        return value
-          ? Promise.resolve(value)
-          : Promise.reject(new Error(`No value for key: ${key}`));
+        return new Promise((resolve, reject) => {
+          const tx = this.db.transaction('certificates', 'readonly');
+          const store = tx.objectStore('certificates');
+          const request = store.get(key);
+          request.onsuccess = () => {
+            request.result
+              ? resolve(request.result.value)
+              : reject(new Error(`No value for key: ${key}`));
+          };
+          request.onerror = () => reject(request.error);
+        });
       },
       put: (key: string, value: string) => {
-        console.log('put: key');
-        console.log(key);
-        console.log('put: value');
-        console.log(value);
-        localStorage.setItem(key, value);
-        return Promise.resolve(value);
+        return new Promise((resolve, reject) => {
+          const tx = this.db.transaction('certificates', 'readwrite');
+          const store = tx.objectStore('certificates');
+          const request = store.put({ id: key, value });
+          request.onsuccess = () => resolve(value);
+          request.onerror = () => reject(request.error);
+        });
       },
     };
   }
@@ -99,11 +104,11 @@ export class HomeComponent implements OnInit {
     try {
       await this.samSdkService.initialize();
       this.samVersion = await this.samSdkService.getSamVersion();
-      const db = await this.certificateService.openCertificatesDatabase();
+      this.db = await this.certificateService.openCertificatesDatabase();
 
       try {
         await this.certificateService.loadCertificateInformation(
-          db,
+          this.db,
           this.hcp.ssin!
         );
         this.certificateUploaded = true;
@@ -113,7 +118,7 @@ export class HomeComponent implements OnInit {
 
       this.uiReady = true;
 
-      if (this.certificateUploaded && this.passphrase) {
+      if (this.certificateUploaded) {
         await this.validateCertificate();
       }
     } catch (error) {
@@ -130,7 +135,7 @@ export class HomeComponent implements OnInit {
       const res = await this.fhcService.verifyCertificateWithSts(
         this.hcp,
         this.passphrase!,
-        this.localStorageTokenStore
+        this.indexedDbTokenStore
       );
       this.certificateValid = res.status;
       this.errorWhileVerifyingCertificate = res.error?.fr;
@@ -218,7 +223,7 @@ export class HomeComponent implements OnInit {
         this.hcp,
         this.patient,
         this.passphrase,
-        this.localStorageTokenStore
+        this.indexedDbTokenStore
       );
     } else {
       console.log(this.prescriptions);
@@ -227,6 +232,7 @@ export class HomeComponent implements OnInit {
       console.error('Missing information to send prescriptions.');
     }
   };
+
   onPrintPrescriptions = () => {
     this.showPrintPrescriptionsModal = true;
   };

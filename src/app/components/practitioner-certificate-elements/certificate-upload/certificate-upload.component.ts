@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
 import { UploadPractitionerCertificateService } from '../../../services/practitioner/upload-practitioner-certificate.service';
 import {
   FormGroup,
@@ -9,6 +9,9 @@ import {
 } from '@angular/forms';
 import { TextInputComponent } from '../../form-elements/text-input/text-input.component';
 import { ButtonComponent } from '../../form-elements/button/button.component';
+import { HealthcareParty } from '@icure/be-fhc-api';
+import { NgIf } from '@angular/common';
+import { CertificateStatusComponent } from '../certificate-status/certificate-status.component';
 
 @Component({
   selector: 'app-certificate-upload',
@@ -19,9 +22,12 @@ import { ButtonComponent } from '../../form-elements/button/button.component';
     ReactiveFormsModule,
     TextInputComponent,
     ButtonComponent,
+    NgIf,
+    CertificateStatusComponent,
   ],
 })
 export class CertificateUploadComponent implements OnInit {
+  @Input() hcp!: HealthcareParty;
   @Output() onUploadCertificate: EventEmitter<string> = new EventEmitter();
 
   constructor(
@@ -33,16 +39,39 @@ export class CertificateUploadComponent implements OnInit {
   certificateFile: File | null = null;
   db: IDBDatabase | undefined;
   uploadCertificateForm!: FormGroup;
+  certificateUploaded: boolean = false;
 
   // Initialize IndexedDB
   ngOnInit(): void {
-    this.certificateService.openCertificatesDatabase().then(database => {
-      this.db = database;
-    });
+    this.certificateService.openCertificatesDatabase().then(async db => {
+      this.db = db;
 
-    this.uploadCertificateForm = this.fb.group({
-      certificateFile: [null, Validators.required], // Custom validator for file input
-      certificatePassword: ['', Validators.required],
+      try {
+        if (!this.hcp.ssin) return;
+
+        const stored = await this.certificateService.loadCertificateInformation(
+          db,
+          this.hcp.ssin
+        );
+
+        this.certificateUploaded = !!stored;
+        console.log(
+          this.certificateUploaded
+            ? 'Stored certificate found for ID ' + this.hcp.ssin
+            : 'No stored certificate for ID ' + this.hcp.ssin
+        );
+      } catch {
+        this.certificateUploaded = false;
+      }
+
+      // ✅ Create form after determining if certificate is uploaded
+      this.uploadCertificateForm = this.fb.group({
+        certificateFile: [
+          { value: null, disabled: false },
+          this.certificateUploaded ? [] : [Validators.required],
+        ],
+        certificatePassword: ['', Validators.required],
+      });
     });
   }
 
@@ -60,25 +89,17 @@ export class CertificateUploadComponent implements OnInit {
 
   // Handle form submission
   async handleFormSubmit(): Promise<void> {
-    if (!this.db) {
-      alert('Database not initialized');
-      return;
+    if (this.certificateFile !== null && !!this.db) {
+      const certificateData = await this.readFileAsArrayBuffer(
+        this.certificateFile
+      );
+      await this.certificateService.uploadAndEncrypt(
+        this.db,
+        this.certificateFile.name.split('=')[1].split(' ')[0],
+        this.password,
+        certificateData
+      );
     }
-
-    if (!this.certificateFile || !this.password) {
-      alert('Please upload a certificate and set a password.');
-      return;
-    }
-
-    const certificateData = await this.readFileAsArrayBuffer(
-      this.certificateFile
-    );
-    const id = await this.certificateService.uploadAndEncrypt(
-      this.db,
-      this.certificateFile.name.split('=')[1].split(' ')[0],
-      this.password,
-      certificateData
-    );
     this.onUploadCertificate.emit(this.password);
   }
 
@@ -95,6 +116,19 @@ export class CertificateUploadComponent implements OnInit {
       await this.handleFormSubmit();
       this.uploadCertificateForm.reset();
     }
+  }
+
+  certificateAvailabilityFeedback = {
+    passwordMissing: {
+      title: 'Mot de passe manquant',
+      description:
+        'Veuillez saisir le mot de passe associé au certificat afin de pouvoir le déchiffrer. Ce mot de passe est requis pour poursuivre la vérification.',
+    },
+  };
+
+  onUploadedAnotherCertificate(): void {
+    this.uploadCertificateForm.reset();
+    this.certificateUploaded = false;
   }
 
   // Handle file input change
