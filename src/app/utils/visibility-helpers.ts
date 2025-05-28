@@ -1,7 +1,7 @@
-import { PharmacistVisibility, PractitionerVisibility } from '../types';
+import { PharmacistVisibilityType, PractitionerVisibilityType } from '../types';
 
 export const practitionerVisibilityOptions: {
-  value: PractitionerVisibility;
+  value: PractitionerVisibilityType;
   label: string;
 }[] = [
   { value: 'open', label: 'Visible pour tous les prescripteurs' },
@@ -13,7 +13,7 @@ export const practitionerVisibilityOptions: {
 ];
 
 export const pharmacistVisibilityOptions: {
-  value: PharmacistVisibility;
+  value: PharmacistVisibilityType;
   label: string;
 }[] = [
   {

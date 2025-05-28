@@ -13,6 +13,7 @@ import { UploadPractitionerCertificateService } from '../practitioner/upload-pra
 import { dateEncode } from '../../utils/date-helpers';
 import { PrescribedMedicationType, TokenStore } from '../../types';
 import { SamVersion } from '@icure/cardinal-be-sam';
+import { SamlTokenResult } from '@icure/be-fhc-api/model/SamlTokenResult';
 
 const vendor = {
   vendorEmail: 'support@test.be',
@@ -41,20 +42,6 @@ export class FhcService {
       code,
       version: version ?? '1.0',
     });
-  }
-
-  // TODO check how to put in the local storage
-  // Cache management
-  getCacheValue(cache: TokenStore, key: string): Promise<string> {
-    return Promise.resolve(cache.get(key));
-  }
-  // TODO check how to put in the local storage
-  setCacheValue(
-    cache: TokenStore,
-    key: string,
-    value: string
-  ): Promise<string> {
-    return Promise.resolve(cache.put(key, value));
   }
 
   // Create the prescription request
@@ -131,27 +118,28 @@ export class FhcService {
     const recipe = new fhcRecipeApi(url, []);
 
     let storeKey = `keystore.${prescriber.ssin}`;
-    let tokenKey = `token.${prescriber.ssin}`;
+
     const keystoreUuid =
-      (await this.getCacheValue(cache, storeKey)) ??
+      (await cache.get(storeKey)) ??
       (await sts
         .uploadKeystoreUsingPOST(keystore)
         .then(({ uuid }: UUIDType) => {
           if (!uuid) {
             throw new Error('Cannot obtain keystore uuid');
           }
-          return this.setCacheValue(cache, storeKey, uuid);
+          return cache.put(storeKey, uuid);
         }));
 
-    const stsToken = await sts.requestTokenUsingGET(
+    const stsToken: SamlTokenResult = await sts.requestTokenUsingGET(
       passphrase,
       prescriber.ssin,
       keystoreUuid,
       'doctor',
-      await this.getCacheValue(cache, tokenKey)
+      await cache.get(storeKey)
     );
+
     if (!stsToken.tokenId) {
-      throw new Error('Cannot obtain token');
+      console.error('Cannot obtain token');
     }
 
     return Promise.all(
@@ -170,5 +158,70 @@ export class FhcService {
         )
       ) ?? []
     );
+  }
+
+  async verifyCertificateWithSts(
+    prescriber: HealthcareParty,
+    passphrase: string,
+    cache: TokenStore
+  ): Promise<{ status: boolean; error?: { en: string; fr: string } }> {
+    if (!prescriber?.ssin || !prescriber?.nihii) {
+      return {
+        status: false,
+        error: {
+          en: 'Missing prescriber information',
+          fr: 'Informations du prescripteur manquantes',
+        },
+      };
+    }
+
+    try {
+      const keystore = await this.certificateService.loadAndDecryptCertificate(
+        passphrase,
+        prescriber.ssin
+      );
+      if (!keystore) {
+        return {
+          status: false,
+          error: {
+            en: 'Cannot obtain the certificat',
+            fr: 'Impossible d’obtenir le certificat',
+          },
+        };
+      }
+
+      const url = 'https://fhcacc.icure.cloud';
+      const sts = new fhcStsApi(url, []);
+
+      const storeKey = `keystore.${prescriber.ssin}`;
+
+      const keystoreUuid = await sts
+        .uploadKeystoreUsingPOST(keystore)
+        .then(({ uuid }: UUIDType) => {
+          if (!uuid) {
+            throw new Error('Cannot obtain keystore uuid');
+          }
+          return cache.put(storeKey, uuid);
+        });
+
+      const token = await cache.get(storeKey);
+      const stsToken = await sts.requestTokenUsingGET(
+        passphrase,
+        prescriber.ssin,
+        keystoreUuid,
+        'doctor',
+        token
+      );
+      return { status: !!stsToken.tokenId };
+    } catch (error: any) {
+      console.error('Certificate verification error:', error);
+      return {
+        status: false,
+        error: {
+          en: error?.message || 'Unknown error occurred',
+          fr: error?.message || 'Une erreur inconnue est survenue',
+        },
+      };
+    }
   }
 }

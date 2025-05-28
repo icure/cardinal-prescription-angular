@@ -1,6 +1,10 @@
 import { Medication } from '@icure/be-fhc-api';
+import { ReimbursementType } from '../types/reimbursement';
 
-export const reimbursementOptions = [
+export const reimbursementOptions: {
+  value: ReimbursementType;
+  label: string;
+}[] = [
   {
     value: null,
     label: 'Aucun',

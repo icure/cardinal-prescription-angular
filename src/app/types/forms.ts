@@ -1,5 +1,9 @@
 import { Duration } from '@icure/be-fhc-api';
-import { PractitionerVisibility, PharmacistVisibility } from './visibility';
+import {
+  PractitionerVisibilityType,
+  PharmacistVisibilityType,
+} from './visibility';
+import { ReimbursementType } from './reimbursement';
 
 export type PrescriptionFormType = {
   medicationTitle?: string;
@@ -13,7 +17,7 @@ export type PrescriptionFormType = {
   periodicityDaysNumber?: number;
   substitutionAllowed?: boolean;
   recipeInstructionForPatient?: string;
-  instructionsForReimbursement?: string;
-  prescriberVisibility?: PractitionerVisibility;
-  pharmacistVisibility?: PharmacistVisibility;
+  instructionsForReimbursement?: ReimbursementType;
+  prescriberVisibility?: PractitionerVisibilityType;
+  pharmacistVisibility?: PharmacistVisibilityType;
 };

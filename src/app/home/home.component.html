@@ -1,6 +1,7 @@
 <div class="home">
   <app-practitioner-certificate
     [certificateValid]="certificateValid"
+    [errorWhileVerifyingCertificate]="errorWhileVerifyingCertificate"
     (onUploadCertificate)="onUploadCertificate($event)" />
   <div class="home__divider"></div>
   <p>
@@ -9,7 +10,7 @@
   <div class="home__divider"></div>
 
   <app-medication-search
-    *ngIf="certificateValid"
+    *ngIf="certificateValid && !errorWhileVerifyingCertificate"
     [onAddPrescription]="onCreatePrescription.bind(this)"
     [deliveryEnvironment]="deliveryEnvironment" />
 
@@ -34,7 +35,7 @@
   <app-prescription-modal
     *ngIf="prescriptionModalMode === 'modify'"
     [modalTitle]="'Modifier la prescription'"
-    (handleSubmit)="onSubmitModifyPrescription()"
+    (handleSubmit)="onSubmitModifyPrescription($event)"
     (handleCancel)="onClosePrescriptionModal()"
     [prescriptionToModify]="prescriptionToModify" />
 

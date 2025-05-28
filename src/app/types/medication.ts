@@ -1,4 +1,7 @@
-import { PractitionerVisibility, PharmacistVisibility } from './visibility';
+import {
+  PractitionerVisibilityType,
+  PharmacistVisibilityType,
+} from './visibility';
 import { Medication } from '@icure/be-fhc-api';
 import {
   Commercialization,
@@ -53,6 +56,6 @@ export type PrescribedMedicationType = {
   ampId?: string;
   cnk?: string;
   dmppProductId?: string;
-  prescriberVisibility?: PractitionerVisibility;
-  pharmacistVisibility?: PharmacistVisibility;
+  prescriberVisibility?: PractitionerVisibilityType;
+  pharmacistVisibility?: PharmacistVisibilityType;
 };

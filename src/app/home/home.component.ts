@@ -28,26 +28,19 @@ import { PrintPrescriptionModalComponent } from '../components/prescription-elem
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  samVersion: SamVersion | undefined;
-  certificateUploaded: boolean = false;
-  certificateValid: boolean = false;
-  uiReady: boolean = false;
-  passphrase: string | undefined;
+  samVersion?: SamVersion;
+  certificateUploaded = false;
+  certificateValid = false;
+  errorWhileVerifyingCertificate?: string;
+  uiReady = false;
+  passphrase?: string;
 
-  constructor(
-    private samSdkService: SamSdkService,
-    private fhcService: FhcService,
-    private certificateService: UploadPractitionerCertificateService
-  ) {}
-
-  deliveryEnvironment: string = 'P';
-  // Prescription Modal
+  deliveryEnvironment = 'P';
   prescriptionModalMode: 'create' | 'modify' | null = null;
-  medicationToPrescribe: MedicationType | undefined;
-  prescriptionToModify: PrescribedMedicationType | undefined;
-
-  prescriptions: PrescribedMedicationType[] | undefined;
-  showPrintPrescriptionsModal: boolean = false;
+  medicationToPrescribe?: MedicationType;
+  prescriptionToModify?: PrescribedMedicationType;
+  prescriptions?: PrescribedMedicationType[];
+  showPrintPrescriptionsModal = false;
   cache: Record<string, string> = {};
 
   patient: Patient = {
@@ -74,60 +67,83 @@ export class HomeComponent implements OnInit {
     ],
   };
 
+  constructor(
+    private samSdkService: SamSdkService,
+    private fhcService: FhcService,
+    private certificateService: UploadPractitionerCertificateService
+  ) {}
+
+  get localStorageTokenStore(): TokenStore {
+    return {
+      get: (key: string) => {
+        console.log('get: key');
+        console.log(key);
+
+        const value = localStorage.getItem(key);
+        return value
+          ? Promise.resolve(value)
+          : Promise.reject(new Error(`No value for key: ${key}`));
+      },
+      put: (key: string, value: string) => {
+        console.log('put: key');
+        console.log(key);
+        console.log('put: value');
+        console.log(value);
+        localStorage.setItem(key, value);
+        return Promise.resolve(value);
+      },
+    };
+  }
+
   async ngOnInit() {
     try {
-      // Initialize SDK
       await this.samSdkService.initialize();
       this.samVersion = await this.samSdkService.getSamVersion();
-
-      // Open database
       const db = await this.certificateService.openCertificatesDatabase();
 
-      // Try to load certificate information
       try {
         await this.certificateService.loadCertificateInformation(
           db,
-          this.hcp.ssin as string
+          this.hcp.ssin!
         );
         this.certificateUploaded = true;
-      } catch (e) {
+      } catch {
         this.certificateUploaded = false;
       }
 
-      // Set UI as ready
       this.uiReady = true;
 
-      // Watch for certificate validity after it is uploaded and passphrase is set
       if (this.certificateUploaded && this.passphrase) {
-        this.certificateService
-          .loadAndDecryptCertificate(this.passphrase, this.hcp.ssin as string)
-          .then(() => {
-            this.certificateValid = true;
-          })
-          .catch(() => {
-            this.certificateValid = false;
-          });
+        await this.validateCertificate();
       }
     } catch (error) {
-      console.error('Error initializing SDK or opening database:', error);
+      console.error('Initialization error:', error);
     }
   }
 
-  onUploadCertificate(passphrase: string) {
+  async validateCertificate() {
+    try {
+      await this.certificateService.loadAndDecryptCertificate(
+        this.passphrase!,
+        this.hcp.ssin!
+      );
+      const res = await this.fhcService.verifyCertificateWithSts(
+        this.hcp,
+        this.passphrase!,
+        this.localStorageTokenStore
+      );
+      this.certificateValid = res.status;
+      this.errorWhileVerifyingCertificate = res.error?.fr;
+    } catch {
+      this.certificateValid = false;
+      this.errorWhileVerifyingCertificate = undefined;
+    }
+  }
+
+  async onUploadCertificate(passphrase: string) {
     this.certificateUploaded = true;
     this.passphrase = passphrase;
-
-    // Watch for certificate validity after it is uploaded and passphrase is set
-    if (this.certificateUploaded && this.passphrase) {
-      this.certificateService
-        .loadAndDecryptCertificate(this.passphrase, this.hcp.ssin as string)
-        .then(() => {
-          this.certificateValid = true;
-        })
-        .catch(() => {
-          this.certificateValid = false;
-        });
-    }
+    await this.validateCertificate();
   }
 
   onCreatePrescription(medication: MedicationType) {
@@ -145,28 +161,36 @@ export class HomeComponent implements OnInit {
     this.prescriptionToModify = undefined;
   }
 
-  onSubmitModifyPrescription() {
-    console.log('submit');
+  onSubmitModifyPrescription(
+    prescriptionsToModify: PrescribedMedicationType[]
+  ) {
+    this.prescriptions = this.prescriptions?.map(item =>
+      item.uuid === prescriptionsToModify[0].uuid
+        ? prescriptionsToModify[0]
+        : item
+    );
     this.onClosePrescriptionModal();
   }
-  onModifyPrescription(prescription: PrescribedMedicationType) {
+
+  onModifyPrescription = (prescription: PrescribedMedicationType) => {
     this.prescriptionModalMode = 'modify';
     this.prescriptionToModify = prescription;
-  }
+  };
+
   onDeletePrescription(prescription: PrescribedMedicationType) {
     this.prescriptions = this.prescriptions?.filter(
       item => item.uuid !== prescription.uuid
     );
   }
 
-  handleSendPrescriptions = async (
+  async handleSendPrescriptions(
     prescribedMedications: PrescribedMedicationType[],
     samVersion: SamVersion,
     hcp: HealthcareParty,
     patient: Patient,
     passphrase: string,
     cache: TokenStore
-  ) => {
+  ) {
     await Promise.all(
       prescribedMedications
         .filter(med => !med.rid)
@@ -179,24 +203,12 @@ export class HomeComponent implements OnInit {
             passphrase,
             cache
           );
-
-          console.log('med');
-          console.log(med);
-
-          console.log('res');
-          console.log(res);
-
           this.prescriptions = prescribedMedications.map(item =>
-            item.uuid === med.uuid
-              ? {
-                  ...item,
-                  rid: res[0]?.rid,
-                }
-              : item
+            item.uuid === med.uuid ? { ...item, rid: res[0]?.rid } : item
           );
         })
     );
-  };
+  }
 
   onSendPrescriptions = async (): Promise<void> => {
     if (this.prescriptions && this.samVersion && this.passphrase) {
@@ -206,19 +218,19 @@ export class HomeComponent implements OnInit {
         this.hcp,
         this.patient,
         this.passphrase,
-        {
-          get: (key: string) => Promise.resolve(this.cache[key]),
-          put: (key: string, value: string) =>
-            Promise.resolve((this.cache[key] = value)),
-        }
+        this.localStorageTokenStore
       );
     } else {
-      console.error('Missing required information to send prescriptions.');
+      console.log(this.prescriptions);
+      console.log(this.samVersion);
+      console.log(this.passphrase);
+      console.error('Missing information to send prescriptions.');
     }
   };
   onPrintPrescriptions = () => {
     this.showPrintPrescriptionsModal = true;
   };
+
   onSendAndPrintPrescriptions = async (): Promise<void> => {
     await this.onSendPrescriptions();
     this.onPrintPrescriptions();
