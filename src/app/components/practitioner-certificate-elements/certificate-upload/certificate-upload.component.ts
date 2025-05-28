@@ -78,12 +78,15 @@ export class CertificateUploadComponent implements OnInit {
   getErrorMessage(fieldName: string): string | undefined {
     const control = this.uploadCertificateForm.get(fieldName);
 
-    if (control?.valid || !control?.touched || control?.disabled)
+    if (
+      !this.uploadCertificateForm.dirty ||
+      !control?.touched ||
+      control?.valid ||
+      control?.disabled
+    )
       return undefined;
 
-    if (control?.errors?.['required']) return 'Ce champ est requis';
-
-    // You can add more error types if needed (minlength, pattern, etc.)
+    if (control.errors?.['required']) return 'Ce champ est requis';
     return 'Champ invalide';
   }
 
@@ -114,7 +117,13 @@ export class CertificateUploadComponent implements OnInit {
       this.password = formValues.certificatePassword;
 
       await this.handleFormSubmit();
-      this.uploadCertificateForm.reset();
+      // ✅ Clean reset without validation flicker
+      this.uploadCertificateForm.reset({
+        certificateFile: null,
+        certificatePassword: '',
+      });
+      this.uploadCertificateForm.markAsPristine();
+      this.uploadCertificateForm.markAsUntouched();
     }
   }
 
