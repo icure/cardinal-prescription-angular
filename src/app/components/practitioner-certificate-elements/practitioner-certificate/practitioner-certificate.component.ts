@@ -3,6 +3,7 @@ import { CertificateStatusComponent } from '../certificate-status/certificate-st
 import { NgIf } from '@angular/common';
 import { CertificateUploadComponent } from '../certificate-upload/certificate-upload.component';
 import { PrescribedMedicationType } from '../../../types';
+import { HealthcareParty } from '@icure/be-fhc-api';
 
 @Component({
   selector: 'app-practitioner-certificate',
@@ -12,7 +13,9 @@ import { PrescribedMedicationType } from '../../../types';
 })
 export class PractitionerCertificateComponent {
   @Input() certificateValid: boolean = false;
+  @Input() certificateUploaded: boolean = false;
   @Input() errorWhileVerifyingCertificate: string | undefined = undefined;
+  @Input() hcp!: HealthcareParty;
   @Output() onUploadCertificate: EventEmitter<string> = new EventEmitter();
 
   certificateAvailabilityFeedback = {

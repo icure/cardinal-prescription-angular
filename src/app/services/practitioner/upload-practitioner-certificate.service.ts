@@ -42,7 +42,12 @@ export class UploadPractitionerCertificateService {
     if (!record) {
       throw new Error('Record not found');
     }
-    return record;
+
+    return {
+      salt: new Uint8Array(record.salt).buffer,
+      iv: new Uint8Array(record.iv).buffer,
+      encryptedCertificate: new Uint8Array(record.encryptedCertificate).buffer,
+    };
   }
 
   // Load and decrypt certificate using password
@@ -134,9 +139,6 @@ export class UploadPractitionerCertificateService {
           encryptionKey,
           certificate
         );
-
-        console.log('encryptedCertificate');
-        console.log(encryptedCertificate);
 
         // Start a transaction
         const transaction = db.transaction('certificates', 'readwrite');
