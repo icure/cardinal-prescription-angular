@@ -7,7 +7,6 @@ import {
 import {
   DeliveryModusSpecificationCodeType,
   MedicationType,
-  IconComponentType,
 } from '../../../types';
 import { deliveryModusSpecifications } from '../../../utils/delivery-modus-helpers';
 import { formatToDayMonthYear } from '../../../utils/date-helpers';
@@ -17,12 +16,13 @@ import { MoleculeIcnComponent } from '../../common/icons/molecule-icn/molecule-i
 import { LeafIcnComponent } from '../../common/icons/leaf-icn/leaf-icn.component';
 import { TriangleIcnComponent } from '../../common/icons/triangle-icn/triangle-icn.component';
 import { PillsBottleIcnComponent } from '../../common/icons/pills-bottle-icn/pills-bottle-icn.component';
-import { DecimalPipe, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { PrescriptionIcnComponent } from '../../common/icons/prescription-icn/prescription-icn.component';
 import { SupplyIcnComponent } from '../../common/icons/supply-icn/supply-icn.component';
 import { EndOfCommercialisationIcnComponent } from '../../common/icons/end-of-commercialisation-icn/end-of-commercialisation-icn.component';
 import { StartOfCommercialisationIcnComponent } from '../../common/icons/start-of-commercialisation-icn/start-of-commercialisation-icn.component';
 import { ChevronIcnComponent } from '../../common/icons/chevron-icn/chevron-icn.component';
+import { TranslationService } from '../../../services/translation/translation.service';
 
 @Component({
   selector: 'app-medication-card',
@@ -52,6 +52,12 @@ export class MedicationCardComponent {
   @Input() focused: boolean = false;
   @Input() medicationSearchDropdownRect: DOMRect | undefined;
   @Input() handleAddPrescription!: (med: MedicationType) => void;
+
+  constructor(private translationService: TranslationService) {}
+
+  t(key: string): string {
+    return this.translationService.translate(key);
+  }
 
   handleMedicationClick() {
     this.handleAddPrescription(this.medication);
@@ -99,11 +105,11 @@ export class MedicationCardComponent {
   getSpecialRegulation(code: number): string {
     switch (code) {
       case 1:
-        return 'No narcotic, specially regulated drug';
+        return this.t('medication.drugSpecialRegulation.noNarcoticRegulation');
       case 2:
-        return 'Narcotic, specially regulated drug';
+        return this.t('medication.drugSpecialRegulation.narcoticRegulation');
       default:
-        return 'No special regulation';
+        return this.t('medication.drugSpecialRegulation.noSpecialRegulation');
     }
   }
   formatTimestamp(timestamp: number): string | undefined {

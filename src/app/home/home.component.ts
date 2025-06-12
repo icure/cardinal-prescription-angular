@@ -12,6 +12,7 @@ import { FhcService } from '../services/api/fhc.service';
 import { UploadPractitionerCertificateService } from '../services/practitioner/upload-practitioner-certificate.service';
 import { PractitionerCertificateComponent } from '../components/practitioner-certificate-elements/practitioner-certificate/practitioner-certificate.component';
 import { PrintPrescriptionModalComponent } from '../components/prescription-elements/print-prescription-modal/print-prescription-modal.component';
+import { TranslationService } from '../services/translation/translation.service';
 
 @Component({
   selector: 'app-home',
@@ -70,8 +71,13 @@ export class HomeComponent implements OnInit {
   constructor(
     private samSdkService: SamSdkService,
     private fhcService: FhcService,
-    private certificateService: UploadPractitionerCertificateService
+    private certificateService: UploadPractitionerCertificateService,
+    private translationService: TranslationService
   ) {}
+
+  t(key: string): string {
+    return this.translationService.translate(key);
+  }
 
   get indexedDbTokenStore(): TokenStore {
     return {
