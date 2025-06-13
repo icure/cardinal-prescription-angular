@@ -13,7 +13,8 @@ import { Patient, HealthcareParty } from '@icure/be-fhc-api';
 import { PrescriptionDocumentToPrintComponent } from '../prescription-document-to-print/prescription-document-to-print.component';
 import { ButtonComponent } from '../../form-elements/button/button.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CloseIcnComponent } from '../../common/icons/close-icn/close-icn.component'; // Import JsBarcode library
+import { CloseIcnComponent } from '../../common/icons/close-icn/close-icn.component';
+import { TranslationService } from '../../../services/translation/translation.service'; // Import JsBarcode library
 
 @Component({
   selector: 'app-print-prescription-modal',
@@ -33,6 +34,12 @@ export class PrintPrescriptionModalComponent {
 
   @Output() onCloseModal = new EventEmitter<void>(); // Emit event to close the modal
   @ViewChild('printContainer', { static: false }) printContainer!: ElementRef; // ViewChild to access print container
+
+  constructor(private translationService: TranslationService) {}
+
+  t(key: string): string {
+    return this.translationService.translate(key);
+  }
 
   get sentPrescriptions() {
     return this.prescribedMedications.filter(item => !!item.rid);

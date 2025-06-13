@@ -1,6 +1,6 @@
 <div class="prescriptionsWrap">
   <div *ngIf="sentPrescriptions.length" class="prescriptions">
-    <p class="prescriptions__title">Ordonnances envoyées:</p>
+    <p class="prescriptions__title">{{ t('prescription.list.sentTitle') }}</p>
     <div class="prescriptions__rows">
       <app-prescription-card
         *ngFor="let medication of sentPrescriptions"
@@ -14,13 +14,15 @@
         [view]="printing ? 'withSpinner' : 'outlined'"
         type="submit"
         (click)="onPrintPrescriptions()">
-        Imprimer
+        {{ t('prescription.list.print') }}
       </app-button>
     </div>
   </div>
 
   <div *ngIf="pendingPrescriptions.length" class="prescriptions">
-    <p class="prescriptions__title">Ordonnances en attente:</p>
+    <p class="prescriptions__title">
+      {{ t('prescription.list.pendingTitle') }}
+    </p>
     <div class="prescriptions__rows">
       <app-prescription-card
         *ngFor="let medication of pendingPrescriptions"
@@ -35,7 +37,7 @@
         [view]="printing ? 'withSpinner' : 'outlined'"
         type="submit"
         (click)="spinPrint()">
-        Envoyer et imprimer
+        {{ t('prescription.list.sendAndPrint') }}
       </app-button>
 
       <app-button
@@ -43,7 +45,7 @@
         [view]="sending ? 'withSpinner' : 'primary'"
         type="submit"
         (click)="spinSend()">
-        Envoyer
+        {{ t('prescription.list.send') }}
       </app-button>
     </div>
   </div>

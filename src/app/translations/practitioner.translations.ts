@@ -23,6 +23,11 @@ export const practitionerTranslations = {
         "Une erreur est survenue lors du téléchargement du certificat du praticien ou de l'enregistrement du mot de passe. Veuillez vous assurer que le certificat est valide et réessayez. Si le problème persiste, contactez le support.",
       verificationErrorTitle: 'Erreur de vérification du certificat',
     },
+    printModal: {
+      title: 'Imprimer la prescription',
+      close: 'Fermer',
+      print: 'Imprimer',
+    },
   },
   en: {
     certificateUpload: {
@@ -47,6 +52,11 @@ export const practitionerTranslations = {
       failureDescription:
         'An error occurred while uploading the certificate or saving the password. Please ensure the certificate is valid and try again. If the problem persists, contact support.',
       verificationErrorTitle: 'Certificate verification error',
+    },
+    printModal: {
+      title: 'Print Prescription',
+      close: 'Close',
+      print: 'Print',
     },
   },
 };

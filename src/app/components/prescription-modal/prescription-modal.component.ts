@@ -39,6 +39,7 @@ import {
 } from '../../utils/visibility-helpers';
 import { reimbursementOptions } from '../../utils/reimbursement-helpers';
 import { CreatePrescriptionService } from '../../services/prescription/create-prescription.service';
+import { TranslationService } from '../../services/translation/translation.service';
 
 @Component({
   selector: 'app-prescription-modal',
@@ -68,7 +69,7 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
   prescriptionForm!: FormGroup;
   private subscriptions: Subscription[] = [];
 
-  recipeInstructionForPatientLabel: string | undefined = 'Aucun';
+  recipeInstructionForPatientLabel: string | undefined;
   selectedReimbursementLabel: string | undefined =
     reimbursementOptions[0].label;
   selectedPractitionerVisibilityLabel: string | undefined =
@@ -78,8 +79,13 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: NonNullableFormBuilder,
-    private createPrescriptionService: CreatePrescriptionService
+    private createPrescriptionService: CreatePrescriptionService,
+    private translationService: TranslationService
   ) {}
+
+  t(key: string): string {
+    return this.translationService.translate(key);
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -142,7 +148,8 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
       );
 
       this.recipeInstructionForPatientLabel =
-        this.prescriptionToModify.medication.recipeInstructionForPatient;
+        this.prescriptionToModify.medication.recipeInstructionForPatient ??
+        this.t('prescription.form.instructionLabelNone');
       if (this.prescriptionToModify.medication.instructionsForReimbursement) {
         this.selectedReimbursementLabel = this.reimbursementOptions.find(
           x =>
@@ -165,6 +172,9 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     }
 
     if (this.medicationToPrescribe) {
+      this.recipeInstructionForPatientLabel = this.t(
+        'prescription.form.instructionLabelNone'
+      );
       this.prescriptionForm.patchValue(
         {
           medicationTitle: this.medicationToPrescribe.title ?? '',
@@ -180,8 +190,9 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     const control = this.prescriptionForm.get(fieldName);
     if (control?.valid || !control?.touched || control?.disabled)
       return undefined;
-    if (control?.errors?.['required']) return 'Ce champ est requis';
-    return 'Champ invalide';
+    if (control?.errors?.['required'])
+      return this.t('prescription.form.fieldRequired');
+    return this.t('prescription.form.fieldInvalid');
   }
 
   onSubmit() {
@@ -247,19 +258,22 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
       this.subscriptions.push(
         reimbursementCtrl.valueChanges.subscribe(value => {
           const option = reimbursementOptions.find(opt => opt.value === value);
-          this.selectedReimbursementLabel = option?.label ?? 'Aucun';
+          this.selectedReimbursementLabel =
+            option?.label ?? this.t('prescription.form.instructionLabelNone');
         }),
         practitionerCtrl.valueChanges.subscribe(value => {
           const option = practitionerVisibilityOptions.find(
             opt => opt.value === value
           );
-          this.selectedPractitionerVisibilityLabel = option?.label ?? 'Aucun';
+          this.selectedPractitionerVisibilityLabel =
+            option?.label ?? this.t('prescription.form.instructionLabelNone');
         }),
         pharmacistCtrl.valueChanges.subscribe(value => {
           const option = pharmacistVisibilityOptions.find(
             opt => opt.value === value
           );
-          this.selectedPharmacistVisibilityLabel = option?.label ?? 'Aucun';
+          this.selectedPharmacistVisibilityLabel =
+            option?.label ?? this.t('prescription.form.instructionLabelNone');
         }),
         recipeInstructionCtrl.valueChanges.subscribe(value => {
           this.recipeInstructionForPatientLabel = value;
