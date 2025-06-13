@@ -12,6 +12,7 @@ import { ButtonComponent } from '../../form-elements/button/button.component';
 import { HealthcareParty } from '@icure/be-fhc-api';
 import { NgIf } from '@angular/common';
 import { CertificateStatusComponent } from '../certificate-status/certificate-status.component';
+import { TranslationService } from '../../../services/translation/translation.service';
 
 @Component({
   selector: 'app-certificate-upload',
@@ -32,17 +33,30 @@ export class CertificateUploadComponent implements OnInit {
 
   constructor(
     private certificateService: UploadPractitionerCertificateService,
-    private fb: NonNullableFormBuilder
+    private fb: NonNullableFormBuilder,
+    private translationService: TranslationService
   ) {}
+
+  t(key: string): string {
+    return this.translationService.translate(key);
+  }
 
   password: string = '';
   certificateFile: File | null = null;
   db: IDBDatabase | undefined;
   uploadCertificateForm!: FormGroup;
   certificateUploaded: boolean = false;
+  certificateAvailabilityFeedback?: {
+    passwordMissing: {
+      title: string;
+      description: string;
+    };
+  };
 
   // Initialize IndexedDB
   ngOnInit(): void {
+    this.buildFeedback();
+
     this.certificateService.openCertificatesDatabase().then(async db => {
       this.db = db;
 
@@ -86,8 +100,9 @@ export class CertificateUploadComponent implements OnInit {
     )
       return undefined;
 
-    if (control.errors?.['required']) return 'Ce champ est requis';
-    return 'Champ invalide';
+    if (control.errors?.['required'])
+      return this.t('practitioner.certificateUpload.errorRequired');
+    return this.t('practitioner.certificateUpload.errorInvalid');
   }
 
   // Handle form submission
@@ -127,13 +142,16 @@ export class CertificateUploadComponent implements OnInit {
     }
   }
 
-  certificateAvailabilityFeedback = {
-    passwordMissing: {
-      title: 'Mot de passe manquant',
-      description:
-        'Veuillez saisir le mot de passe associé au certificat afin de pouvoir le déchiffrer. Ce mot de passe est requis pour poursuivre la vérification.',
-    },
-  };
+  private buildFeedback(): void {
+    this.certificateAvailabilityFeedback = {
+      passwordMissing: {
+        title: this.t('practitioner.certificateUpload.passwordMissingTitle'),
+        description: this.t(
+          'practitioner.certificateUpload.passwordMissingDescription'
+        ),
+      },
+    };
+  }
 
   onUploadedAnotherCertificate(): void {
     this.uploadCertificateForm.reset();
