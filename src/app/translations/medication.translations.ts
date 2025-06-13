@@ -76,6 +76,10 @@ export const medicationTranslations = {
     ui: {
       price: 'Prix :',
     },
+    search: {
+      label: 'Trouver un médicament',
+      errorMessage: ' Entrez au moins 3 lettres du nom du médicament',
+    },
   },
 
   en: {
@@ -151,6 +155,10 @@ export const medicationTranslations = {
     },
     ui: {
       price: 'Price:',
+    },
+    search: {
+      label: 'Find a medication',
+      errorMessage: 'Enter at least 3 letters of the medication name',
     },
   },
 };
