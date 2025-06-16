@@ -10,6 +10,10 @@ export class TranslationService {
     this.currentLang = lang;
   }
 
+  getCurrentLanguage(): keyof typeof appTranslations {
+    return this.currentLang;
+  }
+
   translate(path: string): string {
     const keys = path.split('.');
     let value = appTranslations[this.currentLang] as any;

@@ -1,52 +1,51 @@
 import { Medication } from '@icure/be-fhc-api';
 import { ReimbursementType } from '../types/reimbursement';
 
-export const reimbursementOptions: {
-  value: ReimbursementType;
-  label: string;
-}[] = [
+export const getReimbursementOptions = (
+  t: (key: string) => string
+): { value: ReimbursementType; label: string }[] => [
   {
     value: null,
-    label: 'Aucun',
+    label: t('reimbursementHelper.none'),
   },
   {
     value: Medication.InstructionsForReimbursementEnum.PAYINGTHIRDPARTY,
-    label: 'Tiers Payant',
+    label: t('reimbursementHelper.PAYINGTHIRDPARTY'),
   },
   {
     value: Medication.InstructionsForReimbursementEnum.FIRSTDOSE,
-    label: 'Première Dose',
+    label: t('reimbursementHelper.FIRSTDOSE'),
   },
   {
     value: Medication.InstructionsForReimbursementEnum.SECONDDOSE,
-    label: 'Deuxième Dose',
+    label: t('reimbursementHelper.SECONDDOSE'),
   },
   {
     value: Medication.InstructionsForReimbursementEnum.THIRDDOSE,
-    label: 'Troisième Dose',
+    label: t('reimbursementHelper.THIRDDOSE'),
   },
   {
     value: Medication.InstructionsForReimbursementEnum.CHRONICKINDEYDISEASE,
-    label: 'Maladie Rénale Chronique',
+    label: t('reimbursementHelper.CHRONICKINDEYDISEASE'),
   },
   {
     value: Medication.InstructionsForReimbursementEnum.DIABETESTREATMENT,
-    label: 'Traitement du Diabète',
+    label: t('reimbursementHelper.DIABETESTREATMENT'),
   },
   {
     value: Medication.InstructionsForReimbursementEnum.DIABETESCONVENTION,
-    label: 'Convention Diabète',
+    label: t('reimbursementHelper.DIABETESCONVENTION'),
   },
   {
     value: Medication.InstructionsForReimbursementEnum.NOTREIMBURSABLE,
-    label: 'Non Remboursable',
+    label: t('reimbursementHelper.NOTREIMBURSABLE'),
   },
   {
     value: Medication.InstructionsForReimbursementEnum.EXPLAINMEDICATION,
-    label: 'Explication du Médicament',
+    label: t('reimbursementHelper.EXPLAINMEDICATION'),
   },
   {
     value: Medication.InstructionsForReimbursementEnum.DIABETESSTARTPATH,
-    label: 'Parcours Initial Diabète',
+    label: t('reimbursementHelper.DIABETESSTARTPATH'),
   },
 ];

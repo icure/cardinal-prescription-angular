@@ -1,27 +1,48 @@
 export enum durationTimeUnitsEnum {
-  DAY = 'jour',
-  WEEK = 'semaine',
+  DAY = 'DAY',
+  WEEK = 'WEEK',
 }
 
-export const durationTimeUnits = [
-  { value: durationTimeUnitsEnum.DAY, label: durationTimeUnitsEnum.DAY },
-  { value: durationTimeUnitsEnum.WEEK, label: durationTimeUnitsEnum.WEEK },
+export const getDurationTimeUnits = (t: (key: string) => string) => [
+  {
+    value: durationTimeUnitsEnum.DAY,
+    label: t('prescriptionDurationHelper.durationUnits.day'),
+  },
+  {
+    value: durationTimeUnitsEnum.WEEK,
+    label: t('prescriptionDurationHelper.durationUnits.week'),
+  },
 ];
 
 export enum periodicityTimeUnitsEnum {
-  NONE = 'aucune',
-  WEEK = 'semaine',
-  TWO_WEEKS = '2 semaines',
-  THREE_WEEKS = '3 semaines',
-  NUMBER_OF_DAYS = 'x nombre de jours',
+  NONE = '0',
+  WEEK = '7',
+  TWO_WEEKS = '14',
+  THREE_WEEKS = '21',
+  NUMBER_OF_DAYS = '1',
 }
 
-export const periodicityTimeUnits = [
-  { value: '0', label: periodicityTimeUnitsEnum.NONE },
-  { value: '7', label: periodicityTimeUnitsEnum.WEEK },
-  { value: '14', label: periodicityTimeUnitsEnum.TWO_WEEKS },
-  { value: '21', label: periodicityTimeUnitsEnum.THREE_WEEKS },
-  { value: '1', label: periodicityTimeUnitsEnum.NUMBER_OF_DAYS },
+export const getPeriodicityTimeUnits = (t: (key: string) => string) => [
+  {
+    value: periodicityTimeUnitsEnum.NONE,
+    label: t('prescriptionDurationHelper.periodicityUnits.none'),
+  },
+  {
+    value: periodicityTimeUnitsEnum.WEEK,
+    label: t('prescriptionDurationHelper.periodicityUnits.week'),
+  },
+  {
+    value: periodicityTimeUnitsEnum.TWO_WEEKS,
+    label: t('prescriptionDurationHelper.periodicityUnits.twoWeeks'),
+  },
+  {
+    value: periodicityTimeUnitsEnum.THREE_WEEKS,
+    label: t('prescriptionDurationHelper.periodicityUnits.threeWeeks'),
+  },
+  {
+    value: periodicityTimeUnitsEnum.NUMBER_OF_DAYS,
+    label: t('prescriptionDurationHelper.periodicityUnits.numberOfDays'),
+  },
 ];
 
 export const getDurationInDays = (

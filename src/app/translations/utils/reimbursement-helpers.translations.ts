@@ -1,0 +1,28 @@
+export const reimbursementTranslations = {
+  fr: {
+    none: 'Aucun',
+    PAYINGTHIRDPARTY: 'Tiers Payant',
+    FIRSTDOSE: 'Première Dose',
+    SECONDDOSE: 'Deuxième Dose',
+    THIRDDOSE: 'Troisième Dose',
+    CHRONICKINDEYDISEASE: 'Maladie Rénale Chronique',
+    DIABETESTREATMENT: 'Traitement du Diabète',
+    DIABETESCONVENTION: 'Convention Diabète',
+    NOTREIMBURSABLE: 'Non Remboursable',
+    EXPLAINMEDICATION: 'Explication du Médicament',
+    DIABETESSTARTPATH: 'Parcours Initial Diabète',
+  },
+  en: {
+    none: 'None',
+    PAYINGTHIRDPARTY: 'Third-party payment',
+    FIRSTDOSE: 'First dose',
+    SECONDDOSE: 'Second dose',
+    THIRDDOSE: 'Third dose',
+    CHRONICKINDEYDISEASE: 'Chronic kidney disease',
+    DIABETESTREATMENT: 'Diabetes treatment',
+    DIABETESCONVENTION: 'Diabetes convention',
+    NOTREIMBURSABLE: 'Not reimbursable',
+    EXPLAINMEDICATION: 'Medication explanation',
+    DIABETESSTARTPATH: 'Diabetes initial care path',
+  },
+};

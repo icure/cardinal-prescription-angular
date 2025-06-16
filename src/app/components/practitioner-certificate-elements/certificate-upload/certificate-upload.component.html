@@ -2,9 +2,9 @@
   <app-certificate-status
     *ngIf="certificateUploaded"
     [status]="'error'"
-    [title]="certificateAvailabilityFeedback.passwordMissing.title"
+    [title]="certificateAvailabilityFeedback?.passwordMissing?.title ?? ''"
     [description]="
-      certificateAvailabilityFeedback.passwordMissing.description
+      certificateAvailabilityFeedback?.passwordMissing?.description ?? ''
     " />
 
   <form

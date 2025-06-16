@@ -132,15 +132,16 @@ export const medicationTranslations = {
     },
     delivery: {
       title: 'Delivery conditions:',
-      code: 'Delivery modus code:',
-      modus: 'Delivery modus:',
-      specification: 'Delivery modus specification:',
-      free: 'Free of prescription',
+      code: 'Delivery code:',
+      modus: 'Delivery method:',
+      specification: 'Delivery specification:',
+      notApplicable: 'Not applicable',
     },
     prescription: {
       title: 'Prescription conditions:',
       code: 'Prescription code:',
       specification: 'Prescription specification:',
+      free: 'Free of prescription',
     },
     vmp: {
       label: 'VMP:',

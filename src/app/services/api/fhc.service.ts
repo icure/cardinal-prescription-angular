@@ -12,7 +12,7 @@ import {
 import { UploadPractitionerCertificateService } from '../practitioner/upload-practitioner-certificate.service';
 import { dateEncode } from '../../utils/date-helpers';
 import { PrescribedMedicationType, TokenStore } from '../../types';
-import { SamVersion } from '@icure/cardinal-be-sam';
+import { SamText, SamVersion } from '@icure/cardinal-be-sam';
 import { SamlTokenResult } from '@icure/be-fhc-api/model/SamlTokenResult';
 
 const vendor = {
@@ -164,13 +164,15 @@ export class FhcService {
     prescriber: HealthcareParty,
     passphrase: string,
     cache: TokenStore
-  ): Promise<{ status: boolean; error?: { en: string; fr: string } }> {
+  ): Promise<{ status: boolean; error?: SamText }> {
     if (!prescriber?.ssin || !prescriber?.nihii) {
       return {
         status: false,
         error: {
           en: 'Missing prescriber information',
           fr: 'Informations du prescripteur manquantes',
+          nl: 'Ontbrekende voorschrijversinformatie',
+          de: 'Fehlende Verschreiberinformationen',
         },
       };
     }
@@ -186,6 +188,8 @@ export class FhcService {
           error: {
             en: 'Cannot obtain the certificat',
             fr: 'Impossible d’obtenir le certificat',
+            nl: 'Certificaat kan niet worden verkregen',
+            de: 'Zertifikat kann nicht abgerufen werden',
           },
         };
       }
@@ -220,6 +224,8 @@ export class FhcService {
         error: {
           en: error?.message || 'Unknown error occurred',
           fr: error?.message || 'Une erreur inconnue est survenue',
+          nl: error?.message || 'Er is een onbekende fout opgetreden',
+          de: error?.message || 'Ein unbekannter Fehler ist aufgetreten',
         },
       };
     }
