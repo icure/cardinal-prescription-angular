@@ -1,5 +1,4 @@
 import { PrescribedMedicationType } from '../types';
-import { durationTimeUnitsEnum } from './prescription-duration-helpers';
 
 export const convertYyyyMmDdNumberToIsoDate = (dateNumber: number): string => {
   const year = Math.floor(dateNumber / 10000);

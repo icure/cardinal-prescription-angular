@@ -23,22 +23,31 @@ import { ToggleSwitchComponent } from '../form-elements/toggle-switch/toggle-swi
 import { TextareaInputComponent } from '../form-elements/textarea-input/textarea-input.component';
 import { CloseIcnComponent } from '../common/icons/close-icn/close-icn.component';
 
-import { MedicationType, PrescribedMedicationType } from '../../types';
+import {
+  MedicationType,
+  PharmacistVisibilityType,
+  PractitionerVisibilityType,
+  PrescribedMedicationType,
+} from '../../types';
 import {
   getTreatmentStartDate,
   getExecutableUntilDate,
 } from '../../utils/date-helpers';
 import {
-  durationTimeUnits,
+  durationTimeUnitsEnum,
   getDurationFromDays,
-  periodicityTimeUnits,
+  getDurationTimeUnits,
+  getPeriodicityTimeUnits,
+  periodicityTimeUnitsEnum,
 } from '../../utils/prescription-duration-helpers';
 import {
-  practitionerVisibilityOptions,
-  pharmacistVisibilityOptions,
+  getPractitionerVisibilityOptions,
+  getPharmacistVisibilityOptions,
 } from '../../utils/visibility-helpers';
-import { reimbursementOptions } from '../../utils/reimbursement-helpers';
 import { CreatePrescriptionService } from '../../services/prescription/create-prescription.service';
+import { TranslationService } from '../../services/translation/translation.service';
+import { ReimbursementType } from '../../types/reimbursement';
+import { getReimbursementOptions } from '../../utils/reimbursement-helpers';
 
 @Component({
   selector: 'app-prescription-modal',
@@ -68,20 +77,55 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
   prescriptionForm!: FormGroup;
   private subscriptions: Subscription[] = [];
 
-  recipeInstructionForPatientLabel: string | undefined = 'Aucun';
-  selectedReimbursementLabel: string | undefined =
-    reimbursementOptions[0].label;
-  selectedPractitionerVisibilityLabel: string | undefined =
-    practitionerVisibilityOptions[0].label;
-  selectedPharmacistVisibilityLabel: string | undefined =
-    pharmacistVisibilityOptions[0].label;
+  practitionerVisibilityOptions: {
+    value: PractitionerVisibilityType;
+    label: string;
+  }[] = [];
+  pharmacistVisibilityOptions: {
+    value: PharmacistVisibilityType;
+    label: string;
+  }[] = [];
+
+  reimbursementOptions: { value: ReimbursementType; label: string }[] = [];
+  durationTimeUnits: {
+    value: durationTimeUnitsEnum;
+    label: string;
+  }[] = [];
+  periodicityTimeUnits: {
+    value: periodicityTimeUnitsEnum;
+    label: string;
+  }[] = [];
+
+  recipeInstructionForPatientLabel?: string;
+  selectedReimbursementLabel?: string;
+  selectedPractitionerVisibilityLabel?: string;
+  selectedPharmacistVisibilityLabel?: string;
 
   constructor(
     private fb: NonNullableFormBuilder,
-    private createPrescriptionService: CreatePrescriptionService
+    private createPrescriptionService: CreatePrescriptionService,
+    private translationService: TranslationService
   ) {}
 
+  readonly t = (key: string): string => {
+    return this.translationService.translate(key);
+  };
+
   ngOnInit(): void {
+    this.practitionerVisibilityOptions = getPractitionerVisibilityOptions(
+      this.t
+    );
+    this.pharmacistVisibilityOptions = getPharmacistVisibilityOptions(this.t);
+    this.reimbursementOptions = getReimbursementOptions(this.t);
+    this.durationTimeUnits = getDurationTimeUnits(this.t);
+    this.periodicityTimeUnits = getPeriodicityTimeUnits(this.t);
+
+    this.selectedPractitionerVisibilityLabel =
+      this.practitionerVisibilityOptions[0].label;
+    this.selectedPharmacistVisibilityLabel =
+      this.pharmacistVisibilityOptions[0].label;
+    this.selectedReimbursementLabel = this.reimbursementOptions[0].label;
+
     this.initForm();
     this.subscribeToValidationChanges();
     this.subscribeToLabelChanges();
@@ -91,97 +135,106 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  private getInitialFormValues(): Record<string, any> {
+    const base = {
+      medicationTitle: this.medicationToPrescribe?.title ?? '',
+      dosage: '',
+      duration: 1,
+      durationTimeUnit: this.durationTimeUnits[0].value,
+      treatmentStartDate: getTreatmentStartDate(this.prescriptionToModify),
+      executableUntil: getExecutableUntilDate(this.prescriptionToModify),
+      prescriptionsNumber: 1,
+      substitutionAllowed: false,
+      showExtraFields: false,
+      periodicityTimeUnit: this.periodicityTimeUnits[0].value,
+      periodicityDaysNumber: 1,
+      recipeInstructionForPatient: undefined,
+      instructionsForReimbursement: this.reimbursementOptions?.[0].value,
+      prescriberVisibility: this.practitionerVisibilityOptions?.[0].value,
+      pharmacistVisibility: this.pharmacistVisibilityOptions?.[0].value,
+    };
+
+    if (!this.prescriptionToModify) return base;
+
+    const duration = getDurationFromDays(
+      this.prescriptionToModify.medication.duration?.value ?? 1
+    );
+
+    return {
+      ...base,
+      medicationTitle:
+        this.prescriptionToModify.medication.medicinalProduct?.intendedname ??
+        '',
+      dosage: this.prescriptionToModify.medication.instructionForPatient,
+      duration: duration.duration,
+      durationTimeUnit: duration.durationTimeUnit,
+      recipeInstructionForPatient:
+        this.prescriptionToModify.medication.recipeInstructionForPatient,
+      substitutionAllowed:
+        this.prescriptionToModify.medication.substitutionAllowed,
+      instructionsForReimbursement:
+        this.prescriptionToModify.medication.instructionsForReimbursement ??
+        base.instructionsForReimbursement,
+      prescriberVisibility:
+        this.prescriptionToModify.prescriberVisibility ??
+        base.prescriberVisibility,
+      pharmacistVisibility:
+        this.prescriptionToModify.pharmacistVisibility ??
+        base.pharmacistVisibility,
+    };
+  }
+
   private initForm(): void {
     this.prescriptionForm = this.fb.group({
       medicationTitle: [{ value: '', disabled: true }, Validators.required],
-      dosage: ['', Validators.required],
-      duration: [1, Validators.required],
-      durationTimeUnit: [durationTimeUnits[0].label, Validators.required],
-      treatmentStartDate: [getTreatmentStartDate(), Validators.required],
-      executableUntil: [getExecutableUntilDate(), Validators.required],
-      prescriptionsNumber: [1, Validators.required],
-      substitutionAllowed: [false, Validators.required],
-      showExtraFields: [false],
-      periodicityTimeUnit: [periodicityTimeUnits[0].value],
-      periodicityDaysNumber: [1],
-      recipeInstructionForPatient: [],
-      instructionsForReimbursement: [reimbursementOptions[0].value],
-      prescriberVisibility: [practitionerVisibilityOptions[0].value],
-      pharmacistVisibility: [pharmacistVisibilityOptions[0].value],
+      ...this.fb.group(this.getInitialFormValues()).controls,
     });
 
-    if (this.prescriptionToModify) {
-      const recoveredDuration = getDurationFromDays(
-        this.prescriptionToModify.medication.duration?.value ?? 1
-      );
-      this.prescriptionForm.patchValue(
-        {
-          medicationTitle:
-            this.prescriptionToModify.medication.medicinalProduct
-              ?.intendedname ?? '',
-          dosage: this.prescriptionToModify.medication.instructionForPatient,
-          duration: recoveredDuration.duration,
-          durationTimeUnit: recoveredDuration.durationTimeUnit,
-          treatmentStartDate: getTreatmentStartDate(this.prescriptionToModify),
-          executableUntil: getExecutableUntilDate(this.prescriptionToModify),
-          recipeInstructionForPatient:
-            this.prescriptionToModify.medication.recipeInstructionForPatient,
-          substitutionAllowed:
-            this.prescriptionToModify.medication.substitutionAllowed,
-          instructionsForReimbursement:
-            this.prescriptionToModify.medication.instructionsForReimbursement ??
-            reimbursementOptions[0].value,
-          prescriberVisibility:
-            this.prescriptionToModify.prescriberVisibility ??
-            practitionerVisibilityOptions[0].value,
-          pharmacistVisibility:
-            this.prescriptionToModify.pharmacistVisibility ??
-            pharmacistVisibilityOptions[0].value,
-        },
-        { emitEvent: false }
-      );
+    this.recipeInstructionForPatientLabel =
+      this.prescriptionToModify?.medication.recipeInstructionForPatient ??
+      this.t('prescription.form.instructionLabelNone');
 
-      this.recipeInstructionForPatientLabel =
-        this.prescriptionToModify.medication.recipeInstructionForPatient;
-      if (this.prescriptionToModify.medication.instructionsForReimbursement) {
-        this.selectedReimbursementLabel = this.reimbursementOptions.find(
-          x =>
-            x.value ===
-            this.prescriptionToModify?.medication.instructionsForReimbursement
-        )?.label;
-      }
-      if (this.prescriptionToModify.prescriberVisibility) {
-        this.selectedPractitionerVisibilityLabel =
-          this.practitionerVisibilityOptions.find(
-            x => x.value === this.prescriptionToModify?.prescriberVisibility
-          )?.label;
-      }
-      if (this.prescriptionToModify.pharmacistVisibility) {
-        this.selectedPharmacistVisibilityLabel =
-          this.pharmacistVisibilityOptions.find(
-            x => x.value === this.prescriptionToModify?.pharmacistVisibility
-          )?.label;
-      }
+    if (this.prescriptionToModify?.medication.instructionsForReimbursement) {
+      this.selectedReimbursementLabel = this.getLabel(
+        this.reimbursementOptions!,
+        this.prescriptionToModify.medication.instructionsForReimbursement
+      );
     }
-
-    if (this.medicationToPrescribe) {
-      this.prescriptionForm.patchValue(
-        {
-          medicationTitle: this.medicationToPrescribe.title ?? '',
-          treatmentStartDate: getTreatmentStartDate(this.prescriptionToModify),
-          executableUntil: getExecutableUntilDate(this.prescriptionToModify),
-        },
-        { emitEvent: false }
+    if (this.prescriptionToModify?.prescriberVisibility) {
+      this.selectedPractitionerVisibilityLabel = this.getLabel(
+        this.practitionerVisibilityOptions!,
+        this.prescriptionToModify.prescriberVisibility
+      );
+    }
+    if (this.prescriptionToModify?.pharmacistVisibility) {
+      this.selectedPharmacistVisibilityLabel = this.getLabel(
+        this.pharmacistVisibilityOptions!,
+        this.prescriptionToModify.pharmacistVisibility
       );
     }
   }
 
+  private getLabel(
+    options: { value: string | null; label: string }[],
+    value: string | null
+  ): string {
+    return (
+      options.find(opt => opt.value === value)?.label ??
+      this.t('prescription.form.instructionLabelNone')
+    );
+  }
+
+  getControl(name: string) {
+    return this.prescriptionForm.get(name);
+  }
+
   getErrorMessage(fieldName: string): string | undefined {
-    const control = this.prescriptionForm.get(fieldName);
+    const control = this.getControl(fieldName);
     if (control?.valid || !control?.touched || control?.disabled)
       return undefined;
-    if (control?.errors?.['required']) return 'Ce champ est requis';
-    return 'Champ invalide';
+    if (control?.errors?.['required'])
+      return this.t('prescription.form.fieldRequired');
+    return this.t('prescription.form.fieldInvalid');
   }
 
   onSubmit() {
@@ -189,11 +242,9 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
       this.prescriptionForm.markAllAsTouched();
       return;
     }
-
-    const formValues = this.prescriptionForm.value;
     const prescribedMedications =
       this.createPrescriptionService.createPrescribedMedication(
-        formValues,
+        this.prescriptionForm.value,
         this.prescriptionToModify,
         this.medicationToPrescribe
       );
@@ -207,12 +258,8 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToValidationChanges(): void {
-    const prescriptionsNumberCtrl = this.prescriptionForm.get(
-      'prescriptionsNumber'
-    );
-    const periodicityTimeUnitCtrl = this.prescriptionForm.get(
-      'periodicityTimeUnit'
-    );
+    const prescriptionsNumberCtrl = this.getControl('prescriptionsNumber');
+    const periodicityTimeUnitCtrl = this.getControl('periodicityTimeUnit');
 
     if (prescriptionsNumberCtrl && periodicityTimeUnitCtrl) {
       this.subscriptions.push(
@@ -228,60 +275,11 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     this.updatePeriodicityValidators();
   }
 
-  private subscribeToLabelChanges(): void {
-    const reimbursementCtrl = this.prescriptionForm.get(
-      'instructionsForReimbursement'
-    );
-    const practitionerCtrl = this.prescriptionForm.get('prescriberVisibility');
-    const pharmacistCtrl = this.prescriptionForm.get('pharmacistVisibility');
-    const recipeInstructionCtrl = this.prescriptionForm.get(
-      'recipeInstructionForPatient'
-    );
-
-    if (
-      reimbursementCtrl &&
-      practitionerCtrl &&
-      pharmacistCtrl &&
-      recipeInstructionCtrl
-    ) {
-      this.subscriptions.push(
-        reimbursementCtrl.valueChanges.subscribe(value => {
-          const option = reimbursementOptions.find(opt => opt.value === value);
-          this.selectedReimbursementLabel = option?.label ?? 'Aucun';
-        }),
-        practitionerCtrl.valueChanges.subscribe(value => {
-          const option = practitionerVisibilityOptions.find(
-            opt => opt.value === value
-          );
-          this.selectedPractitionerVisibilityLabel = option?.label ?? 'Aucun';
-        }),
-        pharmacistCtrl.valueChanges.subscribe(value => {
-          const option = pharmacistVisibilityOptions.find(
-            opt => opt.value === value
-          );
-          this.selectedPharmacistVisibilityLabel = option?.label ?? 'Aucun';
-        }),
-        recipeInstructionCtrl.valueChanges.subscribe(value => {
-          this.recipeInstructionForPatientLabel = value;
-        })
-      );
-    }
-  }
-
   private updatePeriodicityValidators(): void {
-    const prescriptionsNumber = this.prescriptionForm.get(
-      'prescriptionsNumber'
-    )?.value;
-    const periodicityTimeUnit = this.prescriptionForm.get(
-      'periodicityTimeUnit'
-    )?.value;
-
-    const periodicityTimeUnitCtrl = this.prescriptionForm.get(
-      'periodicityTimeUnit'
-    );
-    const periodicityDaysNumberCtrl = this.prescriptionForm.get(
-      'periodicityDaysNumber'
-    );
+    const prescriptionsNumber = this.getControl('prescriptionsNumber')?.value;
+    const periodicityTimeUnit = this.getControl('periodicityTimeUnit')?.value;
+    const periodicityTimeUnitCtrl = this.getControl('periodicityTimeUnit');
+    const periodicityDaysNumberCtrl = this.getControl('periodicityDaysNumber');
 
     if (prescriptionsNumber > 1) {
       periodicityTimeUnitCtrl?.setValidators([Validators.required]);
@@ -298,10 +296,43 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     periodicityDaysNumberCtrl?.updateValueAndValidity({ emitEvent: false });
   }
 
-  protected readonly periodicityTimeUnits = periodicityTimeUnits;
-  protected readonly durationTimeUnits = durationTimeUnits;
-  protected readonly reimbursementOptions = reimbursementOptions;
-  protected readonly practitionerVisibilityOptions =
-    practitionerVisibilityOptions;
-  protected readonly pharmacistVisibilityOptions = pharmacistVisibilityOptions;
+  private subscribeToLabelChanges(): void {
+    const reimbursementCtrl = this.getControl('instructionsForReimbursement');
+    const practitionerCtrl = this.getControl('prescriberVisibility');
+    const pharmacistCtrl = this.getControl('pharmacistVisibility');
+    const recipeInstructionCtrl = this.getControl(
+      'recipeInstructionForPatient'
+    );
+
+    if (
+      reimbursementCtrl &&
+      practitionerCtrl &&
+      pharmacistCtrl &&
+      recipeInstructionCtrl
+    ) {
+      this.subscriptions.push(
+        reimbursementCtrl.valueChanges.subscribe(value => {
+          this.selectedReimbursementLabel = this.getLabel(
+            this.reimbursementOptions!,
+            value
+          );
+        }),
+        practitionerCtrl.valueChanges.subscribe(value => {
+          this.selectedPractitionerVisibilityLabel = this.getLabel(
+            this.practitionerVisibilityOptions!,
+            value
+          );
+        }),
+        pharmacistCtrl.valueChanges.subscribe(value => {
+          this.selectedPharmacistVisibilityLabel = this.getLabel(
+            this.pharmacistVisibilityOptions!,
+            value
+          );
+        }),
+        recipeInstructionCtrl.valueChanges.subscribe(value => {
+          this.recipeInstructionForPatientLabel = value;
+        })
+      );
+    }
+  }
 }

@@ -2,13 +2,13 @@
   <div
     [class.dropdownDisplayed]="dropdownDisplayed"
     class="medicationSearch__input">
-    <p>Trouver un médicament:</p>
+    <p>{{ t('medication.search.label') }}:</p>
     <label for="medicationSearch">
       <input
         #inputRef
         id="medicationSearch"
         type="text"
-        placeholder="Trouver un médicament"
+        placeholder="{{ t('medication.search.label') }}"
         autocomplete="off"
         autocapitalize="off"
         (input)="onSearchChange($event)"
@@ -18,7 +18,7 @@
     <p
       class="error"
       *ngIf="currentSearchQuery && currentSearchQuery.length < 3">
-      Entrez au moins 3 lettres du nom du médicament
+      {{ t('medication.search.errorMessage') }}
     </p>
   </div>
 

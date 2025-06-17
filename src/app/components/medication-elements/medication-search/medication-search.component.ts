@@ -32,8 +32,8 @@ import {
 import { MedicationType } from '../../../types';
 import { MedicationLoaderService } from '../../../services/loaders/medication-loader.service';
 import { MedicationCardComponent } from '../medication-card/medication-card.component';
-import { SpinnerIcnComponent } from '../../common/icons/spinner-icn/spinner-icn.component';
 import { TooltipContextService } from '../../../services/common/tooltip-context.service';
+import { TranslationService } from '../../../services/translation/translation.service';
 
 @Component({
   selector: 'app-medication-search',
@@ -63,8 +63,13 @@ export class MedicationSearchComponent
   constructor(
     private samSdkService: SamSdkService,
     private loader: MedicationLoaderService,
-    private tooltipContext: TooltipContextService
+    private tooltipContext: TooltipContextService,
+    private translationService: TranslationService
   ) {}
+
+  t(key: string): string {
+    return this.translationService.translate(key);
+  }
 
   private intersectionObserver?: IntersectionObserver;
   private observerInitialized = false;

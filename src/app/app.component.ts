@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TranslationService } from './services/translation/translation.service';
 
 @Component({
   selector: 'app-root',
@@ -13,4 +14,7 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'cardinal-prescription-angular';
+  constructor(private translationService: TranslationService) {
+    this.translationService.setLanguage('fr');
+  }
 }
