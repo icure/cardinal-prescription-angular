@@ -39,6 +39,7 @@ export class PrescriptionDocumentToPrintComponent
 
   ngOnInit() {
     this.chunkPrescriptions();
+    console.log(this.prescribedMedications);
   }
 
   ngAfterViewInit() {

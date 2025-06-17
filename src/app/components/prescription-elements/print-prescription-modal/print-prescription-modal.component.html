@@ -2,7 +2,7 @@
   <div class="printPrescriptionModal__contentWrap">
     <div class="printPrescriptionModal__content">
       <div class="printPrescriptionModal__content__header">
-        <h3>{{ t('prescription.printModal.title') }}</h3>
+        <h3>{{ t('practitioner.printModal.title') }}</h3>
         <button
           type="reset"
           class="printPrescriptionModal__content__header__closeIcn"
@@ -23,10 +23,10 @@
           [view]="'outlined'"
           [type]="'reset'"
           (click)="onCloseModal.emit()">
-          {{ t('prescription.printModal.close') }}
+          {{ t('practitioner.printModal.close') }}
         </app-button>
         <app-button [type]="'submit'" (click)="print()" [view]="'primary'">
-          {{ t('prescription.printModal.print') }}
+          {{ t('practitioner.printModal.print') }}
         </app-button>
       </div>
     </div>
