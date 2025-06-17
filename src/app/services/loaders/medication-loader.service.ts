@@ -13,25 +13,12 @@ import {
   MergeLazySortedNamedItemsService,
   NamedItem,
 } from './merge-lazy-sorted-named-items.service';
-import { TranslationService } from '../translation/translation.service';
-import { SamText } from '@icure/cardinal-be-sam';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MedicationLoaderService {
-  constructor(
-    private mergeService: MergeLazySortedNamedItemsService,
-    private translationService: TranslationService
-  ) {}
-
-  private defaultLanguage: keyof SamText = 'fr';
-
-  private get language(): keyof SamText {
-    return (
-      this.translationService.getCurrentLanguage?.() ?? this.defaultLanguage
-    );
-  }
+  constructor(private mergeService: MergeLazySortedNamedItemsService) {}
 
   async loadMedicationsPage(
     medications: PaginatedListIterator<Amp>,
@@ -76,7 +63,6 @@ export class MedicationLoaderService {
                     deliveryEnvironment &&
                   dmpp.codeType === DmppCodeType.Cnk
               );
-              const language: keyof SamText = this.language;
               return {
                 ampId: amp.id,
                 vmpGroupId: amp.vmp?.vmpGroup?.id,
@@ -84,45 +70,33 @@ export class MedicationLoaderService {
                 cnk: dmpp?.code,
                 dmppProductId: dmpp?.productId,
                 title:
-                  ampp.prescriptionName?.[language] ??
-                  ampp.prescriptionName?.[this.defaultLanguage] ??
-                  ampp.abbreviatedName?.[language] ??
-                  ampp.abbreviatedName?.[this.defaultLanguage] ??
-                  amp.prescriptionName?.[language] ??
-                  amp.prescriptionName?.[this.defaultLanguage] ??
-                  amp.name?.[language] ??
-                  amp.name?.[this.defaultLanguage] ??
-                  amp.abbreviatedName?.[language] ??
-                  amp.abbreviatedName?.[this.defaultLanguage] ??
+                  ampp.prescriptionName?.fr ??
+                  ampp.abbreviatedName?.fr ??
+                  amp.prescriptionName?.fr ??
+                  amp.name?.fr ??
+                  amp.abbreviatedName?.fr ??
                   '',
-                vmpTitle:
-                  amp.vmp?.name?.[language] ??
-                  amp.vmp?.name?.[this.defaultLanguage] ??
-                  '',
-                activeIngredient:
-                  amp.vmp?.vmpGroup?.name?.[language] ??
-                  amp.vmp?.vmpGroup?.name?.[this.defaultLanguage] ??
-                  '',
+                vmpTitle: amp.vmp?.name?.fr ?? '',
+                activeIngredient: amp.vmp?.vmpGroup?.name?.fr ?? '',
                 price: ampp?.exFactoryPrice ? `€${ampp.exFactoryPrice}` : '',
-                crmLink: ampp.crmLink?.[language],
-                patientInformationLeafletLink: ampp.leafletLink?.[language],
+                crmLink: ampp.crmLink?.fr,
+                patientInformationLeafletLink: ampp.leafletLink?.fr,
                 blackTriangle: amp.blackTriangle,
                 speciallyRegulated: ampp.speciallyRegulated,
                 genericPrescriptionRequired: ampp.genericPrescriptionRequired,
-                intendedName: ampp.prescriptionName?.[language],
-                rmaProfessionalLink: ampp.rmaProfessionalLink?.[language],
-                spcLink: ampp.spcLink?.[language],
-                dhpcLink: ampp.dhpcLink?.[language],
+                intendedName: ampp.prescriptionName?.fr,
+                rmaProfessionalLink: ampp.rmaProfessionalLink?.fr,
+                spcLink: ampp.spcLink?.fr,
+                dhpcLink: ampp.dhpcLink?.fr,
                 rmakeyMessages: ampp.rmaKeyMessages,
                 vmp: amp.vmp,
                 supplyProblems: ampp.supplyProblems,
                 commercializations: ampp?.commercializations,
                 deliveryModusCode: ampp.deliveryModusCode,
-                deliveryModus: ampp.deliveryModus?.[language],
+                deliveryModus: ampp.deliveryModus?.fr,
                 deliveryModusSpecificationCode:
                   ampp.deliveryModusSpecificationCode,
-                deliveryModusSpecification:
-                  ampp.deliveryModusSpecification?.[language],
+                deliveryModusSpecification: ampp.deliveryModusSpecification?.fr,
                 reimbursements: dmpp?.reimbursements?.find(
                   dmpp =>
                     dmpp.from && dmpp.from < now && (!dmpp.to || dmpp.to > now)
@@ -145,23 +119,17 @@ export class MedicationLoaderService {
     acc: MedicationType[] = []
   ): Promise<MedicationType[]> {
     const now = Date.now();
-    const language = this.language;
     const loadedPage = !(await molecules.hasNext())
       ? []
       : await molecules.next(min);
     const page: MedicationType[] = loadedPage
       .filter((vmp: VmpGroup) => !(vmp.to && vmp.to < now))
-      .map(vmp => {
-        return {
-          vmpGroupId: vmp.id,
-          id: vmp.code,
-          title:
-            capitalize(vmp.name?.[language]) ??
-            capitalize(vmp.name?.[this.defaultLanguage]) ??
-            '',
-          standardDosage: vmp.standardDosage,
-        };
-      });
+      .map(vmp => ({
+        vmpGroupId: vmp.id,
+        id: vmp.code,
+        title: capitalize(vmp.name?.fr) ?? '',
+        standardDosage: vmp.standardDosage,
+      }));
 
     return page.length < min || page.length + acc.length >= min
       ? [...acc, ...page]
@@ -174,22 +142,16 @@ export class MedicationLoaderService {
     acc: MedicationType[] = []
   ): Promise<MedicationType[]> {
     const now = Date.now();
-    const language = this.language;
     const loadedPage = !(await products.hasNext())
       ? []
       : await products.next(min);
     const page: MedicationType[] = loadedPage
       .filter((nmp: Nmp) => !(nmp.to && nmp.to < now))
-      .map(nmp => {
-        return {
-          nmpId: nmp.id,
-          id: nmp.code,
-          title:
-            capitalize(nmp.name?.[language]) ??
-            capitalize(nmp.name?.[this.defaultLanguage]) ??
-            '',
-        };
-      });
+      .map(nmp => ({
+        nmpId: nmp.id,
+        id: nmp.code,
+        title: capitalize(nmp.name?.fr) ?? '',
+      }));
 
     return page.length < min || page.length + acc.length >= min
       ? [...acc, ...page]

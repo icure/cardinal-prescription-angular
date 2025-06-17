@@ -7,7 +7,7 @@
     (onUploadCertificate)="onUploadCertificate($event)" />
   <div class="home__divider"></div>
   <p>
-    {{ t('home.samVersionLabel') }} <strong>{{ samVersion?.version }}</strong>
+    Sam version: <strong>{{ samVersion?.version }}</strong>
   </p>
   <div class="home__divider"></div>
 
@@ -29,14 +29,14 @@
 
   <app-prescription-modal
     *ngIf="prescriptionModalMode === 'create'"
-    [modalTitle]="t('prescription.createTitle')"
+    [modalTitle]="'Créer la prescription'"
     (handleSubmit)="onSubmitCreatePrescription($event)"
     (handleCancel)="onClosePrescriptionModal()"
     [medicationToPrescribe]="medicationToPrescribe" />
 
   <app-prescription-modal
     *ngIf="prescriptionModalMode === 'modify'"
-    [modalTitle]="t('prescription.modifyTitle')"
+    [modalTitle]="'Modifier la prescription'"
     (handleSubmit)="onSubmitModifyPrescription($event)"
     (handleCancel)="onClosePrescriptionModal()"
     [prescriptionToModify]="prescriptionToModify" />

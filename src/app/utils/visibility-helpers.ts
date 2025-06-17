@@ -1,44 +1,27 @@
 import { PharmacistVisibilityType, PractitionerVisibilityType } from '../types';
-import { TranslationService } from '../services/translation/translation.service';
 
-export function getPractitionerVisibilityOptions(
-  t: TranslationService['translate']
-): {
+export const practitionerVisibilityOptions: {
   value: PractitionerVisibilityType;
   label: string;
-}[] {
-  return [
-    {
-      value: 'open',
-      label: t('prescriptionVisibilityHelper.practitionerVisibility.open'),
-    },
-    {
-      value: 'locked',
-      label: t('prescriptionVisibilityHelper.practitionerVisibility.locked'),
-    },
-    {
-      value: 'gmd_prescriber',
-      label: t(
-        'prescriptionVisibilityHelper.practitionerVisibility.gmd_prescriber'
-      ),
-    },
-  ];
-}
+}[] = [
+  { value: 'open', label: 'Visible pour tous les prescripteurs' },
+  { value: 'locked', label: 'Visible uniquement pour moi-même' },
+  {
+    value: 'gmd_prescriber',
+    label: 'Visible uniquement pour le titulaire du DMG',
+  },
+];
 
-export function getPharmacistVisibilityOptions(
-  t: TranslationService['translate']
-): {
+export const pharmacistVisibilityOptions: {
   value: PharmacistVisibilityType;
   label: string;
-}[] {
-  return [
-    {
-      value: null,
-      label: t('prescriptionVisibilityHelper.pharmacistVisibility.null'),
-    },
-    {
-      value: 'locked',
-      label: t('prescriptionVisibilityHelper.pharmacistVisibility.locked'),
-    },
-  ];
-}
+}[] = [
+  {
+    value: null,
+    label: 'Le médicament est visible par tous les pharmaciens',
+  },
+  {
+    value: 'locked',
+    label: 'Le médicament n`est pas visible par tous les pharmaciens',
+  },
+];

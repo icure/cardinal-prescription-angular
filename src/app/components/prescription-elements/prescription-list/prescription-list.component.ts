@@ -3,7 +3,6 @@ import { PrescriptionRowComponent } from '../prescription-card/prescription-card
 import { NgForOf, NgIf } from '@angular/common';
 import { PrescribedMedicationType } from '../../../types';
 import { ButtonComponent } from '../../form-elements/button/button.component';
-import { TranslationService } from '../../../services/translation/translation.service';
 
 @Component({
   selector: 'app-prescription-list',
@@ -22,12 +21,6 @@ export class PrescriptionListComponent {
   @Output() handleDeletePrescription: EventEmitter<PrescribedMedicationType> =
     new EventEmitter();
 
-  constructor(private translationService: TranslationService) {}
-
-  t(key: string): string {
-    return this.translationService.translate(key);
-  }
-
   printing = false;
   sending = false;
 
@@ -40,6 +33,7 @@ export class PrescriptionListComponent {
   }
 
   spinPrint(): void {
+    console.log('print');
     this.printing = true;
     this.onSendAndPrintPrescriptions().finally(() => {
       this.printing = false;
@@ -47,6 +41,7 @@ export class PrescriptionListComponent {
   }
 
   spinSend(): void {
+    console.log('send');
     this.sending = true;
     this.onSendPrescriptions().finally(() => {
       this.sending = false;

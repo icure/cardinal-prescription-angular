@@ -14,16 +14,12 @@
           <div class="header__medication__content__heading__title">
             <!-- Choose the appropriate icon based on the drug type: medications,molecules, non-medicinal products -->
             <ng-container *ngIf="!!medication.ampId; else checkVmpGroup">
-              <app-tooltip
-                [iconSnippet]="medicationIcn"
-                content="{{ t('medication.drugType.medication') }}" />
+              <app-tooltip [iconSnippet]="medicationIcn" content="Medication" />
             </ng-container>
 
             <ng-template #checkVmpGroup>
               <ng-container *ngIf="!!medication.vmpGroupId; else checkNmp">
-                <app-tooltip
-                  [iconSnippet]="moleculeIcn"
-                  content="{{ t('medication.drugType.molecule') }}" />
+                <app-tooltip [iconSnippet]="moleculeIcn" content="Molecule" />
               </ng-container>
             </ng-template>
 
@@ -31,7 +27,7 @@
               <ng-container *ngIf="!!medication.nmpId">
                 <app-tooltip
                   [iconSnippet]="naturalIcn"
-                  content="{{ t('medication.drugType.homologation') }}" />
+                  content="Homologation" />
               </ng-container>
             </ng-template>
 
@@ -59,9 +55,7 @@
                   </ng-template>
                   <app-tooltip
                     [iconSnippet]="blackTriangleIcn"
-                    content="{{
-                      t('medication.drugInfographic.blackTriangle')
-                    }}" />
+                    content="Black triangle" />
                 </div>
                 <div
                   class="medicationInfographics__item"
@@ -74,7 +68,7 @@
                       class="snippetLink"
                       [href]="medication.rmaProfessionalLink"
                       target="_blank">
-                      {{ t('medication.drugInfographic.rma') }}
+                      Risk Minimisation Activities (RMA)
                     </a>
                   </ng-template>
                   <ng-template #orangeTriangleIcn>
@@ -103,66 +97,68 @@
                     <app-prescription-icn [color]="'#000000'" />
                   </ng-template>
                   <app-tooltip
-                    content="{{
-                      t(
-                        'medication.drugInfographic.genericPrescriptionRequired'
-                      )
-                    }}"
+                    content="Generic prescription required"
                     [iconSnippet]="prescriptionIcn" />
                 </div>
               </div>
               <div class="medicationAvailabilityInfographics">
                 <ng-template #supplyProblemsContent>
-                  <div class="supplyProblemsTooltip" *ngIf="!!supplyProblem">
+                  <div
+                    class="supplyProblemsTooltip"
+                    *ngIf="!!medicationSupplyProblem">
                     <p
                       class="supplyProblemsTooltip__title supplyProblemsTooltip__title--orange">
-                      {{ t('medication.supply.issueTitle') }}
+                      Temporary supply Problem:
                     </p>
 
                     <div class="supplyProblemsTooltip__content">
-                      <div *ngIf="supplyProblem.from">
-                        <span>
-                          {{ t('medication.supply.startDate') }}
-                        </span>
+                      <div *ngIf="medicationSupplyProblem.from">
+                        <span>Limited availability since:</span>
                         <p>
-                          {{ formatTimestamp(supplyProblem.from) }}
+                          {{ formatTimestamp(medicationSupplyProblem.from) }}
                         </p>
                       </div>
-                      <div *ngIf="supplyProblem.expectedEndOn">
-                        <span>
-                          {{ t('medication.supply.expectedEndDate') }}
-                        </span>
+                      <div *ngIf="medicationSupplyProblem.expectedEndOn">
+                        <span>Presumed end date:</span>
                         <p>
-                          {{ formatTimestamp(supplyProblem.expectedEndOn) }}
+                          {{
+                            formatTimestamp(
+                              medicationSupplyProblem.expectedEndOn
+                            )
+                          }}
                         </p>
                       </div>
-                      <div *ngIf="supplyProblemReason">
-                        <span>{{ t('medication.supply.reason') }}</span>
-                        <p>
-                          {{ supplyProblemReason }}
-                        </p>
+                      <div *ngIf="medicationSupplyProblem.reason?.fr">
+                        <span>Reason:</span>
+                        <p>{{ medicationSupplyProblem.reason?.fr }}</p>
                       </div>
-                      <div *ngIf="supplyProblemImpact">
-                        <span>{{ t('medication.supply.impact') }}</span>
-                        <p>{{ supplyProblemImpact }}</p>
+                      <div *ngIf="medicationSupplyProblem.impact?.fr">
+                        <span>Impact:</span>
+                        <p>{{ medicationSupplyProblem.impact?.fr }}</p>
                       </div>
 
                       <div
                         *ngIf="
-                          supplyProblem.impact?.fr ===
+                          medicationSupplyProblem.impact?.fr ===
                           'Importation possible par le pharmacien'
                         ">
-                        <span>{{ t('medication.supply.prescriberNote') }}</span>
+                        <span>Déclaration du prescripteur:</span>
                         <a
                           target="_blank"
                           href="https://www.afmps.be/sites/default/files/content/INSP/NARC/declaration-medecin.pdf"
-                          >{{ t('medication.supply.downloadPdf') }}</a
+                          >Télécharger le document en .pdf</a
                         >
                       </div>
 
-                      <div *ngIf="supplyProblemExtraInfo?.length !== 0">
-                        <span>{{ t('medication.supply.extraInfo') }}</span>
-                        <p *ngFor="let problem of supplyProblemExtraInfo">
+                      <div
+                        *ngIf="
+                          medicationSupplyProblem.additionalInformation?.fr
+                        ">
+                        <span>Additional Information:</span>
+                        <p
+                          *ngFor="
+                            let problem of medicationSupplyProblemExtraInfo
+                          ">
                           {{ problem }}
                         </p>
                       </div>
@@ -182,62 +178,59 @@
                 <ng-template #endOfCommercialisationContent>
                   <div
                     class="supplyProblemsTooltip"
-                    *ngIf="!!commercialization">
+                    *ngIf="!!medicationCommercialization">
                     <p
                       class="supplyProblemsTooltip__title supplyProblemsTooltip__title--red">
-                      {{ t('medication.commercialization.end') }}
+                      End of Commercialisation:
                     </p>
                     <div class="supplyProblemsTooltip__content">
-                      <div *ngIf="commercialization.from">
-                        <span>
+                      <div *ngIf="medicationCommercialization.from">
+                        <span>Limited availability since:</span>
+                        <p>
                           {{
-                            t(
-                              'medication.commercialization.limitedAvailabilityFrom'
-                            )
-                          }}</span
-                        >
-                        <p>
-                          {{ formatTimestamp(commercialization.from) }}
+                            formatTimestamp(medicationCommercialization.from)
+                          }}
                         </p>
                       </div>
-                      <div *ngIf="commercialization.to">
-                        <span>{{
-                          t('medication.commercialization.unavailableFrom')
-                        }}</span>
+                      <div *ngIf="medicationCommercialization.to">
+                        <span>Unavailable from:</span>
                         <p>
-                          {{ formatTimestamp(commercialization.to) }}
+                          {{ formatTimestamp(medicationCommercialization.to) }}
                         </p>
                       </div>
 
-                      <div *ngIf="commercializationEnd">
-                        <span>{{ t('medication.commercialization.end') }}</span>
+                      <div
+                        *ngIf="
+                          medicationCommercialization.endOfComercialization?.fr
+                        ">
+                        <span>End of Commercialization:</span>
                         <p>
-                          {{ commercializationEnd }}
+                          {{
+                            medicationCommercialization.endOfComercialization
+                          }}
                         </p>
                       </div>
 
-                      <div *ngIf="commercializationReason">
-                        <span>{{
-                          t('medication.commercialization.endReason')
-                        }}</span>
-                        <p>{{ commercializationReason }}</p>
+                      <div *ngIf="medicationCommercialization.reason?.fr">
+                        <span>Reason:</span>
+                        <p>{{ medicationCommercialization.reason?.fr }}</p>
                       </div>
 
-                      <div *ngIf="commercializationImpact">
-                        <span>{{
-                          t('medication.commercialization.endImpact')
-                        }}</span>
-                        <p>{{ commercializationImpact }}</p>
+                      <div *ngIf="medicationCommercialization.impact?.fr">
+                        <span>Impact:</span>
+                        <p>{{ medicationCommercialization.impact?.fr }}</p>
                       </div>
 
-                      <div *ngIf="commercializationExtraInfo?.length !== 0">
-                        <span>{{
-                          t(
-                            'medication.commercialization.endAdditionalInformation'
-                          )
-                        }}</span>
+                      <div
+                        *ngIf="
+                          medicationCommercialization.additionalInformation?.fr
+                        ">
+                        <span>Additional Information:</span>
 
-                        <p *ngFor="let line of commercializationExtraInfo">
+                        <p
+                          *ngFor="
+                            let line of medicationCommercializationExtraInfo
+                          ">
                           {{ line }}
                         </p>
                       </div>
@@ -246,7 +239,7 @@
                 </ng-template>
                 <div
                   class="medicationAvailabilityInfographics__item medicationAvailabilityInfographics__item--red"
-                  *ngIf="commercialization?.endOfComercialization">
+                  *ngIf="medicationCommercialization?.endOfComercialization">
                   <ng-template #endOfCommercialisationIcn>
                     <app-end-of-commercialisation-icn [color]="'#EE1313'" />
                   </ng-template>
@@ -257,18 +250,18 @@
                 <ng-template #startOfCommercialisationContent>
                   <div
                     class="supplyProblemsTooltip"
-                    *ngIf="!!commercialization">
+                    *ngIf="!!medicationCommercialization">
                     <p
                       class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
-                      {{ t('medication.commercialization.start') }}
+                      Start of Commercialisation:
                     </p>
                     <div class="supplyProblemsTooltip__content">
-                      <div *ngIf="commercialization.from">
-                        <span>{{
-                          t('medication.commercialization.startAvailableFrom')
-                        }}</span>
+                      <div *ngIf="medicationCommercialization.from">
+                        <span>Availability from:</span>
                         <p>
-                          {{ formatTimestamp(commercialization.from) }}
+                          {{
+                            formatTimestamp(medicationCommercialization.from)
+                          }}
                         </p>
                       </div>
                     </div>
@@ -277,8 +270,8 @@
                 <div
                   class="medicationAvailabilityInfographics__item medicationAvailabilityInfographics__item--green"
                   *ngIf="
-                    commercialization &&
-                    !commercialization?.endOfComercialization
+                    medicationCommercialization &&
+                    !medicationCommercialization?.endOfComercialization
                   ">
                   <ng-template #startOfCommercialisationIcn>
                     <app-start-of-commercialisation-icn [color]="'#09853D'" />
@@ -292,53 +285,50 @@
                 <ng-template #reimbursementsIcn>
                   <div class="textToIcon textToIcon--green">
                     <p>
-                      {{ reimbursement?.reimbursementCriterion?.category }}
+                      {{
+                        medicationReimbursement?.reimbursementCriterion
+                          ?.category
+                      }}
                     </p>
                   </div>
                 </ng-template>
                 <ng-template #reimbursementsContent>
-                  <div *ngIf="reimbursement; else noReimbursement">
+                  <div *ngIf="medicationReimbursement; else noReimbursement">
                     <div class="supplyProblemsTooltip">
                       <p
                         class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
-                        {{ t('medication.reimbursement.title') }}
+                        Remboursement:
                       </p>
                       <div class="supplyProblemsTooltip__content">
                         <div
                           *ngIf="
-                            reimbursement.reimbursementCriterion?.category
+                            medicationReimbursement.reimbursementCriterion
+                              ?.category
                           ">
-                          <span>
-                            {{ t('medication.reimbursement.category') }}
-                          </span>
+                          <span>Catégorie de remboursement:</span>
                           <p>
-                            {{ reimbursement.reimbursementCriterion?.category }}
+                            {{
+                              medicationReimbursement.reimbursementCriterion
+                                ?.category
+                            }}
                           </p>
                         </div>
 
-                        <div *ngIf="reimbursement.copayments">
-                          <div *ngFor="let el of reimbursement.copayments">
+                        <div *ngIf="medicationReimbursement.copayments">
+                          <div
+                            *ngFor="
+                              let el of medicationReimbursement.copayments
+                            ">
                             <div *ngIf="el.regimeType === 1">
-                              <span>
-                                {{ t('medication.reimbursement.copay') }}
-                                <strong>
-                                  {{
-                                    t(
-                                      'medication.reimbursement.copayPreferential'
-                                    )
-                                  }}
-                                </strong>
-                              </span>
+                              <span
+                                >Copayment type
+                                <strong>Preferential</strong>:</span
+                              >
                             </div>
                             <div *ngIf="el.regimeType === 2">
-                              <span>
-                                {{ t('medication.reimbursement.copay') }}
-                                <strong>
-                                  {{
-                                    t('medication.reimbursement.copayActive')
-                                  }}
-                                </strong>
-                              </span>
+                              <span
+                                >Copayment type <strong>Active</strong>:</span
+                              >
                             </div>
                             <div *ngIf="el.feeAmount">
                               <p class="feeAmount">
@@ -348,21 +338,24 @@
                           </div>
                         </div>
 
-                        <div *ngIf="reimbursement.temporary">
-                          <span>
-                            {{ t('medication.reimbursement.temporary') }}
-                          </span>
+                        <div *ngIf="medicationReimbursement.temporary">
+                          <span>Remboursement temporaire (art. 111):</span>
                           <p class="textRed">
-                            {{ reimbursement.temporary }}
+                            {{ medicationReimbursement.temporary }}
                           </p>
                         </div>
 
-                        <div *ngIf="reimbursementCriterion">
-                          <span>
-                            {{ t('medication.reimbursement.chapter') }}
-                          </span>
+                        <div
+                          *ngIf="
+                            medicationReimbursement.reimbursementCriterion
+                              ?.description?.fr
+                          ">
+                          <span>Chapitre:</span>
                           <p>
-                            {{ reimbursementCriterion }}
+                            {{
+                              medicationReimbursement.reimbursementCriterion
+                                ?.description?.fr
+                            }}
                           </p>
                         </div>
                       </div>
@@ -373,20 +366,18 @@
                     <div class="supplyProblemsTooltip">
                       <p
                         class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
-                        {{ t('medication.reimbursement.noneTitle') }}
+                        Conditions de prescription
                       </p>
                       <div class="supplyProblemsTooltip__content">
                         <div>
-                          <p>
-                            {{ t('medication.reimbursement.notApplicable') }}
-                          </p>
+                          <p>Not applicable</p>
                         </div>
                       </div>
                     </div>
                   </ng-template>
                 </ng-template>
                 <app-tooltip
-                  *ngIf="reimbursement"
+                  *ngIf="medicationReimbursement"
                   [iconSnippet]="reimbursementsIcn"
                   [contentSnippet]="reimbursementsContent" />
 
@@ -401,25 +392,21 @@
                     <div class="supplyProblemsTooltip">
                       <p
                         class="supplyProblemsTooltip__title supplyProblemsTooltip__title--orange">
-                        {{ t('medication.delivery.title') }}
+                        Conditions de livraison:
                       </p>
                       <div class="supplyProblemsTooltip__content">
                         <div *ngIf="medication.deliveryModusCode">
-                          <span>
-                            {{ t('medication.delivery.code') }}
-                          </span>
+                          <span>Delivery Modus Code:</span>
                           <p>{{ medication.deliveryModusCode }}</p>
                         </div>
 
                         <div *ngIf="medication.deliveryModus">
-                          <span>{{ t('medication.delivery.modus') }}</span>
+                          <span>Delivery Modus:</span>
                           <p>{{ medication.deliveryModus }}</p>
                         </div>
 
                         <div *ngIf="medication.deliveryModusSpecification">
-                          <span>{{
-                            t('medication.delivery.specification')
-                          }}</span>
+                          <span>Delivery Modus Specification:</span>
                           <p>{{ medication.deliveryModusSpecification }}</p>
                         </div>
                       </div>
@@ -430,11 +417,11 @@
                     <div class="supplyProblemsTooltip">
                       <p
                         class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
-                        {{ t('medication.delivery.title') }}
+                        Conditions de livraison:
                       </p>
                       <div class="supplyProblemsTooltip__content">
                         <div>
-                          <p>{{ t('medication.prescription.free') }}</p>
+                          <p>Free of prescription</p>
                         </div>
                       </div>
                     </div>
@@ -467,20 +454,16 @@
                     <div class="supplyProblemsTooltip">
                       <p
                         class="supplyProblemsTooltip__title supplyProblemsTooltip__title--red">
-                        {{ t('medication.prescription.title') }}
+                        Conditions de prescription:
                       </p>
                       <div class="supplyProblemsTooltip__content">
                         <div *ngIf="medication.deliveryModusSpecificationCode">
-                          <span>
-                            {{ t('medication.delivery.code') }}
-                          </span>
+                          <span>Delivery Modus Code:</span>
                           <p>{{ medication.deliveryModusSpecificationCode }}</p>
                         </div>
 
                         <div *ngIf="medication.deliveryModusSpecification">
-                          <span>
-                            {{ t('medication.delivery.specification') }}
-                          </span>
+                          <span>Delivery Modus Specification:</span>
                           <p>
                             {{
                               getDeliveryModusLabel(
@@ -497,11 +480,11 @@
                     <div class="supplyProblemsTooltip">
                       <p
                         class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
-                        {{ t('medication.prescription.title') }}
+                        Conditions de prescription
                       </p>
                       <div class="supplyProblemsTooltip__content">
                         <div>
-                          <p>{{ t('medication.delivery.notApplicable') }}</p>
+                          <p>Not applicable</p>
                         </div>
                       </div>
                     </div>
@@ -524,36 +507,30 @@
           <div
             class="header__medication__content__description__item price"
             *ngIf="medication.price">
-            <span>
-              {{ t('medication.ui.price') }}
-            </span>
+            <span>Prix:</span>
             <p>{{ medication.price }}</p>
           </div>
 
           <div
             *ngIf="medication.price"
             class="header__medication__content__description__item price">
-            <span>
-              {{ t('medication.reimbursement.title') }}
-            </span>
-            <div *ngIf="reimbursement; else noReimbursement">
+            <span>Reimbursement:</span>
+            <div *ngIf="medicationReimbursement; else noReimbursement">
               <div class="textToIcon textToIcon--green">
                 <p>
-                  {{ reimbursement.reimbursementCriterion?.category }}
+                  {{ medicationReimbursement.reimbursementCriterion?.category }}
                 </p>
               </div>
             </div>
             <ng-template #noReimbursement>
               <div class="textToIcon textToIcon--gray">
-                <p>
-                  {{ t('medication.reimbursement.non') }}
-                </p>
+                <p>Non</p>
               </div>
             </ng-template>
           </div>
 
           <div class="header__medication__content__description__item">
-            <span>{{ t('medication.delivery.title') }}</span>
+            <span>Conditions de livraison:</span>
             <div *ngIf="medication.deliveryModusCode; else freeOfPrescription">
               <div class="textToIcon textToIcon--orange">
                 <p>{{ medication.deliveryModusCode }}</p>
@@ -561,15 +538,13 @@
             </div>
             <ng-template #freeOfPrescription>
               <div class="textToIcon textToIcon--green">
-                <p>{{ t('medication.prescription.free') }}</p>
+                <p>Free of prescription</p>
               </div>
             </ng-template>
           </div>
 
           <div class="header__medication__content__description__item">
-            <span>
-              {{ t('medication.prescription.title') }}
-            </span>
+            <span>Conditions de prescription:</span>
             <div
               *ngIf="
                 medication.deliveryModusSpecificationCode &&
@@ -584,9 +559,7 @@
             </div>
             <ng-template #notApplicable>
               <div class="textToIcon textToIcon--green">
-                <p>
-                  {{ t('medication.delivery.notApplicable') }}
-                </p>
+                <p>Not applicable</p>
               </div>
             </ng-template>
           </div>
@@ -604,51 +577,47 @@
 
   <div *ngIf="isExpanded" class="content">
     <div *ngIf="medication.vmp" class="content__vmp">
-      <div *ngIf="vmpName" class="content__vmp__item">
-        <span>
-          {{ t('medication.vmp.label') }}
-        </span>
-        <p>{{ vmpName }}</p>
+      <div *ngIf="medication.vmp.name?.fr" class="content__vmp__item">
+        <span>VMP:</span>
+        <p>{{ medication.vmp.name?.fr }}</p>
       </div>
-      <div *ngIf="vmpGroupName" class="content__vmp__item">
-        <span>
-          {{ t('medication.vmp.groupLabel') }}
-        </span>
-        <p>{{ vmpGroupName }}</p>
+      <div *ngIf="medication.vmp.vmpGroup?.name?.fr" class="content__vmp__item">
+        <span>VMP-group:</span>
+        <p>{{ medication.vmp.vmpGroup?.name?.fr }}</p>
       </div>
     </div>
 
     <div class="content__divider"></div>
 
     <div class="content__links">
-      <a *ngIf="medication.crmLink" [href]="medication.crmLink" target="_blank">
-        {{ t('medication.links.cbip') }}
-      </a>
+      <a *ngIf="medication.crmLink" [href]="medication.crmLink" target="_blank"
+        >Commented Medicines Directory (CBIP)</a
+      >
       <a
         *ngIf="medication.patientInformationLeafletLink"
         [href]="medication.patientInformationLeafletLink"
-        target="_blank">
-        {{ t('medication.links.leaflet') }}
-      </a>
+        target="_blank"
+        >Patient information leaflet</a
+      >
       <a
         *ngIf="medication.rmaProfessionalLink"
         [href]="medication.rmaProfessionalLink"
-        target="_blank">
-        {{ t('medication.links.rma') }}
-      </a>
-      <a *ngIf="medication.spcLink" [href]="medication.spcLink" target="_blank">
-        {{ t('medication.links.spc') }}
-      </a>
+        target="_blank"
+        >Risk Minimisation Activities (RMA)</a
+      >
+      <a *ngIf="medication.spcLink" [href]="medication.spcLink" target="_blank"
+        >Summary of Product Characteristics (SPC)</a
+      >
       <a
         *ngIf="medication.dhpcLink"
         [href]="medication.dhpcLink"
-        target="_blank">
-        {{ t('medication.links.dhpc') }}
-      </a>
+        target="_blank"
+        >Direct Healthcare Professional Communication (DHPC)</a
+      >
     </div>
 
-    <div class="content__divider" *ngIf="reimbursement"></div>
-    <div *ngIf="reimbursement">
+    <div class="content__divider" *ngIf="medicationReimbursement"></div>
+    <div *ngIf="medicationReimbursement">
       <ng-container *ngTemplateOutlet="reimbursementsContent"></ng-container>
     </div>
 
@@ -665,17 +634,24 @@
     </div>
 
     <div
-      *ngIf="commercialization?.endOfComercialization"
+      *ngIf="medicationCommercialization?.endOfComercialization"
       class="content__divider"></div>
-    <div *ngIf="commercialization?.endOfComercialization">
+    <div *ngIf="medicationCommercialization?.endOfComercialization">
       <ng-container
         *ngTemplateOutlet="endOfCommercialisationContent"></ng-container>
     </div>
 
     <div
-      *ngIf="commercialization && !commercialization.endOfComercialization"
+      *ngIf="
+        medicationCommercialization &&
+        !medicationCommercialization.endOfComercialization
+      "
       class="content__divider"></div>
-    <div *ngIf="commercialization && !commercialization.endOfComercialization">
+    <div
+      *ngIf="
+        medicationCommercialization &&
+        !medicationCommercialization.endOfComercialization
+      ">
       <ng-container
         *ngTemplateOutlet="startOfCommercialisationContent"></ng-container>
     </div>

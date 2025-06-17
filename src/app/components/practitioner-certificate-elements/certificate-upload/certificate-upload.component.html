@@ -2,9 +2,9 @@
   <app-certificate-status
     *ngIf="certificateUploaded"
     [status]="'error'"
-    [title]="certificateAvailabilityFeedback?.passwordMissing?.title ?? ''"
+    [title]="certificateAvailabilityFeedback.passwordMissing.title"
     [description]="
-      certificateAvailabilityFeedback?.passwordMissing?.description ?? ''
+      certificateAvailabilityFeedback.passwordMissing.description
     " />
 
   <form
@@ -16,14 +16,14 @@
     <h3>
       {{
         !certificateUploaded
-          ? t('practitioner.certificateUpload.titleUpload')
-          : t('practitioner.certificateUpload.titlePassword')
+          ? 'Télécharger le certificat'
+          : 'Entrez le mot de passe du certificat'
       }}
     </h3>
     <div class="uploadCertificate__inputs">
       <app-text-input
         *ngIf="!certificateUploaded"
-        [label]="t('practitioner.certificateUpload.fileLabel')"
+        [label]="'Certificat du praticien'"
         [id]="'certificateFile'"
         [type]="'file'"
         [required]="true"
@@ -33,7 +33,7 @@
         [errorMessage]="getErrorMessage('certificateFile')" />
 
       <app-text-input
-        [label]="t('practitioner.certificateUpload.passwordLabel')"
+        [label]="'Mot de passe du certificat'"
         [id]="'certificatePassword'"
         [type]="'password'"
         [required]="true"
@@ -42,11 +42,7 @@
     </div>
 
     <app-button [type]="'submit'" (handleClick)="onSubmit()" [view]="'primary'">
-      {{
-        !certificateUploaded
-          ? t('practitioner.certificateUpload.submitButtonUpload')
-          : t('practitioner.certificateUpload.submitButtonPassword')
-      }}
+      {{ !certificateUploaded ? 'Crypter et télécharger' : 'Soumettre' }}
     </app-button>
   </form>
   <app-button
@@ -54,6 +50,6 @@
     [type]="'reset'"
     (handleClick)="onUploadedAnotherCertificate()"
     [view]="'outlined'">
-    {{ t('practitioner.certificateUpload.resetButton') }}
+    Télécharger un autre certificat
   </app-button>
 </div>

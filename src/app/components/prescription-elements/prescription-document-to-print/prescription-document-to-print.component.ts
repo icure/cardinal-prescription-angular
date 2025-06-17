@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { PrescribedMedicationType } from '../../../types';
@@ -12,7 +13,6 @@ import { HealthcareParty, Patient } from '@icure/be-fhc-api';
 import JsBarcode from 'jsbarcode';
 import { dateDecode } from '../../../utils/date-helpers';
 import { NgForOf, NgIf } from '@angular/common';
-import { TranslationService } from '../../../services/translation/translation.service';
 
 @Component({
   selector: 'app-prescription-document-to-print',
@@ -29,13 +29,9 @@ export class PrescriptionDocumentToPrintComponent
 
   @ViewChildren('ridElements') ridElements!: QueryList<ElementRef<SVGElement>>;
 
-  constructor(private translationService: TranslationService) {}
-
-  t(key: string): string {
-    return this.translationService.translate(key);
-  }
-
   chunks: PrescribedMedicationType[][] = [];
+
+  constructor() {}
 
   ngOnInit() {
     this.chunkPrescriptions();

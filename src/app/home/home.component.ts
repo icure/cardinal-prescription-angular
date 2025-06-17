@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SamText, SamVersion } from '@icure/cardinal-be-sam';
+import { SamVersion } from '@icure/cardinal-be-sam';
 import { Patient, HealthcareParty, Address } from '@icure/be-fhc-api';
 
 import { SamSdkService } from '../services/api/sam-sdk.service';
@@ -12,7 +12,6 @@ import { FhcService } from '../services/api/fhc.service';
 import { UploadPractitionerCertificateService } from '../services/practitioner/upload-practitioner-certificate.service';
 import { PractitionerCertificateComponent } from '../components/practitioner-certificate-elements/practitioner-certificate/practitioner-certificate.component';
 import { PrintPrescriptionModalComponent } from '../components/prescription-elements/print-prescription-modal/print-prescription-modal.component';
-import { TranslationService } from '../services/translation/translation.service';
 
 @Component({
   selector: 'app-home',
@@ -43,7 +42,6 @@ export class HomeComponent implements OnInit {
   prescriptions?: PrescribedMedicationType[];
   showPrintPrescriptionsModal = false;
   db!: IDBDatabase;
-  language: keyof SamText = 'fr';
 
   patient: Patient = {
     firstName: 'Antoine',
@@ -72,13 +70,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private samSdkService: SamSdkService,
     private fhcService: FhcService,
-    private certificateService: UploadPractitionerCertificateService,
-    private translationService: TranslationService
+    private certificateService: UploadPractitionerCertificateService
   ) {}
-
-  t(key: string): string {
-    return this.translationService.translate(key);
-  }
 
   get indexedDbTokenStore(): TokenStore {
     return {
@@ -108,7 +101,6 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.language = this.translationService.getCurrentLanguage();
     try {
       await this.samSdkService.initialize();
       this.samVersion = await this.samSdkService.getSamVersion();
@@ -146,7 +138,7 @@ export class HomeComponent implements OnInit {
         this.indexedDbTokenStore
       );
       this.certificateValid = res.status;
-      this.errorWhileVerifyingCertificate = res.error?.[this.language];
+      this.errorWhileVerifyingCertificate = res.error?.fr;
     } catch {
       this.certificateValid = false;
       this.errorWhileVerifyingCertificate = undefined;

@@ -2,19 +2,19 @@
   <app-certificate-status
     *ngIf="certificateValid && !errorWhileVerifyingCertificate"
     [status]="'success'"
-    [title]="t('practitioner.certificateFeedback.successTitle')"
-    [description]="t('practitioner.certificateFeedback.successDescription')" />
+    [title]="certificateAvailabilityFeedback.present.title"
+    [description]="certificateAvailabilityFeedback.present.description" />
 
   <app-certificate-status
     *ngIf="!certificateValid && !certificateUploaded"
     [status]="'error'"
-    [title]="t('practitioner.certificateFeedback.failureTitle')"
-    [description]="t('practitioner.certificateFeedback.failureDescription')" />
+    [title]="certificateAvailabilityFeedback.absent.title"
+    [description]="certificateAvailabilityFeedback.absent.description" />
 
   <app-certificate-status
     *ngIf="errorWhileVerifyingCertificate"
     [status]="'error'"
-    [title]="t('practitioner.certificateFeedback.verificationErrorTitle')"
+    [title]="certificateAvailabilityFeedback.error.title"
     [description]="errorWhileVerifyingCertificate" />
 
   <app-certificate-upload
