@@ -204,27 +204,31 @@ export class HomeComponent implements OnInit {
     passphrase: string,
     cache: TokenStore
   ) {
-    await Promise.all(
-      prescribedMedications
-        .filter(med => !med.rid)
-        .map(async med => {
-          const res = await this.fhcService.sendRecipe(
-            samVersion,
-            hcp,
-            patient,
-            med,
-            passphrase,
-            cache
-          );
-          this.prescriptions = prescribedMedications.map(item =>
-            item.uuid === med.uuid ? { ...item, rid: res[0]?.rid } : item
-          );
-        })
+    const updatedMedications = await Promise.all(
+      prescribedMedications.map(async med => {
+        if (med.rid) return med;
+
+        const res = await this.fhcService.sendRecipe(
+          samVersion,
+          hcp,
+          patient,
+          med,
+          passphrase,
+          cache
+        );
+
+        return { ...med, rid: res[0]?.rid };
+      })
     );
+
+    this.prescriptions = updatedMedications;
   }
 
   onSendPrescriptions = async (): Promise<void> => {
     if (this.prescriptions && this.samVersion && this.passphrase) {
+      console.log('this.prescriptions');
+      console.log(this.prescriptions);
+
       await this.handleSendPrescriptions(
         this.prescriptions,
         this.samVersion,

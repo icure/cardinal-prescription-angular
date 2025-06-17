@@ -193,23 +193,36 @@ export class MedicationSearchComponent
     }
   }
 
+  handleAddPrescription(med: MedicationType): void {
+    // Call the parent callback
+    this.onAddPrescription(med);
+
+    // Clear the search input and reset all state
+    this.searchQuery$.next('');
+    this.onResetSearch();
+  }
+
   onSearchChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.searchQuery$.next(target.value);
     this.focusedMedicationIndex = 0;
 
     if (target.value === '') {
-      // Clear all states
-      this.medications = undefined;
-      this.molecules = undefined;
-      this.products = undefined;
-
-      this.medicationsPage = [];
-      this.moleculesPage = [];
-      this.productsPage = [];
-      this.pages = [];
-      this.focusedMedicationIndex = undefined;
+      this.onResetSearch();
     }
+  }
+
+  onResetSearch() {
+    this.medications = undefined;
+    this.molecules = undefined;
+    this.products = undefined;
+
+    this.medicationsPage = [];
+    this.moleculesPage = [];
+    this.productsPage = [];
+    this.pages = [];
+
+    this.focusedMedicationIndex = undefined;
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -225,7 +238,7 @@ export class MedicationSearchComponent
         this.focusedMedicationIndex =
           (this.focusedMedicationIndex - 1 + pageCount) % pageCount;
       } else if (event.key === 'Enter' && this.focusedMedicationIndex >= 0) {
-        this.onAddPrescription(this.pages[this.focusedMedicationIndex]);
+        this.handleAddPrescription(this.pages[this.focusedMedicationIndex]);
       }
 
       if (viewCount > 0) {
