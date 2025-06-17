@@ -28,7 +28,18 @@
               [id]="'dosage'"
               [required]="true"
               formControlName="dosage"
-              [errorMessage]="getErrorMessage('dosage')" />
+              [errorMessage]="getErrorMessage('dosage')"
+              (keydown)="onKeyDownDosageSuggestions($event)" />
+            <ul
+              class="dosageInput__dropdown"
+              *ngIf="dosageSuggestions.length > 0">
+              <li
+                *ngFor="let suggestion of dosageSuggestions; let i = index"
+                [class.focused]="focusedDosageIndex === i"
+                (click)="validateSuggestion(i)">
+                {{ suggestion }}
+              </li>
+            </ul>
           </div>
 
           <div class="addMedicationForm__body__content__inputsGroup">

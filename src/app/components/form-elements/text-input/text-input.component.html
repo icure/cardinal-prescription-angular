@@ -15,7 +15,8 @@
     [attr.accept]="accept"
     [ngClass]="{ disabled: disabled, error: errorMessage }"
     [(ngModel)]="value"
-    (input)="onInputChange($event)" />
+    (input)="onInputChange($event)"
+    autocomplete="off" />
 
   <p class="textInput__error" *ngIf="errorMessage">
     {{ errorMessage }}

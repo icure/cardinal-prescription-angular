@@ -14,6 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { completePosology } from '@icure/medication-sdk';
 
 import { ButtonComponent } from '../form-elements/button/button.component';
 import { TextInputComponent } from '../form-elements/text-input/text-input.component';
@@ -74,6 +75,16 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
   @Output() handleSubmit = new EventEmitter<PrescribedMedicationType[]>();
   @Output() handleCancel = new EventEmitter<void>();
 
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private createPrescriptionService: CreatePrescriptionService,
+    private translationService: TranslationService
+  ) {}
+
+  readonly t = (key: string): string => {
+    return this.translationService.translate(key);
+  };
+
   prescriptionForm!: FormGroup;
   private subscriptions: Subscription[] = [];
 
@@ -85,7 +96,6 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     value: PharmacistVisibilityType;
     label: string;
   }[] = [];
-
   reimbursementOptions: { value: ReimbursementType; label: string }[] = [];
   durationTimeUnits: {
     value: durationTimeUnitsEnum;
@@ -101,15 +111,9 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
   selectedPractitionerVisibilityLabel?: string;
   selectedPharmacistVisibilityLabel?: string;
 
-  constructor(
-    private fb: NonNullableFormBuilder,
-    private createPrescriptionService: CreatePrescriptionService,
-    private translationService: TranslationService
-  ) {}
-
-  readonly t = (key: string): string => {
-    return this.translationService.translate(key);
-  };
+  focusedDosageIndex = -1;
+  dosageSuggestions: string[] = [];
+  disableHover = false;
 
   ngOnInit(): void {
     this.practitionerVisibilityOptions = getPractitionerVisibilityOptions(
@@ -129,6 +133,8 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     this.initForm();
     this.subscribeToValidationChanges();
     this.subscribeToLabelChanges();
+
+    this.setupDosageSuggestionLogic();
   }
 
   ngOnDestroy(): void {
@@ -333,6 +339,76 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
           this.recipeInstructionForPatientLabel = value;
         })
       );
+    }
+  }
+
+  private setupDosageSuggestionLogic(): void {
+    const dosageControl = this.getControl('dosage');
+    if (!dosageControl) return;
+
+    this.subscriptions.push(
+      dosageControl.valueChanges.subscribe((newValue: string) => {
+        if (!newValue?.trim()) {
+          this.dosageSuggestions = [];
+          return;
+        }
+
+        setTimeout(() => {
+          if (dosageControl.value === newValue) {
+            this.dosageSuggestions = completePosology(newValue);
+          }
+        }, 100);
+      })
+    );
+  }
+  private findCommonSequence(a: string, b: string): string {
+    let i = 0;
+    while (i < a.length && a[i] === b[i]) i++;
+    return a.slice(0, i);
+  }
+
+  validateSuggestion(index: number): void {
+    const dosageCtrl = this.getControl('dosage');
+    const dosage = dosageCtrl?.value;
+    const suggestion = this.dosageSuggestions[index];
+
+    if (!suggestion || !dosage) return;
+
+    const common = this.findCommonSequence(dosage, suggestion);
+    const newDosage = (
+      dosage +
+      (common.length ? suggestion.slice(common.length) : ' ' + suggestion)
+    )
+      .replace(/ {2,}/g, ' ')
+      .replace(/\/ /g, '/');
+
+    dosageCtrl?.setValue(newDosage);
+    this.dosageSuggestions = [];
+    this.focusedDosageIndex = -1;
+  }
+
+  onKeyDownDosageSuggestions(event: KeyboardEvent): void {
+    const len = this.dosageSuggestions.length;
+
+    if (event.key === 'ArrowDown') {
+      this.disableHover = true;
+      this.focusedDosageIndex = (this.focusedDosageIndex + 1) % len;
+      event.preventDefault();
+      event.stopPropagation();
+    } else if (event.key === 'ArrowUp') {
+      this.disableHover = true;
+      this.focusedDosageIndex = (this.focusedDosageIndex - 1 + len) % len;
+      event.preventDefault();
+      event.stopPropagation();
+    } else if (event.key === 'Enter' && this.focusedDosageIndex >= 0) {
+      this.validateSuggestion(this.focusedDosageIndex);
+      event.preventDefault();
+      event.stopPropagation();
+    } else if (event.key === 'Escape') {
+      this.dosageSuggestions = [];
+      this.focusedDosageIndex = -1;
+      event.preventDefault();
+      event.stopPropagation();
     }
   }
 }
