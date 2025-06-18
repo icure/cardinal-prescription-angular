@@ -37,9 +37,12 @@
           class="prescription-item">
           <div class="prescription-item__block">
             <p>
-              <strong
-                >{{ item.medication.medicinalProduct?.intendedname }} :</strong
-              >
+              {{ t('prescription.pdf.product') }}
+              {{ item.medication.medicinalProduct?.intendedname }}
+            </p>
+            <p>
+              {{ t('prescription.pdf.dosage') }}
+              {{ item.medication.instructionForPatient }}
             </p>
             <p>
               {{ t('prescription.pdf.date') }}
@@ -47,7 +50,11 @@
             </p>
             <p>
               {{ t('prescription.pdf.validUntil') }}
-              {{ item.medication.endMoment ? item.medication.endMoment : '-' }}
+              {{
+                item.medication.endMoment
+                  ? formatDate(item.medication.endMoment)
+                  : '-'
+              }}
             </p>
           </div>
           <div class="prescription-item__block prescription-item__block--right">
