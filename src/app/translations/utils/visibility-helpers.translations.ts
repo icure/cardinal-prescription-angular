@@ -21,4 +21,26 @@ export const prescriptionVisibilityTranslations = {
       locked: 'The medication is not visible to all pharmacists',
     },
   },
+  nl: {
+    practitionerVisibility: {
+      open: 'Zichtbaar voor alle voorschrijvers',
+      locked: 'Alleen zichtbaar voor mezelf',
+      gmd_prescriber: 'Alleen zichtbaar voor de GMD-houder',
+    },
+    pharmacistVisibility: {
+      null: 'Het geneesmiddel is zichtbaar voor alle apothekers',
+      locked: 'Het geneesmiddel is niet zichtbaar voor alle apothekers',
+    },
+  },
+  de: {
+    practitionerVisibility: {
+      open: 'Sichtbar für alle verschreiber',
+      locked: 'Nur für mich sichtbar',
+      gmd_prescriber: 'Nur für den GMD-inhaber sichtbar',
+    },
+    pharmacistVisibility: {
+      null: 'Das medikament ist für alle apotheker sichtbar',
+      locked: 'Das medikament ist nicht für alle apotheker sichtbar',
+    },
+  },
 };

@@ -22,7 +22,7 @@
     "@icure/api": "~8.2.0",
     "@icure/be-fhc-api": "^0.5.4",
     "@icure/cardinal-be-sam": "./tsPackage",
-    "@icure/medication-sdk": "0.0.5",
+    "@icure/medication-sdk": "0.0.6",
     "jsbarcode": "^3.11.6",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

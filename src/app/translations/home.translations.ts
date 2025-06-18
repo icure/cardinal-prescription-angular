@@ -5,4 +5,10 @@ export const homeTranslations = {
   en: {
     samVersionLabel: 'Sam version:',
   },
+  nl: {
+    samVersionLabel: 'Sam-versie:',
+  },
+  de: {
+    samVersionLabel: 'Sam-version:',
+  },
 };
