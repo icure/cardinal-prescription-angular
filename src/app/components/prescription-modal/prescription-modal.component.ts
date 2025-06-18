@@ -14,7 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { completePosology } from '@icure/medication-sdk';
+import { makeParser } from '@icure/medication-sdk';
 
 import { ButtonComponent } from '../form-elements/button/button.component';
 import { TextInputComponent } from '../form-elements/text-input/text-input.component';
@@ -49,6 +49,9 @@ import { CreatePrescriptionService } from '../../services/prescription/create-pr
 import { TranslationService } from '../../services/translation/translation.service';
 import { ReimbursementType } from '../../types/reimbursement';
 import { getReimbursementOptions } from '../../utils/reimbursement-helpers';
+
+// Supported languages for the complete dosage parser in @icure/medication-sdk
+export type LanguageOfCompleteDosageService = 'fr' | 'en' | 'nl';
 
 @Component({
   selector: 'app-prescription-modal',
@@ -85,6 +88,8 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     return this.translationService.translate(key);
   };
 
+  language: LanguageOfCompleteDosageService = 'fr';
+
   prescriptionForm!: FormGroup;
   private subscriptions: Subscription[] = [];
 
@@ -116,6 +121,9 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
   disableHover = false;
 
   ngOnInit(): void {
+    this.language =
+      this.translationService.getCurrentLanguage() as LanguageOfCompleteDosageService;
+
     this.practitionerVisibilityOptions = getPractitionerVisibilityOptions(
       this.t
     );
@@ -346,6 +354,8 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     const dosageControl = this.getControl('dosage');
     if (!dosageControl) return;
 
+    const { completePosology: completeDosage } = makeParser(this.language);
+
     this.subscriptions.push(
       dosageControl.valueChanges.subscribe((newValue: string) => {
         if (!newValue?.trim()) {
@@ -355,7 +365,7 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
 
         setTimeout(() => {
           if (dosageControl.value === newValue) {
-            this.dosageSuggestions = completePosology(newValue);
+            this.dosageSuggestions = completeDosage(newValue);
           }
         }, 100);
       })

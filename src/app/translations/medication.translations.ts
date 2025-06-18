@@ -81,7 +81,6 @@ export const medicationTranslations = {
       errorMessage: ' Entrez au moins 3 lettres du nom du médicament',
     },
   },
-
   en: {
     drugType: {
       medication: 'Medication',
@@ -160,6 +159,171 @@ export const medicationTranslations = {
     search: {
       label: 'Find a medication',
       errorMessage: 'Enter at least 3 letters of the medication name',
+    },
+  },
+  nl: {
+    drugType: {
+      medication: 'Geneesmiddel',
+      molecule: 'Molecule',
+      homologation: 'Homologatie',
+    },
+    drugInfographic: {
+      blackTriangle: 'Verhoogde waakzaamheid (Zwarte driehoek)',
+      rma: 'Aanvullende risicobeperkende maatregelen (RMA) (Bron: FAGG)',
+      genericPrescriptionRequired: 'Generiek voorschrift vereist',
+    },
+    drugSpecialRegulation: {
+      noNarcoticRegulation:
+        'Geen verdovend middel, geneesmiddel onderworpen aan specifieke regelgeving',
+      narcoticRegulation:
+        'Verdovend middel, geneesmiddel onderworpen aan specifieke regelgeving',
+      noSpecialRegulation: 'Geen specifieke regelgeving',
+    },
+    supply: {
+      issueTitle: 'Tijdelijk bevoorradingsprobleem:',
+      startDate: 'Beperkte beschikbaarheid sinds:',
+      expectedEndDate: 'Verwachte einddatum:',
+      reason: 'Reden:',
+      impact: 'Impact:',
+      prescriberNote: 'Verklaring van de voorschrijver:',
+      downloadPdf: 'Download het document (.pdf)',
+      extraInfo: 'Aanvullende informatie:',
+    },
+    commercialization: {
+      end: 'Einde van commercialisering:',
+      limitedAvailabilityFrom: 'Beperkte beschikbaarheid vanaf:',
+      unavailableFrom: 'Niet beschikbaar vanaf:',
+      endReason: 'Reden:',
+      endImpact: 'Impact:',
+      endAdditionalInformation: 'Aanvullende informatie:',
+      start: 'Start van commercialisering:',
+      startAvailableFrom: 'Beschikbaar sinds:',
+    },
+    reimbursement: {
+      title: 'Terugbetaling:',
+      category: 'Terugbetalingscategorie:',
+      copay: 'Soort remgeld',
+      copayPreferential: 'Voorkeurtarief:',
+      copayActive: 'Actief:',
+      temporary: 'Tijdelijke terugbetaling (art. 111):',
+      chapter: 'Hoofdstuk:',
+      noneTitle: 'Voorschrijfvoorwaarden',
+      notApplicable: 'Niet van toepassing',
+      non: 'Nee',
+    },
+    delivery: {
+      title: 'Aflevervoorwaarden:',
+      code: 'Aflevercode:',
+      modus: 'Afleverwijze:',
+      specification: 'Specificatie van aflevering:',
+      notApplicable: 'Niet van toepassing',
+    },
+    prescription: {
+      title: 'Voorschrijfvoorwaarden:',
+      code: 'Voorschrijfcode:',
+      specification: 'Specificatie van voorschrift:',
+      free: 'Vrij voorschrijfbaar',
+    },
+    vmp: {
+      label: 'VMP:',
+      groupLabel: 'VMP-groep:',
+    },
+    links: {
+      cbip: 'Gecommentarieerde geneesmiddelenrepertorium (CBIP)',
+      leaflet: 'Bijsluiter voor de patiënt',
+      rma: 'Maatregelen voor risicobeperking (RMA)',
+      spc: 'Samenvatting van de productkenmerken (SKP)',
+      dhpc: 'Rechtstreekse communicatie naar zorgverleners (DHPC)',
+    },
+    ui: {
+      price: 'Prijs:',
+    },
+    search: {
+      label: 'Zoek een geneesmiddel',
+      errorMessage: 'Voer minstens 3 letters van de naam in',
+    },
+  },
+  de: {
+    drugType: {
+      medication: 'Arzneimittel',
+      molecule: 'Molekül',
+      homologation: 'Zulassung',
+    },
+    drugInfographic: {
+      blackTriangle: 'Verstärkte Pharmakovigilanz (Schwarzes Dreieck)',
+      rma: 'Zusätzliche Maßnahmen zur Risikominimierung (RMA) (Quelle: BfArM)',
+      genericPrescriptionRequired: 'Generisches Rezept erforderlich',
+    },
+    drugSpecialRegulation: {
+      noNarcoticRegulation:
+        'Kein Betäubungsmittel, Arzneimittel mit besonderer Regelung',
+      narcoticRegulation:
+        'Betäubungsmittel, Arzneimittel mit besonderer Regelung',
+      noSpecialRegulation: 'Keine besondere Regelung',
+    },
+    supply: {
+      issueTitle: 'Vorübergehendes Lieferproblem :',
+      startDate: 'Eingeschränkte Verfügbarkeit seit :',
+      expectedEndDate: 'Voraussichtliches Enddatum :',
+      reason: 'Grund :',
+      impact: 'Auswirkung :',
+      prescriberNote: 'Erklärung des Verschreibers :',
+      downloadPdf: 'Dokument als .pdf herunterladen',
+      extraInfo: 'Zusätzliche Informationen :',
+    },
+    commercialization: {
+      end: 'Ende der Vermarktung :',
+      limitedAvailabilityFrom: 'Eingeschränkte Verfügbarkeit ab :',
+      unavailableFrom: 'Nicht verfügbar ab :',
+      endReason: 'Grund :',
+      endImpact: 'Auswirkung :',
+      endAdditionalInformation: 'Zusätzliche Informationen :',
+      start: 'Beginn der Vermarktung :',
+      startAvailableFrom: 'Verfügbar seit :',
+    },
+    reimbursement: {
+      title: 'Erstattung :',
+      category: 'Erstattungskategorie :',
+      copay: 'Zuzahlungstyp',
+      copayPreferential: ' Bevorzugt :',
+      copayActive: ' Aktiv :',
+      temporary: 'Vorübergehende Erstattung (Art. 111) :',
+      chapter: 'Kapitel :',
+      noneTitle: 'Verordnungsbedingungen',
+      notApplicable: 'Nicht zutreffend',
+      non: 'Nein',
+    },
+    delivery: {
+      title: 'Lieferbedingungen :',
+      code: 'Liefercode :',
+      modus: 'Liefermethode :',
+      specification: 'Lieferdetails :',
+      notApplicable: 'Nicht zutreffend',
+    },
+    prescription: {
+      title: 'Verordnungsbedingungen :',
+      code: 'Verordnungscode :',
+      specification: 'Verordnungsdetails :',
+      free: 'Frei verschreibbar',
+    },
+    vmp: {
+      label: 'VMP :',
+      groupLabel: 'VMP-Gruppe :',
+    },
+    links: {
+      cbip: 'Kommentiertes Arzneimittelverzeichnis (CBIP)',
+      leaflet: 'Packungsbeilage für Patienten',
+      rma: 'Maßnahmen zur Risikominimierung (RMA)',
+      spc: 'Fachinformation (SPC)',
+      dhpc: 'Direkte Kommunikation an medizinisches Fachpersonal (DHPC)',
+    },
+    ui: {
+      price: 'Preis :',
+    },
+    search: {
+      label: 'Arzneimittel suchen',
+      errorMessage:
+        'Geben Sie mindestens 3 Buchstaben des Arzneimittelnamens ein',
     },
   },
 };

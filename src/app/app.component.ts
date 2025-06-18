@@ -14,7 +14,11 @@ import { TranslationService } from './services/translation/translation.service';
 })
 export class AppComponent {
   title = 'cardinal-prescription-angular';
+
+  // Set the application language here.
+  // Supported languages: 'fr', 'en', 'nl', 'de'
+
   constructor(private translationService: TranslationService) {
-    this.translationService.setLanguage('fr');
+    this.translationService.setLanguage('nl');
   }
 }
