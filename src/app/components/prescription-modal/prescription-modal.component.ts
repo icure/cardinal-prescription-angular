@@ -51,7 +51,7 @@ import { ReimbursementType } from '../../types/reimbursement';
 import { getReimbursementOptions } from '../../utils/reimbursement-helpers';
 
 // Supported languages for the complete dosage parser in @icure/medication-sdk
-export type LanguageOfCompleteDosageService = 'fr' | 'en' | 'nl';
+export type LanguageOfCompleteDosageService = 'fr' | 'en' | 'nl' | 'de';
 
 @Component({
   selector: 'app-prescription-modal',
