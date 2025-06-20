@@ -4,6 +4,8 @@ import {
   forwardRef,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -25,24 +27,31 @@ import { CommonModule } from '@angular/common';
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectInputComponent implements ControlValueAccessor {
-  @Input() label!: string;
-  @Input() id!: string;
+  @Input({ required: true }) label!: string;
+  @Input({ required: true }) id!: string;
   @Input() required = false;
   @Input() disabled = false;
-  @Input() options: { value: string | null; label: string }[] = [];
+  @Input({ required: true }) options: {
+    value: string | null;
+    label: string;
+  }[] = [];
   @Input() errorMessage?: string;
 
   @Output() valueChange = new EventEmitter<string | null>();
 
   value: string | null = '';
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   onChangeFn: (_: any) => void = () => {};
   onTouchedFn: () => void = () => {};
 
   writeValue(value: any): void {
     this.value = value;
+    this.cdr.markForCheck(); // triggers a re-render
   }
 
   registerOnChange(fn: any): void {
@@ -55,6 +64,14 @@ export class SelectInputComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.cdr.markForCheck(); // ensure view reflects disabled state
+  }
+
+  trackByOptionValue(
+    _: number,
+    option: { value: string | null; label: string }
+  ) {
+    return option.value;
   }
 
   onChange(event: Event): void {
@@ -63,5 +80,6 @@ export class SelectInputComponent implements ControlValueAccessor {
     this.onChangeFn(this.value);
     this.onTouchedFn();
     this.valueChange.emit(this.value);
+    this.cdr.markForCheck(); // triggers a re-render
   }
 }

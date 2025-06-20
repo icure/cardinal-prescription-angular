@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CertificateStatusComponent } from '../certificate-status/certificate-status.component';
 import { NgIf } from '@angular/common';
 import { CertificateUploadComponent } from '../certificate-upload/certificate-upload.component';
@@ -11,12 +17,13 @@ import { TranslationService } from '../../../services/translation/translation.se
   imports: [CertificateStatusComponent, NgIf, CertificateUploadComponent],
   templateUrl: './practitioner-certificate.component.html',
   styleUrl: './practitioner-certificate.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PractitionerCertificateComponent {
-  @Input() certificateValid: boolean = false;
-  @Input() certificateUploaded: boolean = false;
-  @Input() errorWhileVerifyingCertificate: string | undefined = undefined;
-  @Input() hcp!: HealthcareParty;
+  @Input({ required: true }) hcp!: HealthcareParty;
+  @Input() certificateValid?: boolean = false;
+  @Input() certificateUploaded?: boolean = false;
+  @Input() errorWhileVerifyingCertificate?: string | undefined = undefined;
   @Output() onUploadCertificate: EventEmitter<string> = new EventEmitter();
 
   constructor(private translationService: TranslationService) {}

@@ -10,7 +10,9 @@
     [disabled]="disabled"
     [(ngModel)]="value"
     (change)="onChange($event)">
-    <option *ngFor="let option of options" [value]="option.value">
+    <option
+      *ngFor="let option of options; trackBy: trackByOptionValue"
+      [value]="option.value">
       {{ option.label }}
     </option>
   </select>

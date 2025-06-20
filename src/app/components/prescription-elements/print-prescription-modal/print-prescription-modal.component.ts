@@ -6,6 +6,8 @@ import {
   Output,
   EventEmitter,
   ElementRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { PrescribedMedicationType } from '../../../types';
 import { Patient, HealthcareParty } from '@icure/be-fhc-api';
@@ -26,11 +28,12 @@ import { TranslationService } from '../../../services/translation/translation.se
   ],
   templateUrl: './print-prescription-modal.component.html',
   styleUrl: './print-prescription-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrintPrescriptionModalComponent {
-  @Input() prescribedMedications!: PrescribedMedicationType[];
-  @Input() prescriber!: HealthcareParty;
-  @Input() patient!: Patient;
+  @Input({ required: true }) prescribedMedications!: PrescribedMedicationType[];
+  @Input({ required: true }) prescriber!: HealthcareParty;
+  @Input({ required: true }) patient!: Patient;
 
   @Output() onCloseModal = new EventEmitter<void>(); // Emit event to close the modal
   @ViewChild('printContainer', { static: false }) printContainer!: ElementRef; // ViewChild to access print container

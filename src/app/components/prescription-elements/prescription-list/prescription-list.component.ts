@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { PrescriptionRowComponent } from '../prescription-card/prescription-card.component';
 import { NgForOf, NgIf } from '@angular/common';
 import { PrescribedMedicationType } from '../../../types';
@@ -10,19 +17,23 @@ import { TranslationService } from '../../../services/translation/translation.se
   imports: [PrescriptionRowComponent, NgForOf, NgIf, ButtonComponent],
   templateUrl: './prescription-list.component.html',
   styleUrl: './prescription-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrescriptionListComponent {
-  @Input() prescribedMedications!: PrescribedMedicationType[];
-  @Input() onSendPrescriptions!: () => Promise<void>;
-  @Input() onSendAndPrintPrescriptions!: () => Promise<void>;
-  @Input() onPrintPrescriptions!: () => void;
+  @Input({ required: true }) prescribedMedications!: PrescribedMedicationType[];
+  @Input({ required: true }) onSendPrescriptions!: () => Promise<void>;
+  @Input({ required: true }) onSendAndPrintPrescriptions!: () => Promise<void>;
+  @Input({ required: true }) onPrintPrescriptions!: () => void;
 
   @Output() handleModifyPrescription: EventEmitter<PrescribedMedicationType> =
     new EventEmitter();
   @Output() handleDeletePrescription: EventEmitter<PrescribedMedicationType> =
     new EventEmitter();
 
-  constructor(private translationService: TranslationService) {}
+  constructor(
+    private translationService: TranslationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   t(key: string): string {
     return this.translationService.translate(key);
@@ -43,6 +54,7 @@ export class PrescriptionListComponent {
     this.printing = true;
     this.onSendAndPrintPrescriptions().finally(() => {
       this.printing = false;
+      this.cdr.markForCheck();
     });
   }
 
@@ -50,6 +62,7 @@ export class PrescriptionListComponent {
     this.sending = true;
     this.onSendPrescriptions().finally(() => {
       this.sending = false;
+      this.cdr.markForCheck();
     });
   }
 }

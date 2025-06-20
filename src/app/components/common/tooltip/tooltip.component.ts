@@ -7,6 +7,8 @@ import {
   OnInit,
   OnDestroy,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import { TooltipContextService } from '../../../services/common/tooltip-context.service';
@@ -18,6 +20,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './tooltip.component.html',
   styleUrls: ['./tooltip.component.scss'],
   imports: [NgIf, NgTemplateOutlet, NgClass],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TooltipComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() content?: string;
@@ -27,7 +30,10 @@ export class TooltipComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('tooltipRef') tooltipRef!: ElementRef<HTMLElement>;
 
-  constructor(private tooltipContext: TooltipContextService) {}
+  constructor(
+    private tooltipContext: TooltipContextService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   active = false;
   tooltipOrientation: 'tr' | 'tl' | 'bl' | 'br' = this.orientation ?? 'bl';
@@ -71,6 +77,7 @@ export class TooltipComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
       this.tooltipOrientation = 'br';
     }
+    this.cdr.markForCheck();
   }
 
   ngOnDestroy() {
@@ -79,9 +86,11 @@ export class TooltipComponent implements OnInit, OnDestroy, AfterViewInit {
 
   handleMouseEnter() {
     this.active = true;
+    this.cdr.markForCheck();
   }
 
   handleMouseLeave() {
     this.active = false;
+    this.cdr.markForCheck();
   }
 }

@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SamText, SamVersion } from '@icure/cardinal-be-sam';
 import { Patient, HealthcareParty, Address } from '@icure/be-fhc-api';
@@ -27,6 +32,7 @@ import { TranslationService } from '../services/translation/translation.service'
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
   samVersion?: SamVersion;
@@ -40,7 +46,7 @@ export class HomeComponent implements OnInit {
   prescriptionModalMode: 'create' | 'modify' | null = null;
   medicationToPrescribe?: MedicationType;
   prescriptionToModify?: PrescribedMedicationType;
-  prescriptions?: PrescribedMedicationType[];
+  prescriptions: PrescribedMedicationType[] = [];
   showPrintPrescriptionsModal = false;
   db!: IDBDatabase;
   language: keyof SamText = 'fr';
@@ -73,7 +79,8 @@ export class HomeComponent implements OnInit {
     private samSdkService: SamSdkService,
     private fhcService: FhcService,
     private certificateService: UploadPractitionerCertificateService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   t(key: string): string {
@@ -126,8 +133,11 @@ export class HomeComponent implements OnInit {
 
       this.uiReady = true;
 
+      this.cdr.markForCheck();
+
       if (this.certificateUploaded) {
         await this.validateCertificate();
+        this.cdr.markForCheck();
       }
     } catch (error) {
       console.error('Initialization error:', error);
@@ -151,27 +161,32 @@ export class HomeComponent implements OnInit {
       this.certificateValid = false;
       this.errorWhileVerifyingCertificate = undefined;
     }
+    this.cdr.markForCheck();
   }
 
   async onUploadCertificate(passphrase: string) {
     this.certificateUploaded = true;
     this.passphrase = passphrase;
     await this.validateCertificate();
+    this.cdr.markForCheck();
   }
 
   onCreatePrescription(medication: MedicationType) {
     this.prescriptionModalMode = 'create';
     this.medicationToPrescribe = medication;
+    this.cdr.detectChanges();
   }
   onSubmitCreatePrescription(newPrescriptions: PrescribedMedicationType[]) {
     this.prescriptions = [...(this.prescriptions ?? []), ...newPrescriptions];
     this.onClosePrescriptionModal();
+    this.cdr.detectChanges();
   }
 
   onClosePrescriptionModal() {
     this.prescriptionModalMode = null;
     this.medicationToPrescribe = undefined;
     this.prescriptionToModify = undefined;
+    this.cdr.detectChanges();
   }
 
   onSubmitModifyPrescription(
@@ -183,17 +198,20 @@ export class HomeComponent implements OnInit {
         : item
     );
     this.onClosePrescriptionModal();
+    this.cdr.detectChanges();
   }
 
   onModifyPrescription = (prescription: PrescribedMedicationType) => {
     this.prescriptionModalMode = 'modify';
-    this.prescriptionToModify = prescription;
+    this.prescriptionToModify = { ...prescription };
+    this.cdr.markForCheck();
   };
 
   onDeletePrescription(prescription: PrescribedMedicationType) {
     this.prescriptions = this.prescriptions?.filter(
       item => item.uuid !== prescription.uuid
     );
+    this.cdr.markForCheck();
   }
 
   async handleSendPrescriptions(
@@ -222,6 +240,7 @@ export class HomeComponent implements OnInit {
     );
 
     this.prescriptions = updatedMedications;
+    this.cdr.markForCheck();
   }
 
   onSendPrescriptions = async (): Promise<void> => {
@@ -243,18 +262,22 @@ export class HomeComponent implements OnInit {
       console.log(this.passphrase);
       console.error('Missing information to send prescriptions.');
     }
+    this.cdr.markForCheck();
   };
 
   onPrintPrescriptions = () => {
     this.showPrintPrescriptionsModal = true;
+    this.cdr.markForCheck();
   };
 
   onSendAndPrintPrescriptions = async (): Promise<void> => {
     await this.onSendPrescriptions();
     this.onPrintPrescriptions();
+    this.cdr.markForCheck();
   };
 
   onClosePrintPrescriptionsModal = () => {
     this.showPrintPrescriptionsModal = false;
+    this.cdr.markForCheck();
   };
 }
