@@ -5,17 +5,13 @@ import {
   ElementRef,
   ViewChild,
   AfterViewInit,
-  Output,
-  EventEmitter,
-  Self,
-  Optional,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
   NG_VALUE_ACCESSOR,
-  NgControl,
-  Validators,
 } from '@angular/forms';
 import { NgClass, NgIf } from '@angular/common';
 
@@ -32,14 +28,15 @@ import { NgClass, NgIf } from '@angular/common';
   ],
   standalone: true,
   imports: [NgClass, NgIf, FormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
-  @Input() label!: string;
-  @Input() id!: string;
-  @Input() required = false;
-  @Input() autofocus = false;
+  @Input({ required: true }) label!: string;
+  @Input({ required: true }) id!: string;
+  @Input() type?: 'text' | 'number' | 'date' | 'password' | 'file' = 'text';
+  @Input() required? = false;
+  @Input() autofocus? = false;
   @Input() disabled = false;
-  @Input() type: 'text' | 'number' | 'date' | 'password' | 'file' = 'text';
   @Input() min?: number;
   @Input() max?: number;
   @Input() accept?: string;
@@ -49,11 +46,14 @@ export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
 
   value: string | number | Date | null = '';
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   onChange = (_: any) => {};
   onTouched = () => {};
 
   writeValue(value: any): void {
     this.value = value;
+    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: any): void {
@@ -66,11 +66,13 @@ export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.cdr.markForCheck(); // ensures view reflects disabled state
   }
 
   ngAfterViewInit() {
     if (this.autofocus) {
       setTimeout(() => this.inputRef.nativeElement.focus());
+      this.cdr.markForCheck(); // triggers a re-render
     }
   }
 
@@ -79,5 +81,6 @@ export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
     this.value = target.value;
     this.onChange(this.value);
     this.onTouched();
+    this.cdr.markForCheck();
   }
 }

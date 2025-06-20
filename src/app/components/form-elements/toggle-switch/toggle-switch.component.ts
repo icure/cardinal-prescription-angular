@@ -4,6 +4,8 @@ import {
   forwardRef,
   EventEmitter,
   Output,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -21,15 +23,19 @@ import { CommonModule } from '@angular/common';
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleSwitchComponent implements ControlValueAccessor {
-  @Input() id!: string;
+  @Input({ required: true }) id!: string;
+  @Input({ required: true }) value!: string;
   @Input() label?: string;
-  @Input() value!: string;
-
-  checked: boolean = false;
 
   @Output() checkedChange = new EventEmitter<boolean>();
+
+  checked: boolean = false;
+  disabled: boolean = false;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   // ControlValueAccessor required methods
   onChange = (_: any) => {};
@@ -37,6 +43,7 @@ export class ToggleSwitchComponent implements ControlValueAccessor {
 
   writeValue(value: boolean): void {
     this.checked = value;
+    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: any): void {
@@ -47,10 +54,16 @@ export class ToggleSwitchComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+    this.cdr.markForCheck();
+  }
+
   toggle() {
     this.checked = !this.checked;
     this.onChange(this.checked); // notify Reactive Form of change
     this.checkedChange.emit(this.checked);
     this.onTouched(); // mark as touched
+    this.cdr.markForCheck();
   }
 }

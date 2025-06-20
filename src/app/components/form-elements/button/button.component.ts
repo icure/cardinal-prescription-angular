@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { SpinnerIcnComponent } from '../../common/icons/spinner-icn/spinner-icn.component';
@@ -9,6 +15,7 @@ import { SpinnerIcnComponent } from '../../common/icons/spinner-icn/spinner-icn.
   imports: [CommonModule, SpinnerIcnComponent],
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
   @Input() view?: 'primary' | 'withSpinner' | 'outlined' = 'primary';

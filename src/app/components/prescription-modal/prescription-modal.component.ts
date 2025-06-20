@@ -5,6 +5,10 @@ import {
   OnInit,
   Output,
   OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  SimpleChanges,
+  OnChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -69,11 +73,14 @@ export type LanguageOfCompleteDosageService = 'fr' | 'en' | 'nl' | 'de';
   ],
   templateUrl: './prescription-modal.component.html',
   styleUrl: './prescription-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PrescriptionModalComponent implements OnInit, OnDestroy {
+export class PrescriptionModalComponent
+  implements OnInit, OnChanges, OnDestroy
+{
+  @Input({ required: true }) modalTitle!: string;
   @Input() medicationToPrescribe?: MedicationType;
   @Input() prescriptionToModify?: PrescribedMedicationType;
-  @Input() modalTitle!: string;
 
   @Output() handleSubmit = new EventEmitter<PrescribedMedicationType[]>();
   @Output() handleCancel = new EventEmitter<void>();
@@ -81,7 +88,8 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
   constructor(
     private fb: NonNullableFormBuilder,
     private createPrescriptionService: CreatePrescriptionService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   readonly t = (key: string): string => {
@@ -145,6 +153,17 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     this.setupDosageSuggestionLogic();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['prescriptionToModify'] &&
+      changes['prescriptionToModify'].currentValue !==
+        changes['prescriptionToModify'].previousValue
+    ) {
+      this.initForm();
+      this.cdr.markForCheck();
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
@@ -154,18 +173,18 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
       medicationTitle: this.medicationToPrescribe?.title ?? '',
       dosage: '',
       duration: 1,
-      durationTimeUnit: this.durationTimeUnits[0].value,
+      durationTimeUnit: this.durationTimeUnits[0]?.value,
       treatmentStartDate: getTreatmentStartDate(this.prescriptionToModify),
       executableUntil: getExecutableUntilDate(this.prescriptionToModify),
       prescriptionsNumber: 1,
       substitutionAllowed: false,
       showExtraFields: false,
-      periodicityTimeUnit: this.periodicityTimeUnits[0].value,
+      periodicityTimeUnit: this.periodicityTimeUnits[0]?.value,
       periodicityDaysNumber: 1,
       recipeInstructionForPatient: undefined,
-      instructionsForReimbursement: this.reimbursementOptions?.[0].value,
-      prescriberVisibility: this.practitionerVisibilityOptions?.[0].value,
-      pharmacistVisibility: this.pharmacistVisibilityOptions?.[0].value,
+      instructionsForReimbursement: this.reimbursementOptions?.[0]?.value,
+      prescriberVisibility: this.practitionerVisibilityOptions?.[0]?.value,
+      pharmacistVisibility: this.pharmacistVisibilityOptions?.[0]?.value,
     };
 
     if (!this.prescriptionToModify) return base;
@@ -226,6 +245,7 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
         this.prescriptionToModify.pharmacistVisibility
       );
     }
+    this.cdr.markForCheck();
   }
 
   private getLabel(
@@ -264,11 +284,14 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
       );
     this.handleSubmit.emit(prescribedMedications);
     this.prescriptionForm.reset();
+
+    // this.cdr.markForCheck();
   }
 
   onCancel() {
     this.handleCancel.emit();
     this.prescriptionForm.reset();
+    this.cdr.markForCheck();
   }
 
   private subscribeToValidationChanges(): void {
@@ -287,6 +310,7 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     }
 
     this.updatePeriodicityValidators();
+    this.cdr.markForCheck();
   }
 
   private updatePeriodicityValidators(): void {
@@ -308,6 +332,7 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
       periodicityDaysNumberCtrl?.clearValidators();
     }
     periodicityDaysNumberCtrl?.updateValueAndValidity({ emitEvent: false });
+    this.cdr.markForCheck();
   }
 
   private subscribeToLabelChanges(): void {
@@ -348,6 +373,7 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
         })
       );
     }
+    this.cdr.markForCheck();
   }
 
   private setupDosageSuggestionLogic(): void {
@@ -370,6 +396,7 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
         }, 100);
       })
     );
+    this.cdr.markForCheck();
   }
   private findCommonSequence(a: string, b: string): string {
     let i = 0;
@@ -395,6 +422,7 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
     dosageCtrl?.setValue(newDosage);
     this.dosageSuggestions = [];
     this.focusedDosageIndex = -1;
+    this.cdr.markForCheck();
   }
 
   onKeyDownDosageSuggestions(event: KeyboardEvent): void {
@@ -420,5 +448,6 @@ export class PrescriptionModalComponent implements OnInit, OnDestroy {
       event.preventDefault();
       event.stopPropagation();
     }
+    this.cdr.markForCheck();
   }
 }

@@ -1,4 +1,12 @@
-import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  OnInit,
+  Input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { UploadPractitionerCertificateService } from '../../../services/practitioner/upload-practitioner-certificate.service';
 import {
   FormGroup,
@@ -26,15 +34,17 @@ import { TranslationService } from '../../../services/translation/translation.se
     NgIf,
     CertificateStatusComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CertificateUploadComponent implements OnInit {
-  @Input() hcp!: HealthcareParty;
+  @Input({ required: true }) hcp!: HealthcareParty;
   @Output() onUploadCertificate: EventEmitter<string> = new EventEmitter();
 
   constructor(
     private certificateService: UploadPractitionerCertificateService,
     private fb: NonNullableFormBuilder,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   t(key: string): string {
@@ -69,16 +79,10 @@ export class CertificateUploadComponent implements OnInit {
         );
 
         this.certificateUploaded = !!stored;
-        console.log(
-          this.certificateUploaded
-            ? 'Stored certificate found for ID ' + this.hcp.ssin
-            : 'No stored certificate for ID ' + this.hcp.ssin
-        );
       } catch {
         this.certificateUploaded = false;
       }
 
-      // ✅ Create form after determining if certificate is uploaded
       this.uploadCertificateForm = this.fb.group({
         certificateFile: [
           { value: null, disabled: false },
@@ -86,6 +90,8 @@ export class CertificateUploadComponent implements OnInit {
         ],
         certificatePassword: ['', Validators.required],
       });
+
+      this.cdr.markForCheck();
     });
   }
 
@@ -140,6 +146,7 @@ export class CertificateUploadComponent implements OnInit {
       this.uploadCertificateForm.markAsPristine();
       this.uploadCertificateForm.markAsUntouched();
     }
+    this.cdr.markForCheck();
   }
 
   private buildFeedback(): void {
@@ -151,17 +158,20 @@ export class CertificateUploadComponent implements OnInit {
         ),
       },
     };
+    this.cdr.markForCheck();
   }
 
   onUploadedAnotherCertificate(): void {
     this.uploadCertificateForm.reset();
     this.certificateUploaded = false;
+    this.cdr.markForCheck();
   }
 
   // Handle file input change
   handleFileChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.certificateFile = target.files ? target.files[0] : null;
+    this.cdr.markForCheck();
   }
 
   // Read the file as ArrayBuffer

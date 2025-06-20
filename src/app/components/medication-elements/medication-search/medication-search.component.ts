@@ -1,28 +1,21 @@
 import {
   AfterViewChecked,
-  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
   Input,
-  NgModule,
   OnDestroy,
   OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import { SearchIcnComponent } from '../../common/icons/search-icn/search-icn.component';
 import { SamSdkService } from '../../../services/api/sam-sdk.service';
-import {
-  BehaviorSubject,
-  Subject,
-  switchMap,
-  debounceTime,
-  filter,
-  takeUntil,
-} from 'rxjs';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
 import {
   Amp,
   Nmp,
@@ -34,19 +27,22 @@ import { MedicationLoaderService } from '../../../services/loaders/medication-lo
 import { MedicationCardComponent } from '../medication-card/medication-card.component';
 import { TooltipContextService } from '../../../services/common/tooltip-context.service';
 import { TranslationService } from '../../../services/translation/translation.service';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { LanguageOfCompleteDosageService } from '../../prescription-modal/prescription-modal.component';
 
 @Component({
   selector: 'app-medication-search',
   standalone: true,
   imports: [
     SearchIcnComponent,
-    AsyncPipe,
     NgIf,
     MedicationCardComponent,
     NgForOf,
+    ReactiveFormsModule,
   ],
   templateUrl: './medication-search.component.html',
   styleUrl: './medication-search.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MedicationSearchComponent
   implements OnInit, OnDestroy, AfterViewChecked
@@ -57,14 +53,15 @@ export class MedicationSearchComponent
   @ViewChild('medicationSearchDropdown', { static: false })
   medicationSearchDropdown!: ElementRef<HTMLDivElement>;
 
-  @Input() onAddPrescription!: (med: MedicationType) => void;
-  @Input() deliveryEnvironment!: string;
+  @Input({ required: true }) onAddPrescription!: (med: MedicationType) => void;
+  @Input({ required: true }) deliveryEnvironment!: string;
 
   constructor(
     private samSdkService: SamSdkService,
     private loader: MedicationLoaderService,
     private tooltipContext: TooltipContextService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   t(key: string): string {
@@ -74,8 +71,8 @@ export class MedicationSearchComponent
   private intersectionObserver?: IntersectionObserver;
   private observerInitialized = false;
   private medicationSearchDropdownRectInitialized = false;
+  private language: LanguageOfCompleteDosageService = 'fr';
 
-  searchQuery$ = new BehaviorSubject<string>('');
   destroy$ = new Subject<void>();
 
   medications: PaginatedListIterator<Amp> | undefined;
@@ -89,76 +86,82 @@ export class MedicationSearchComponent
 
   focusedMedicationIndex: number | undefined = undefined;
 
+  searchControl: FormControl<string | null> = new FormControl('');
+
   get totalPagesLength(): number {
     return this.pages.length;
   }
+
   get dropdownDisplayed(): boolean {
-    return !!this.searchQuery$.getValue();
-  }
-  get currentSearchQuery(): string {
-    return this.searchQuery$.getValue();
+    return !!this.searchControl.value?.trim();
   }
 
   async ngOnInit() {
+    this.language =
+      this.translationService.getCurrentLanguage() as LanguageOfCompleteDosageService;
+
     await this.samSdkService.initialize();
 
-    this.searchQuery$
-      .pipe(
-        debounceTime(100),
-        filter(q => !!q && q.length >= 3),
-        switchMap(query =>
-          this.samSdkService
-            .searchMedications('fr', query)
-            .then(async ([meds, mols, prods]) => {
-              const latestQuery = this.searchQuery$.getValue();
-              if (query !== latestQuery) return null;
+    this.searchControl.valueChanges
+      .pipe(debounceTime(100), takeUntil(this.destroy$))
+      .subscribe(query => {
+        const q = query?.trim() ?? '';
 
-              this.medications = meds;
-              this.molecules = mols;
-              this.products = prods;
-
-              const [medicationsPage, moleculesPage, productsPage] =
-                await Promise.all([
-                  meds
-                    ? this.loader.loadMedicationsPage(
-                        meds,
-                        10,
-                        this.deliveryEnvironment
-                      )
-                    : [],
-                  mols ? this.loader.loadMoleculesPage(mols, 10) : [],
-                  prods ? this.loader.loadNonMedicinalPage(prods, 10) : [],
-                ]);
-
-              this.medicationsPage = medicationsPage;
-              this.moleculesPage = moleculesPage;
-              this.productsPage = productsPage;
-
-              if (query !== this.searchQuery$.getValue()) return null;
-              // this.isLoadingMore = true;
-              const { result, updated } = await this.loader.loadMore({
-                medicationsPage: this.medicationsPage,
-                moleculesPage: this.moleculesPage,
-                productsPage: this.productsPage,
-                medications: this.medications,
-                molecules: this.molecules,
-                products: this.products,
-                deliveryEnvironment: this.deliveryEnvironment,
-              });
-
-              this.medicationsPage = updated.medicationsPage;
-              this.moleculesPage = updated.moleculesPage;
-              this.productsPage = updated.productsPage;
-
-              return result;
-            })
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(resultPages => {
-        if (resultPages) {
-          this.pages = resultPages;
+        if (q.length === 0) {
+          this.onResetSearch();
+          return;
         }
+
+        if (q.length < 3) return;
+
+        this.samSdkService
+          .searchMedications(this.language, q)
+          .then(async ([meds, mols, prods]) => {
+            const latestQuery = this.searchControl.value?.trim();
+            if (q !== latestQuery) return;
+
+            this.medications = meds;
+            this.molecules = mols;
+            this.products = prods;
+
+            const [medicationsPage, moleculesPage, productsPage] =
+              await Promise.all([
+                meds
+                  ? this.loader.loadMedicationsPage(
+                      meds,
+                      10,
+                      this.deliveryEnvironment
+                    )
+                  : [],
+                mols ? this.loader.loadMoleculesPage(mols, 10) : [],
+                prods ? this.loader.loadNonMedicinalPage(prods, 10) : [],
+              ]);
+
+            this.medicationsPage = medicationsPage;
+            this.moleculesPage = moleculesPage;
+            this.productsPage = productsPage;
+
+            if (q !== this.searchControl.value?.trim()) return;
+
+            const { result, updated } = await this.loader.loadMore({
+              medicationsPage: this.medicationsPage,
+              moleculesPage: this.moleculesPage,
+              productsPage: this.productsPage,
+              medications: this.medications,
+              molecules: this.molecules,
+              products: this.products,
+              deliveryEnvironment: this.deliveryEnvironment,
+            });
+
+            this.medicationsPage = updated.medicationsPage;
+            this.moleculesPage = updated.moleculesPage;
+            this.productsPage = updated.productsPage;
+            this.pages = result;
+
+            this.focusedMedicationIndex = 0;
+
+            this.cdr.markForCheck();
+          });
       });
   }
 
@@ -172,7 +175,6 @@ export class MedicationSearchComponent
       this.observerInitialized = true;
     }
 
-    // If medicationSearchDropdown is present and rect hasn't been set yet
     if (
       !this.medicationSearchDropdownRectInitialized &&
       this.medicationSearchDropdown
@@ -194,35 +196,22 @@ export class MedicationSearchComponent
   }
 
   handleAddPrescription(med: MedicationType): void {
-    // Call the parent callback
     this.onAddPrescription(med);
-
-    // Clear the search input and reset all state
-    this.searchQuery$.next('');
+    this.searchControl.setValue('');
     this.onResetSearch();
-  }
-
-  onSearchChange(event: Event) {
-    const target = event.target as HTMLInputElement;
-    this.searchQuery$.next(target.value);
-    this.focusedMedicationIndex = 0;
-
-    if (target.value === '') {
-      this.onResetSearch();
-    }
+    this.cdr.markForCheck();
   }
 
   onResetSearch() {
     this.medications = undefined;
     this.molecules = undefined;
     this.products = undefined;
-
     this.medicationsPage = [];
     this.moleculesPage = [];
     this.productsPage = [];
     this.pages = [];
-
     this.focusedMedicationIndex = undefined;
+    this.cdr.markForCheck();
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -249,44 +238,29 @@ export class MedicationSearchComponent
         );
       }
     }
+
+    this.cdr.markForCheck();
   }
 
   scrollToFocusedItem(): void {
     setTimeout(() => {
       const refs = this.resultRefs?.toArray();
       const index = this.focusedMedicationIndex;
-      if (index !== undefined) {
-        if (!refs || refs.length === 0) {
-          console.warn(
-            `scrollToFocusedItem: No refs available, skipping scroll`
-          );
-          return;
-        }
-
-        if (index < 0 || index >= refs.length) {
-          console.warn(
-            `scrollToFocusedItem: invalid index ${index}, total refs: ${refs.length}`
-          );
-          return;
-        }
-
+      if (index !== undefined && refs && refs[index]) {
         refs[index].nativeElement.scrollIntoView({
           behavior: 'smooth',
           block: 'nearest',
         });
       }
     }, 0);
+    this.cdr.markForCheck();
   }
 
   private initIntersectionObserver() {
-    console.log('Initializing observer');
-
     this.intersectionObserver = new IntersectionObserver(
       async entries => {
         for (let entry of entries) {
           if (entry.isIntersecting) {
-            console.log('Scroll anchor intersected, loading more...');
-
             const res = await this.loader.loadMore({
               medicationsPage: this.medicationsPage,
               moleculesPage: this.moleculesPage,
@@ -310,6 +284,7 @@ export class MedicationSearchComponent
               ...res.updated.productsPage,
             ];
             this.pages = [...this.pages, ...res.result];
+            this.cdr.markForCheck();
           }
         }
       },
@@ -321,5 +296,10 @@ export class MedicationSearchComponent
     );
 
     this.intersectionObserver.observe(this.scrollAnchor.nativeElement);
+  }
+
+  get showSearchError(): boolean {
+    const value = this.searchControl.value?.trim();
+    return !!value && value.length < 3;
   }
 }

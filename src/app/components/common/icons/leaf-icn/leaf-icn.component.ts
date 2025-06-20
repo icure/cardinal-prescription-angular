@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IconComponentBase } from '../../../../types';
 
 @Component({
@@ -6,7 +6,8 @@ import { IconComponentBase } from '../../../../types';
   imports: [],
   templateUrl: './leaf-icn.component.html',
   styleUrl: './leaf-icn.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LeafIcnComponent implements IconComponentBase {
-  @Input() color: string = 'currentColor';
+  @Input({ required: true }) color: string = 'currentColor';
 }

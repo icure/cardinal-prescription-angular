@@ -43,7 +43,7 @@ export class SamSdkService {
 
   async searchMedications(
     lang: string,
-    query: string
+    query: string | null
   ): Promise<
     [
       PaginatedListIterator<Amp>,
@@ -52,6 +52,7 @@ export class SamSdkService {
     ]
   > {
     if (!this.sdk) throw new Error('SDK not initialized');
+    if (!query) throw new Error('Query is not found');
     try {
       return await Promise.all([
         this.sdk.findPaginatedAmpsByLabel(lang, query),

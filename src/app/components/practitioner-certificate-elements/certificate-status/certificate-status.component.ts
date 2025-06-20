@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { StatusSuccessComponent } from '../../common/icons/status-success/status-success.component';
 import { StatusErrorComponent } from '../../common/icons/status-error/status-error.component';
 import { NgIf } from '@angular/common';
@@ -8,9 +8,10 @@ import { NgIf } from '@angular/common';
   imports: [StatusSuccessComponent, StatusErrorComponent, NgIf],
   templateUrl: './certificate-status.component.html',
   styleUrl: './certificate-status.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CertificateStatusComponent {
-  @Input() status!: 'error' | 'success';
-  @Input() title!: string;
-  @Input() description!: string;
+  @Input({ required: true }) status!: 'error' | 'success';
+  @Input({ required: true }) title!: string;
+  @Input({ required: true }) description!: string;
 }

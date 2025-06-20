@@ -78,7 +78,9 @@
               [errorMessage]="getErrorMessage('executableUntil')" />
           </div>
 
-          <div class="addMedicationForm__body__content__inputsGroup">
+          <div
+            class="addMedicationForm__body__content__inputsGroup"
+            *ngIf="medicationToPrescribe">
             <app-text-input
               [label]="t('prescription.form.prescriptionsNumber')"
               [id]="'prescriptionsNumber'"

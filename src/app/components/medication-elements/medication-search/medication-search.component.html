@@ -11,20 +11,17 @@
         placeholder="{{ t('medication.search.label') }}"
         autocomplete="off"
         autocapitalize="off"
-        (input)="onSearchChange($event)"
-        [value]="searchQuery$ | async" />
+        [formControl]="searchControl" />
       <app-search-icn color="#9CA8B2" />
     </label>
-    <p
-      class="error"
-      *ngIf="currentSearchQuery && currentSearchQuery.length < 3">
+    <p class="error" *ngIf="showSearchError">
       {{ t('medication.search.errorMessage') }}
     </p>
   </div>
 
   <div
     #medicationSearchDropdown
-    *ngIf="pages?.length"
+    *ngIf="pages && pages.length > 0"
     class="medicationSearchDropdown"
     (keydown)="handleKeyDown($event)">
     <div

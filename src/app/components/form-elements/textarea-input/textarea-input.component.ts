@@ -5,6 +5,8 @@ import {
   ElementRef,
   forwardRef,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -26,18 +28,21 @@ import { NgClass, NgIf } from '@angular/common';
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextareaInputComponent
   implements ControlValueAccessor, AfterViewInit
 {
-  @Input() label!: string;
-  @Input() id!: string;
-  @Input() required = false;
+  @Input({ required: true }) label!: string;
+  @Input({ required: true }) id!: string;
+  @Input() required? = false;
   @Input() disabled = false;
   @Input() errorMessage?: string;
-  @Input() autofocus = false;
+  @Input() autofocus? = false;
 
   @ViewChild('textareaRef') textareaRef!: ElementRef<HTMLTextAreaElement>;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   value: string = '';
   onChange = (_: any) => {};
@@ -45,6 +50,7 @@ export class TextareaInputComponent
 
   writeValue(value: string): void {
     this.value = value ?? '';
+    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: any): void {
@@ -57,11 +63,13 @@ export class TextareaInputComponent
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.cdr.markForCheck();
   }
 
   ngAfterViewInit(): void {
     if (this.autofocus) {
       setTimeout(() => this.textareaRef.nativeElement.focus());
+      this.cdr.markForCheck();
     }
   }
 
@@ -70,5 +78,6 @@ export class TextareaInputComponent
     this.value = target.value;
     this.onChange(this.value);
     this.onTouched();
+    this.cdr.markForCheck();
   }
 }

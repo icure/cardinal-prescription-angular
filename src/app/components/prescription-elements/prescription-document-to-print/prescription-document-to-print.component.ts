@@ -1,5 +1,7 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -19,17 +21,21 @@ import { TranslationService } from '../../../services/translation/translation.se
   imports: [NgForOf, NgIf],
   templateUrl: './prescription-document-to-print.component.html',
   styleUrl: './prescription-document-to-print.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrescriptionDocumentToPrintComponent
   implements OnInit, AfterViewInit
 {
-  @Input() prescribedMedications!: PrescribedMedicationType[];
-  @Input() prescriber!: HealthcareParty;
-  @Input() patient!: Patient;
+  @Input({ required: true }) prescribedMedications!: PrescribedMedicationType[];
+  @Input({ required: true }) prescriber!: HealthcareParty;
+  @Input({ required: true }) patient!: Patient;
 
   @ViewChildren('ridElements') ridElements!: QueryList<ElementRef<SVGElement>>;
 
-  constructor(private translationService: TranslationService) {}
+  constructor(
+    private translationService: TranslationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   t(key: string): string {
     return this.translationService.translate(key);
@@ -44,6 +50,7 @@ export class PrescriptionDocumentToPrintComponent
 
   ngAfterViewInit() {
     setTimeout(() => this.generateBarcodes()); // ensures DOM is fully rendered
+    this.cdr.markForCheck();
   }
 
   // Chunk the medications into groups of 4 for display
@@ -54,6 +61,7 @@ export class PrescriptionDocumentToPrintComponent
       tmpChunks.push(this.prescribedMedications.slice(i, i + chunkSize));
     }
     this.chunks = tmpChunks;
+    this.cdr.markForCheck();
   }
 
   // Handle barcode generation using JsBarcode
@@ -75,6 +83,7 @@ export class PrescriptionDocumentToPrintComponent
     this.prescribedMedications.forEach((med, idx) => {
       this.handleRid(med.rid, elements[idx]?.nativeElement);
     });
+    this.cdr.markForCheck();
   }
 
   // Helper to format dates

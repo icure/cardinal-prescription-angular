@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import {
   Commercialization,
   Reimbursement,
@@ -46,13 +52,20 @@ import { getDeliveryModusLabel } from '../../../utils/delivery-modus-helpers';
   ],
   templateUrl: './medication-card.component.html',
   styleUrl: './medication-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MedicationCardComponent implements OnInit {
-  @Input() medication!: MedicationType;
-  @Input() index!: number;
-  @Input() focused: boolean = false;
-  @Input() medicationSearchDropdownRect: DOMRect | undefined;
-  @Input() handleAddPrescription!: (med: MedicationType) => void;
+  @Input({ required: true }) medication!: MedicationType;
+  @Input({ required: true }) index!: number;
+  @Input({ required: true }) handleAddPrescription!: (
+    med: MedicationType
+  ) => void;
+  @Input() focused?: boolean = false;
+
+  constructor(
+    private translationService: TranslationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   language: keyof SamText = 'fr';
   isExpanded: boolean = false;
@@ -77,8 +90,6 @@ export class MedicationCardComponent implements OnInit {
   vmpName?: string;
   vmpGroupName?: string;
 
-  constructor(private translationService: TranslationService) {}
-
   ngOnInit(): void {
     this.language = this.translationService.getCurrentLanguage();
 
@@ -86,51 +97,43 @@ export class MedicationCardComponent implements OnInit {
     this.supplyProblem = this.medication.supplyProblems?.[0];
     this.reimbursement = this.medication.reimbursements;
 
-    const defaultLang = 'fr';
-
-    this.commercializationExtraInfo = (
-      this.commercialization?.additionalInformation?.[this.language] ??
-      this.commercialization?.additionalInformation?.[defaultLang]
+    this.commercializationExtraInfo = this.getTranslatedText(
+      this.commercialization?.additionalInformation
     )?.split('\n');
 
-    this.commercializationEnd =
-      this.commercialization?.endOfComercialization?.[this.language] ??
-      this.commercialization?.endOfComercialization?.[defaultLang];
+    this.commercializationEnd = this.getTranslatedText(
+      this.commercialization?.endOfComercialization
+    );
 
-    this.commercializationReason =
-      this.commercialization?.reason?.[this.language] ??
-      this.commercialization?.reason?.[defaultLang];
+    this.commercializationReason = this.getTranslatedText(
+      this.commercialization?.reason
+    );
 
-    this.commercializationImpact =
-      this.commercialization?.impact?.[this.language] ??
-      this.commercialization?.impact?.[defaultLang];
+    this.commercializationImpact = this.getTranslatedText(
+      this.commercialization?.impact
+    );
 
-    this.supplyProblemExtraInfo = (
-      this.supplyProblem?.additionalInformation?.[this.language] ??
-      this.supplyProblem?.additionalInformation?.[defaultLang]
+    this.supplyProblemExtraInfo = this.getTranslatedText(
+      this.supplyProblem?.additionalInformation
     )?.split('\n');
 
-    this.supplyProblemReason =
-      this.supplyProblem?.reason?.[this.language] ??
-      this.supplyProblem?.reason?.[defaultLang];
+    this.supplyProblemReason = this.getTranslatedText(
+      this.supplyProblem?.reason
+    );
 
-    this.supplyProblemImpact =
-      this.supplyProblem?.impact?.[this.language] ??
-      this.supplyProblem?.impact?.[defaultLang];
+    this.supplyProblemImpact = this.getTranslatedText(
+      this.supplyProblem?.impact
+    );
 
-    this.reimbursementCriterion =
-      this.reimbursement?.reimbursementCriterion?.description?.[
-        this.language
-      ] ??
-      this.reimbursement?.reimbursementCriterion?.description?.[defaultLang];
+    this.reimbursementCriterion = this.getTranslatedText(
+      this.reimbursement?.reimbursementCriterion?.description
+    );
 
-    this.vmpName =
-      this.medication?.vmp?.name?.[this.language] ??
-      this.medication?.vmp?.name?.[defaultLang];
+    this.vmpName = this.getTranslatedText(this.medication?.vmp?.name);
 
-    this.vmpGroupName =
-      this.medication?.vmp?.vmpGroup?.name?.[this.language] ??
-      this.medication?.vmp?.vmpGroup?.name?.[defaultLang];
+    this.vmpGroupName = this.getTranslatedText(
+      this.medication?.vmp?.vmpGroup?.name
+    );
   }
 
   handleMedicationClick(): void {
@@ -143,6 +146,7 @@ export class MedicationCardComponent implements OnInit {
 
   toggleMedicationDetails(): void {
     this.isExpanded = !this.isExpanded;
+    this.cdr.markForCheck();
   }
 
   get showChevron(): boolean {
@@ -177,5 +181,13 @@ export class MedicationCardComponent implements OnInit {
 
   computeFeeAmount(fee: string): string {
     return Math.round(+fee * 100) / 100 + '€';
+  }
+
+  getTranslatedText(
+    text?: SamText,
+    lang = this.language,
+    fallback = 'fr' as keyof SamText
+  ): string | undefined {
+    return text?.[lang] ?? text?.[fallback];
   }
 }
