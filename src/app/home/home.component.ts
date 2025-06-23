@@ -57,7 +57,6 @@ export class HomeComponent implements OnInit {
     ssin: '74010414733',
     dateOfBirth: 19740104,
   };
-
   hcp: HealthcareParty = {
     firstName: 'Fabien',
     lastName: 'Zimer',
@@ -73,6 +72,10 @@ export class HomeComponent implements OnInit {
         country: 'Belgique',
       }),
     ],
+  };
+  practitionerCredentials = {
+    username: 'larisa.shashuk+medicationsTest@gmail.com',
+    password: '5aa9d0f0-2fab-4f9f-9f6a-5d8244280873',
   };
 
   constructor(
@@ -117,7 +120,10 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.language = this.translationService.getCurrentLanguage();
     try {
-      await this.samSdkService.initialize();
+      await this.samSdkService.initialize(
+        this.practitionerCredentials.username,
+        this.practitionerCredentials.password
+      );
       this.samVersion = await this.samSdkService.getSamVersion();
       this.db = await this.certificateService.openCertificatesDatabase();
 

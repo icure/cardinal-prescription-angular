@@ -34,7 +34,7 @@
         [medication]="med"
         [index]="i"
         [focused]="focusedMedicationIndex === i"
-        [handleAddPrescription]="onAddPrescription" />
+        (addPrescription)="handleAddPrescription($event)" />
     </div>
     <div #scrollAnchor style="height: 1px"></div>
   </div>

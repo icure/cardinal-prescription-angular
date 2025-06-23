@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import {
   Commercialization,
@@ -57,10 +59,9 @@ import { getDeliveryModusLabel } from '../../../utils/delivery-modus-helpers';
 export class MedicationCardComponent implements OnInit {
   @Input({ required: true }) medication!: MedicationType;
   @Input({ required: true }) index!: number;
-  @Input({ required: true }) handleAddPrescription!: (
-    med: MedicationType
-  ) => void;
   @Input() focused?: boolean = false;
+
+  @Output() addPrescription = new EventEmitter<MedicationType>();
 
   constructor(
     private translationService: TranslationService,
@@ -89,6 +90,10 @@ export class MedicationCardComponent implements OnInit {
 
   vmpName?: string;
   vmpGroupName?: string;
+
+  handleMedicationClick(): void {
+    this.addPrescription.emit(this.medication); // emit the card's medication
+  }
 
   ngOnInit(): void {
     this.language = this.translationService.getCurrentLanguage();
@@ -134,14 +139,6 @@ export class MedicationCardComponent implements OnInit {
     this.vmpGroupName = this.getTranslatedText(
       this.medication?.vmp?.vmpGroup?.name
     );
-  }
-
-  handleMedicationClick(): void {
-    this.handleAddPrescription(this.medication);
-  }
-
-  handleMedicationEnter(event: KeyboardEvent): void {
-    if (event.key === 'Enter') this.handleAddPrescription(this.medication);
   }
 
   toggleMedicationDetails(): void {

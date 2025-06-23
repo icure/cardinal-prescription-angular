@@ -23,16 +23,13 @@ export class SamSdkService {
   // 4. For this HCP, generate an Active Authentication Token.
   // 5. Use the HCP's email address as the username, and the token as the password.
 
-  async initialize(): Promise<void> {
+  async initialize(username: string, password: string): Promise<void> {
     if (!this.sdk) {
       try {
         const instance = await CardinalBeSamSdk.initialize(
           undefined,
           'https://nightly.icure.cloud',
-          new Credentials.UsernamePassword(
-            'larisa.shashuk+medicationsTest@gmail.com',
-            '5aa9d0f0-2fab-4f9f-9f6a-5d8244280873'
-          )
+          new Credentials.UsernamePassword(username, password)
         );
         this.sdk = instance.sam;
       } catch (error) {

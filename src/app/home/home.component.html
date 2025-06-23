@@ -13,8 +13,9 @@
 
   <app-medication-search
     *ngIf="certificateValid && !errorWhileVerifyingCertificate"
-    [onAddPrescription]="onCreatePrescription.bind(this)"
-    [deliveryEnvironment]="deliveryEnvironment" />
+    (addPrescription)="onCreatePrescription($event)"
+    [deliveryEnvironment]="deliveryEnvironment"
+    [practitionerCredentials]="practitionerCredentials" />
 
   <div class="home__divider"></div>
 
