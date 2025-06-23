@@ -4,10 +4,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -47,14 +49,19 @@ import { LanguageOfCompleteDosageService } from '../../prescription-modal/prescr
 export class MedicationSearchComponent
   implements OnInit, OnDestroy, AfterViewChecked
 {
+  @Input({ required: true }) deliveryEnvironment!: string;
+  @Input({ required: true }) practitionerCredentials!: {
+    username: string;
+    password: string;
+  };
+
+  @Output() addPrescription = new EventEmitter<MedicationType>();
+
   @ViewChild('inputRef') inputRef!: ElementRef<HTMLInputElement>;
   @ViewChild('scrollAnchor', { static: false }) scrollAnchor!: ElementRef;
   @ViewChildren('resultRef') resultRefs!: QueryList<ElementRef<HTMLElement>>;
   @ViewChild('medicationSearchDropdown', { static: false })
   medicationSearchDropdown!: ElementRef<HTMLDivElement>;
-
-  @Input({ required: true }) onAddPrescription!: (med: MedicationType) => void;
-  @Input({ required: true }) deliveryEnvironment!: string;
 
   constructor(
     private samSdkService: SamSdkService,
@@ -100,7 +107,10 @@ export class MedicationSearchComponent
     this.language =
       this.translationService.getCurrentLanguage() as LanguageOfCompleteDosageService;
 
-    await this.samSdkService.initialize();
+    await this.samSdkService.initialize(
+      this.practitionerCredentials.username,
+      this.practitionerCredentials.password
+    );
 
     this.searchControl.valueChanges
       .pipe(debounceTime(100), takeUntil(this.destroy$))
@@ -196,9 +206,13 @@ export class MedicationSearchComponent
   }
 
   handleAddPrescription(med: MedicationType): void {
-    this.onAddPrescription(med);
+    console.log('1');
+    this.addPrescription.emit(med);
+    console.log('2');
     this.searchControl.setValue('');
+    console.log('3');
     this.onResetSearch();
+    console.log('4');
     this.cdr.markForCheck();
   }
 
