@@ -38,6 +38,7 @@ import { TranslationService } from '../../../services/translation/translation.se
 })
 export class CertificateUploadComponent implements OnInit {
   @Input({ required: true }) hcp!: HealthcareParty;
+
   @Output() onUploadCertificate: EventEmitter<string> = new EventEmitter();
 
   constructor(

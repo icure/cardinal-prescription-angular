@@ -13,10 +13,7 @@ import {
   SamText,
   SupplyProblem,
 } from '@icure/cardinal-be-sam';
-import {
-  DeliveryModusSpecificationCodeType,
-  MedicationType,
-} from '../../../types';
+import { MedicationType } from '../../../types';
 import { formatToDayMonthYear } from '../../../utils/date-helpers';
 import { TooltipComponent } from '../../common/tooltip/tooltip.component';
 import { SolidPillIcnComponent } from '../../common/icons/solid-pill-icn/solid-pill-icn.component';
@@ -31,7 +28,7 @@ import { EndOfCommercialisationIcnComponent } from '../../common/icons/end-of-co
 import { StartOfCommercialisationIcnComponent } from '../../common/icons/start-of-commercialisation-icn/start-of-commercialisation-icn.component';
 import { ChevronIcnComponent } from '../../common/icons/chevron-icn/chevron-icn.component';
 import { TranslationService } from '../../../services/translation/translation.service';
-import { getDeliveryModusLabel } from '../../../utils/delivery-modus-helpers';
+import { getCategoryLabelForReimbursement } from '../../../utils/reimbursement-helpers';
 
 @Component({
   selector: 'app-medication-card',
@@ -172,8 +169,8 @@ export class MedicationCardComponent implements OnInit {
     return formatToDayMonthYear(timestamp);
   }
 
-  getDeliveryModusLabel(code?: DeliveryModusSpecificationCodeType): string {
-    return getDeliveryModusLabel(code, this.t);
+  getCategoryLabelForReimbursement(code?: string): string {
+    return getCategoryLabelForReimbursement(code, this.t);
   }
 
   computeFeeAmount(fee: string): string {
