@@ -45,8 +45,6 @@ export class MedicationLoaderService {
       ? []
       : await medications.next(min);
 
-    // console.log(loadedPage);
-
     const page: MedicationType[] = loadedPage.flatMap((amp: Amp) =>
       amp.to && amp.to < now
         ? []
@@ -132,8 +130,6 @@ export class MedicationLoaderService {
               } as MedicationType;
             })
     );
-
-    console.log(page);
 
     return loadedPage.length < min || page.length + acc.length >= min
       ? [...acc, ...page]
