@@ -20,6 +20,8 @@ import { SamSdkService } from '../../../services/api/sam-sdk.service';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import {
   Amp,
+  CardinalBeSamSdk,
+  Credentials,
   Nmp,
   PaginatedListIterator,
   VmpGroup,
@@ -54,6 +56,7 @@ export class MedicationSearchComponent
     username: string;
     password: string;
   };
+  @Input({ required: true }) ICURE_URL!: string;
 
   @Output() addPrescription = new EventEmitter<MedicationType>();
 
@@ -107,10 +110,18 @@ export class MedicationSearchComponent
     this.language =
       this.translationService.getCurrentLanguage() as LanguageOfCompleteDosageService;
 
-    await this.samSdkService.initialize(
-      this.practitionerCredentials.username,
-      this.practitionerCredentials.password
+    // Outside the service — you fully control this:
+    const instance = await CardinalBeSamSdk.initialize(
+      undefined,
+      this.ICURE_URL,
+      new Credentials.UsernamePassword(
+        this.practitionerCredentials.username,
+        this.practitionerCredentials.password
+      )
     );
+
+    // Pass the SDK into the service:
+    this.samSdkService.setSdk(instance.sam);
 
     this.searchControl.valueChanges
       .pipe(debounceTime(100), takeUntil(this.destroy$))
@@ -206,13 +217,9 @@ export class MedicationSearchComponent
   }
 
   handleAddPrescription(med: MedicationType): void {
-    console.log('1');
     this.addPrescription.emit(med);
-    console.log('2');
     this.searchControl.setValue('');
-    console.log('3');
     this.onResetSearch();
-    console.log('4');
     this.cdr.markForCheck();
   }
 

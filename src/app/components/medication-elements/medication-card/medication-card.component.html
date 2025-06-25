@@ -314,6 +314,21 @@
                             {{ reimbursement.reimbursementCriterion?.category }}
                           </p>
                         </div>
+                        <div
+                          *ngIf="
+                            reimbursement.reimbursementCriterion?.category
+                          ">
+                          <span>
+                            {{ t('medication.reimbursement.categoryLabel') }}
+                          </span>
+                          <p>
+                            {{
+                              getCategoryLabelForReimbursement(
+                                reimbursement.reimbursementCriterion?.category
+                              )
+                            }}
+                          </p>
+                        </div>
 
                         <div *ngIf="reimbursement.copayments">
                           <div *ngFor="let el of reimbursement.copayments">
@@ -448,9 +463,7 @@
                   <div
                     *ngIf="
                       medication.deliveryModusSpecificationCode &&
-                      getDeliveryModusLabel(
-                        medication.deliveryModusSpecificationCode
-                      )
+                      medication.deliveryModusSpecification
                     ">
                     <div class="textToIcon textToIcon--red">
                       <p>{{ medication.deliveryModusSpecificationCode }}</p>
@@ -481,11 +494,7 @@
                             {{ t('medication.delivery.specification') }}
                           </span>
                           <p>
-                            {{
-                              getDeliveryModusLabel(
-                                medication.deliveryModusSpecificationCode
-                              )
-                            }}
+                            {{ medication.deliveryModusSpecification }}
                           </p>
                         </div>
                       </div>
@@ -572,9 +581,7 @@
             <div
               *ngIf="
                 medication.deliveryModusSpecificationCode &&
-                  getDeliveryModusLabel(
-                    medication.deliveryModusSpecificationCode
-                  );
+                  medication.deliveryModusSpecification;
                 else notApplicable
               ">
               <div class="textToIcon textToIcon--red">

@@ -5,7 +5,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SamText, SamVersion } from '@icure/cardinal-be-sam';
+import {
+  CardinalBeSamSdk,
+  Credentials,
+  SamText,
+  SamVersion,
+} from '@icure/cardinal-be-sam';
 import { Patient, HealthcareParty, Address } from '@icure/be-fhc-api';
 
 import { SamSdkService } from '../services/api/sam-sdk.service';
@@ -77,6 +82,9 @@ export class HomeComponent implements OnInit {
     username: 'larisa.shashuk+medicationsTest@gmail.com',
     password: '5aa9d0f0-2fab-4f9f-9f6a-5d8244280873',
   };
+  ICURE_URL = 'https://nightly.icure.cloud';
+
+  // There is have to be an alternative how to upload the practitioner's certificate from a database and not from the input file
 
   constructor(
     private samSdkService: SamSdkService,
@@ -120,10 +128,19 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.language = this.translationService.getCurrentLanguage();
     try {
-      await this.samSdkService.initialize(
-        this.practitionerCredentials.username,
-        this.practitionerCredentials.password
+      // Outside the service — you fully control this:
+      const instance = await CardinalBeSamSdk.initialize(
+        undefined,
+        this.ICURE_URL,
+        new Credentials.UsernamePassword(
+          this.practitionerCredentials.username,
+          this.practitionerCredentials.password
+        )
       );
+
+      // Pass the SDK into the service:
+      this.samSdkService.setSdk(instance.sam);
+
       this.samVersion = await this.samSdkService.getSamVersion();
       this.db = await this.certificateService.openCertificatesDatabase();
 

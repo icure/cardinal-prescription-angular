@@ -15,7 +15,8 @@
     *ngIf="certificateValid && !errorWhileVerifyingCertificate"
     (addPrescription)="onCreatePrescription($event)"
     [deliveryEnvironment]="deliveryEnvironment"
-    [practitionerCredentials]="practitionerCredentials" />
+    [practitionerCredentials]="practitionerCredentials"
+    [ICURE_URL]="ICURE_URL" />
 
   <div class="home__divider"></div>
 
