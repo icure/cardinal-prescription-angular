@@ -108,30 +108,26 @@ More information is available on the [SAM portal](https://www.samportal.be/nl/sa
 
 ## 🧪 Medications of interest for tests
 
-#### 📉 Temporarily unavailable
-
-* `Polydexa 10 mg/ml`
-* `Mimpara 60 mg`
-* `Fiasp 100`
-
-#### 📝 Test link to blank prescriber declaration
-
-* `Cisplatine`
-
 #### ⚠️ End of commercialization
-
-* `Antigriphin`
+//TODO Need to find an example
 
 #### 🚨 Commercialization & supply problems
 
+* `Polydexa 10 mg/ml`
 * `Crestor`
+* `Cisplatine Teva 1 mg/ml inf. sol. (conc.) i.v. vial 50 ml`
 
 #### 📅 Future commercialization
 
 * `Kaftrio` (black triangle)
 * `Increlex` (black/orange triangle)
 
+#### 🧬 Doping status
+
+* `Ultiva`
+* `Rapifen`
+
 ---
 
 > 💡 **Note:**
-> This module is built for integration with [Belgium’s SAM platform](https://www.samportal.be/nl/sam/documentation), is modular, and can be easily adapted for use in other iCure-based medical solutions.
+> This module is built for integration with [Belgium’s SAM platform](https://www.samportal.be/nl/sam/documentation), is modular, and can be easily adapted for use in other medical solutions.

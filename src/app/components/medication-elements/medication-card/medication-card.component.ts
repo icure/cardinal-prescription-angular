@@ -143,7 +143,7 @@ export class MedicationCardComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
-  get showChevron(): boolean {
+  get showLinks(): boolean {
     const m = this.medication;
     return !!(
       m.crmLink ||

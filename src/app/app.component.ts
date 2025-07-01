@@ -19,6 +19,6 @@ export class AppComponent {
   // Supported languages: 'fr', 'en', 'nl', 'de'
 
   constructor(private translationService: TranslationService) {
-    this.translationService.setLanguage('en');
+    this.translationService.setLanguage('fr');
   }
 }

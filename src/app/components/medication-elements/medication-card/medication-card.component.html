@@ -600,7 +600,6 @@
       </div>
     </div>
     <button
-      *ngIf="showChevron"
       class="header__arrow"
       [class.isExpanded]="isExpanded"
       (click)="toggleMedicationDetails()">
@@ -624,9 +623,9 @@
       </div>
     </div>
 
-    <div class="content__divider"></div>
+    <div class="content__divider" *ngIf="showLinks"></div>
 
-    <div class="content__links">
+    <div class="content__links" *ngIf="showLinks">
       <a *ngIf="medication.crmLink" [href]="medication.crmLink" target="_blank">
         {{ t('medication.links.cbip') }}
       </a>

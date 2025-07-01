@@ -40,7 +40,7 @@ export const medicationTranslations = {
     reimbursement: {
       title: 'Remboursement :',
       category: 'Catégorie de remboursement :',
-      categoryLabel: 'Libellé de la catégorie de remboursement :',
+      categoryLabel: 'Spécification de la catégorie de remboursement :',
       copay: 'Ticket modérateur type',
       copayPreferential: ' Préférentiel :',
       copayActive: ' Actif :',
@@ -121,7 +121,7 @@ export const medicationTranslations = {
     reimbursement: {
       title: 'Reimbursement:',
       category: 'Reimbursement category:',
-      categoryLabel: 'Reimbursement category label',
+      categoryLabel: 'Reimbursement category specification:',
       copay: 'Co-payment type',
       copayPreferential: 'Preferential:',
       copayActive: 'Active:',
@@ -204,7 +204,7 @@ export const medicationTranslations = {
     reimbursement: {
       title: 'Terugbetaling:',
       category: 'Terugbetalingscategorie:',
-      categoryLabel: 'Label van terugbetalingscategorie:',
+      categoryLabel: 'Specificatie van de terugbetalingscategorie:',
       copay: 'Soort remgeld',
       copayPreferential: 'Voorkeurtarief:',
       copayActive: 'Actief:',
@@ -287,7 +287,7 @@ export const medicationTranslations = {
     reimbursement: {
       title: 'Erstattung :',
       category: 'Erstattungskategorie :',
-      categoryLabel: 'Bezeichnung der Erstattungskategorie :',
+      categoryLabel: 'Spezifikation der Erstattungskategorie :',
       copay: 'Zuzahlungstyp',
       copayPreferential: ' Bevorzugt :',
       copayActive: ' Aktiv :',
