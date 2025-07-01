@@ -8,12 +8,13 @@
         (handleModifyPrescription)="handleModifyPrescription.emit($event)"
         (handleDeletePrescription)="handleDeletePrescription.emit($event)" />
     </div>
+
     <div class="prescriptions__footer">
       <app-button
         [disabled]="sending"
-        [view]="printing ? 'withSpinner' : 'outlined'"
+        [view]="printing && !sending ? 'withSpinner' : 'outlined'"
         type="submit"
-        (click)="onPrintPrescriptions()">
+        (click)="onClickPrint()">
         {{ t('prescription.list.print') }}
       </app-button>
     </div>
@@ -23,6 +24,7 @@
     <p class="prescriptions__title">
       {{ t('prescription.list.pendingTitle') }}
     </p>
+
     <div class="prescriptions__rows">
       <app-prescription-card
         *ngFor="let medication of pendingPrescriptions"
@@ -36,15 +38,15 @@
         [disabled]="sending"
         [view]="printing ? 'withSpinner' : 'outlined'"
         type="submit"
-        (click)="spinPrint()">
+        (click)="onClickSendAndPrint()">
         {{ t('prescription.list.sendAndPrint') }}
       </app-button>
 
       <app-button
         [disabled]="printing"
-        [view]="sending ? 'withSpinner' : 'primary'"
+        [view]="sending && !printing ? 'withSpinner' : 'primary'"
         type="submit"
-        (click)="spinSend()">
+        (click)="onClickSend()">
         {{ t('prescription.list.send') }}
       </app-button>
     </div>

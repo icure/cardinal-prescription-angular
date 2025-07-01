@@ -14,20 +14,20 @@
   <app-medication-search
     *ngIf="certificateValid && !errorWhileVerifyingCertificate"
     (addPrescription)="onCreatePrescription($event)"
-    [deliveryEnvironment]="deliveryEnvironment"
-    [practitionerCredentials]="practitionerCredentials"
-    [ICURE_URL]="ICURE_URL" />
+    [deliveryEnvironment]="deliveryEnvironment" />
 
   <div class="home__divider"></div>
 
   <app-prescription-list
     *ngIf="prescriptions"
     [prescribedMedications]="prescriptions"
+    [sending]="arePrescriptionsSending"
+    [printing]="arePrescriptionsPrinting"
     (handleModifyPrescription)="onModifyPrescription($event)"
     (handleDeletePrescription)="onDeletePrescription($event)"
-    [onSendPrescriptions]="onSendPrescriptions"
-    [onPrintPrescriptions]="onPrintPrescriptions"
-    [onSendAndPrintPrescriptions]="onSendAndPrintPrescriptions" />
+    (sendPrescriptions)="onSendPrescriptions()"
+    (printPrescriptions)="onPrintPrescriptions()"
+    (sendAndPrintPrescriptions)="onSendAndPrintPrescriptions()" />
 
   <app-prescription-modal
     *ngIf="prescriptionModalMode === 'create'"

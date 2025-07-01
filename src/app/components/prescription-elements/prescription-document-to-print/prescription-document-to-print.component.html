@@ -1,4 +1,4 @@
-<div *ngIf="prescribedMedications?.length">
+<div *ngIf="prescribedMedications?.length" class="prescriptionsHolder">
   <div *ngFor="let chunk of chunks; let chunkIndex = index">
     <div class="prescription">
       <div class="header">
@@ -38,7 +38,9 @@
           <div class="prescription-item__block">
             <p>
               {{ t('prescription.pdf.product') }}
-              {{ item.medication.medicinalProduct?.intendedname }}
+              <strong>{{
+                item.medication.medicinalProduct?.intendedname
+              }}</strong>
             </p>
             <p>
               {{ t('prescription.pdf.dosage') }}

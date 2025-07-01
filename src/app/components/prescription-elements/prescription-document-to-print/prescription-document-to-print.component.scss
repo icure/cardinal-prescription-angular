@@ -3,7 +3,14 @@
 @media print {
   .prescription {
     page-break-after: always;
+    border: none;
   }
+}
+
+.prescriptionsHolder {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .prescription {
@@ -56,27 +63,29 @@
   h3 {
     font-size: 14px;
   }
-}
 
-.prescription-item {
-  display: flex;
-  justify-content: space-between;
-}
-
-.prescription-item {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  &__block {
+  .prescription-item {
     display: flex;
-    flex-direction: column;
-    width: 48%;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 24px 12px;
+    border-radius: 12px;
+    border: 1px dashed global.$grey-600;
 
-    &--right {
-      align-items: center;
-      width: auto;
+    &__block {
+      display: flex;
+      flex-direction: column;
+      width: 48%;
+
+      &--right {
+        align-items: center;
+        width: auto;
+      }
     }
+  }
+
+  .prescription-item:nth-child(even) {
+    flex-direction: row-reverse;
   }
 }
 
