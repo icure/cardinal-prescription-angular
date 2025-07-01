@@ -6,13 +6,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { PrescriptionRowComponent } from '../prescription-card/prescription-card.component';
 import { NgForOf, NgIf } from '@angular/common';
-import { PrescribedMedicationType } from '../../../types';
+import { PrescriptionRowComponent } from '../prescription-card/prescription-card.component';
 import { ButtonComponent } from '../../form-elements/button/button.component';
+import { PrescribedMedicationType } from '../../../types';
 import { TranslationService } from '../../../services/translation/translation.service';
 
 @Component({
+  standalone: true,
   selector: 'app-prescription-list',
   imports: [PrescriptionRowComponent, NgForOf, NgIf, ButtonComponent],
   templateUrl: './prescription-list.component.html',
@@ -21,48 +22,42 @@ import { TranslationService } from '../../../services/translation/translation.se
 })
 export class PrescriptionListComponent {
   @Input({ required: true }) prescribedMedications!: PrescribedMedicationType[];
-  @Input({ required: true }) onSendPrescriptions!: () => Promise<void>;
-  @Input({ required: true }) onSendAndPrintPrescriptions!: () => Promise<void>;
-  @Input({ required: true }) onPrintPrescriptions!: () => void;
 
-  @Output() handleModifyPrescription: EventEmitter<PrescribedMedicationType> =
-    new EventEmitter();
-  @Output() handleDeletePrescription: EventEmitter<PrescribedMedicationType> =
-    new EventEmitter();
+  @Input({ required: true }) sending!: boolean;
+  @Input({ required: true }) printing!: boolean;
 
-  constructor(
-    private translationService: TranslationService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  @Output() sendPrescriptions = new EventEmitter<void>();
+  @Output() sendAndPrintPrescriptions = new EventEmitter<void>();
+  @Output() printPrescriptions = new EventEmitter<void>();
+
+  @Output() handleModifyPrescription =
+    new EventEmitter<PrescribedMedicationType>();
+  @Output() handleDeletePrescription =
+    new EventEmitter<PrescribedMedicationType>();
+
+  constructor(private translationService: TranslationService) {}
 
   t(key: string): string {
     return this.translationService.translate(key);
   }
 
-  printing = false;
-  sending = false;
-
   get sentPrescriptions() {
     return this.prescribedMedications.filter(item => !!item.rid);
   }
 
-  get pendingPrescriptions() {
+  get pendingPrescriptions(): PrescribedMedicationType[] {
     return this.prescribedMedications.filter(item => !item.rid);
   }
 
-  spinPrint(): void {
-    this.printing = true;
-    this.onSendAndPrintPrescriptions().finally(() => {
-      this.printing = false;
-      this.cdr.markForCheck();
-    });
+  onClickSend(): void {
+    this.sendPrescriptions.emit();
   }
 
-  spinSend(): void {
-    this.sending = true;
-    this.onSendPrescriptions().finally(() => {
-      this.sending = false;
-      this.cdr.markForCheck();
-    });
+  onClickPrint(): void {
+    this.printPrescriptions.emit();
+  }
+
+  onClickSendAndPrint(): void {
+    this.sendAndPrintPrescriptions.emit();
   }
 }

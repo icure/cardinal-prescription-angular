@@ -56,6 +56,9 @@ export class HomeComponent implements OnInit {
   db!: IDBDatabase;
   language: keyof SamText = 'fr';
 
+  arePrescriptionsSending = false;
+  arePrescriptionsPrinting = false;
+
   patient: Patient = {
     firstName: 'Antoine',
     lastName: 'Duchâteau',
@@ -84,7 +87,7 @@ export class HomeComponent implements OnInit {
   };
   ICURE_URL = 'https://nightly.icure.cloud';
 
-  // There is have to be an alternative how to upload the practitioner's certificate from a database and not from the input file
+  //TODO: There is going to be an alternative how to upload the practitioner's certificate from a database and not from the input file
 
   constructor(
     private samSdkService: SamSdkService,
@@ -128,7 +131,7 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.language = this.translationService.getCurrentLanguage();
     try {
-      // Outside the service — you fully control this:
+      // Create the SDK instance outside the service:
       const instance = await CardinalBeSamSdk.initialize(
         undefined,
         this.ICURE_URL,
@@ -138,7 +141,7 @@ export class HomeComponent implements OnInit {
         )
       );
 
-      // Pass the SDK into the service:
+      // Pass the SDK instance into the service:
       this.samSdkService.setSdk(instance.sam);
 
       this.samVersion = await this.samSdkService.getSamVersion();
@@ -237,67 +240,56 @@ export class HomeComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
-  async handleSendPrescriptions(
-    prescribedMedications: PrescribedMedicationType[],
-    samVersion: SamVersion,
-    hcp: HealthcareParty,
-    patient: Patient,
-    passphrase: string,
-    cache: TokenStore
-  ) {
-    const updatedMedications = await Promise.all(
-      prescribedMedications.map(async med => {
-        if (med.rid) return med;
+  async onSendPrescriptions(): Promise<void> {
+    if (this.prescriptions && this.samVersion && this.passphrase) {
+      try {
+        this.arePrescriptionsSending = true;
 
-        const res = await this.fhcService.sendRecipe(
-          samVersion,
-          hcp,
-          patient,
-          med,
-          passphrase,
-          cache
+        this.prescriptions = await Promise.all(
+          this.prescriptions.map(async med => {
+            if (med.rid) return med;
+
+            const res = await this.fhcService.sendRecipe(
+              this.samVersion!,
+              this.hcp,
+              this.patient,
+              med,
+              this.passphrase!,
+              this.indexedDbTokenStore
+            );
+
+            return { ...med, rid: res[0]?.rid };
+          })
         );
+      } catch (error) {
+        console.error('Error sending prescriptions:', error);
+      } finally {
+        this.arePrescriptionsSending = false;
+        this.cdr.markForCheck();
+      }
+    } else {
+      console.warn('Missing data to send prescriptions');
+    }
+  }
 
-        return { ...med, rid: res[0]?.rid };
-      })
-    );
-
-    this.prescriptions = updatedMedications;
+  onPrintPrescriptions(): void {
+    this.showPrintPrescriptionsModal = true;
     this.cdr.markForCheck();
   }
 
-  onSendPrescriptions = async (): Promise<void> => {
-    if (this.prescriptions && this.samVersion && this.passphrase) {
-      console.log('this.prescriptions');
-      console.log(this.prescriptions);
+  async onSendAndPrintPrescriptions(): Promise<void> {
+    this.arePrescriptionsPrinting = true;
 
-      await this.handleSendPrescriptions(
-        this.prescriptions,
-        this.samVersion,
-        this.hcp,
-        this.patient,
-        this.passphrase,
-        this.indexedDbTokenStore
-      );
-    } else {
-      console.log(this.prescriptions);
-      console.log(this.samVersion);
-      console.log(this.passphrase);
-      console.error('Missing information to send prescriptions.');
+    try {
+      await this.onSendPrescriptions();
+      this.onPrintPrescriptions();
+    } catch (error) {
+      console.error('Error in send & print:', error);
+    } finally {
+      this.arePrescriptionsPrinting = false;
+      this.cdr.markForCheck();
     }
-    this.cdr.markForCheck();
-  };
-
-  onPrintPrescriptions = () => {
-    this.showPrintPrescriptionsModal = true;
-    this.cdr.markForCheck();
-  };
-
-  onSendAndPrintPrescriptions = async (): Promise<void> => {
-    await this.onSendPrescriptions();
-    this.onPrintPrescriptions();
-    this.cdr.markForCheck();
-  };
+  }
 
   onClosePrintPrescriptionsModal = () => {
     this.showPrintPrescriptionsModal = false;

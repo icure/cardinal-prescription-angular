@@ -20,19 +20,17 @@ import { SamSdkService } from '../../../services/api/sam-sdk.service';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import {
   Amp,
-  CardinalBeSamSdk,
-  Credentials,
   Nmp,
   PaginatedListIterator,
+  SamText,
   VmpGroup,
 } from '@icure/cardinal-be-sam';
 import { MedicationType } from '../../../types';
 import { MedicationLoaderService } from '../../../services/loaders/medication-loader.service';
 import { MedicationCardComponent } from '../medication-card/medication-card.component';
 import { TooltipContextService } from '../../../services/common/tooltip-context.service';
-import { TranslationService } from '../../../services/translation/translation.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { LanguageOfCompleteDosageService } from '../../prescription-modal/prescription-modal.component';
+import { TranslationService } from '../../../services/translation/translation.service';
 
 @Component({
   selector: 'app-medication-search',
@@ -52,11 +50,6 @@ export class MedicationSearchComponent
   implements OnInit, OnDestroy, AfterViewChecked
 {
   @Input({ required: true }) deliveryEnvironment!: string;
-  @Input({ required: true }) practitionerCredentials!: {
-    username: string;
-    password: string;
-  };
-  @Input({ required: true }) ICURE_URL!: string;
 
   @Output() addPrescription = new EventEmitter<MedicationType>();
 
@@ -81,7 +74,7 @@ export class MedicationSearchComponent
   private intersectionObserver?: IntersectionObserver;
   private observerInitialized = false;
   private medicationSearchDropdownRectInitialized = false;
-  private language: LanguageOfCompleteDosageService = 'fr';
+  private language: keyof SamText = 'fr';
 
   destroy$ = new Subject<void>();
 
@@ -95,7 +88,6 @@ export class MedicationSearchComponent
   productsPage: MedicationType[] = [];
 
   focusedMedicationIndex: number | undefined = undefined;
-
   searchControl: FormControl<string | null> = new FormControl('');
 
   get totalPagesLength(): number {
@@ -106,23 +98,8 @@ export class MedicationSearchComponent
     return !!this.searchControl.value?.trim();
   }
 
-  async ngOnInit() {
-    this.language =
-      this.translationService.getCurrentLanguage() as LanguageOfCompleteDosageService;
-
-    // Outside the service — you fully control this:
-    const instance = await CardinalBeSamSdk.initialize(
-      undefined,
-      this.ICURE_URL,
-      new Credentials.UsernamePassword(
-        this.practitionerCredentials.username,
-        this.practitionerCredentials.password
-      )
-    );
-
-    // Pass the SDK into the service:
-    this.samSdkService.setSdk(instance.sam);
-
+  ngOnInit(): void {
+    this.language = this.translationService.getCurrentLanguage();
     this.searchControl.valueChanges
       .pipe(debounceTime(100), takeUntil(this.destroy$))
       .subscribe(query => {
@@ -207,7 +184,7 @@ export class MedicationSearchComponent
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
 
@@ -223,7 +200,7 @@ export class MedicationSearchComponent
     this.cdr.markForCheck();
   }
 
-  onResetSearch() {
+  onResetSearch(): void {
     this.medications = undefined;
     this.molecules = undefined;
     this.products = undefined;
@@ -253,10 +230,6 @@ export class MedicationSearchComponent
 
       if (viewCount > 0) {
         this.scrollToFocusedItem();
-      } else {
-        console.log(
-          `Skipping scrollToFocusedItem(): no rendered items yet (viewCount: ${viewCount})`
-        );
       }
     }
 
@@ -277,7 +250,7 @@ export class MedicationSearchComponent
     this.cdr.markForCheck();
   }
 
-  private initIntersectionObserver() {
+  private initIntersectionObserver(): void {
     this.intersectionObserver = new IntersectionObserver(
       async entries => {
         for (let entry of entries) {

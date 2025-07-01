@@ -104,25 +104,40 @@ export class MedicationLoaderService {
                   amp.vmp?.vmpGroup?.name?.[this.defaultLanguage] ??
                   '',
                 price: ampp?.exFactoryPrice ? `€${ampp.exFactoryPrice}` : '',
-                crmLink: ampp.crmLink?.[language],
-                patientInformationLeafletLink: ampp.leafletLink?.[language],
+                crmLink:
+                  ampp.crmLink?.[language] ??
+                  ampp.crmLink?.[this.defaultLanguage],
+                patientInformationLeafletLink:
+                  ampp.leafletLink?.[language] ??
+                  ampp.leafletLink?.[this.defaultLanguage],
                 blackTriangle: amp.blackTriangle,
                 speciallyRegulated: ampp.speciallyRegulated,
                 genericPrescriptionRequired: ampp.genericPrescriptionRequired,
-                intendedName: ampp.prescriptionName?.[language],
-                rmaProfessionalLink: ampp.rmaProfessionalLink?.[language],
-                spcLink: ampp.spcLink?.[language],
-                dhpcLink: ampp.dhpcLink?.[language],
+                intendedName:
+                  ampp.prescriptionName?.[language] ??
+                  ampp.prescriptionName?.[this.defaultLanguage],
+                rmaProfessionalLink:
+                  ampp.rmaProfessionalLink?.[language] ??
+                  ampp.rmaProfessionalLink?.[this.defaultLanguage],
+                spcLink:
+                  ampp.spcLink?.[language] ??
+                  ampp.spcLink?.[this.defaultLanguage],
+                dhpcLink:
+                  ampp.dhpcLink?.[language] ??
+                  ampp.dhpcLink?.[this.defaultLanguage],
                 rmakeyMessages: ampp.rmaKeyMessages,
                 vmp: amp.vmp,
                 supplyProblems: ampp.supplyProblems,
                 commercializations: ampp?.commercializations,
                 deliveryModusCode: ampp.deliveryModusCode,
-                deliveryModus: ampp.deliveryModus?.[language],
+                deliveryModus:
+                  ampp.deliveryModus?.[language] ??
+                  ampp.deliveryModus?.[this.defaultLanguage],
                 deliveryModusSpecificationCode:
                   ampp.deliveryModusSpecificationCode,
                 deliveryModusSpecification:
-                  ampp.deliveryModusSpecification?.[language],
+                  ampp.deliveryModusSpecification?.[language] ??
+                  ampp.deliveryModusSpecification?.[this.defaultLanguage],
                 reimbursements: dmpp?.reimbursements?.find(
                   dmpp =>
                     dmpp.from && dmpp.from < now && (!dmpp.to || dmpp.to > now)
