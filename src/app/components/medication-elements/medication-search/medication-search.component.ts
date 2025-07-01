@@ -30,7 +30,6 @@ import { MedicationLoaderService } from '../../../services/loaders/medication-lo
 import { MedicationCardComponent } from '../medication-card/medication-card.component';
 import { TooltipContextService } from '../../../services/common/tooltip-context.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { LanguageOfCompleteDosageService } from '../../prescription-modal/prescription-modal.component';
 import { TranslationService } from '../../../services/translation/translation.service';
 
 @Component({
@@ -75,6 +74,7 @@ export class MedicationSearchComponent
   private intersectionObserver?: IntersectionObserver;
   private observerInitialized = false;
   private medicationSearchDropdownRectInitialized = false;
+  private language: keyof SamText = 'fr';
 
   destroy$ = new Subject<void>();
 
@@ -89,7 +89,6 @@ export class MedicationSearchComponent
 
   focusedMedicationIndex: number | undefined = undefined;
   searchControl: FormControl<string | null> = new FormControl('');
-  language: keyof SamText = 'fr';
 
   get totalPagesLength(): number {
     return this.pages.length;

@@ -53,9 +53,7 @@ import { CreatePrescriptionService } from '../../services/prescription/create-pr
 import { TranslationService } from '../../services/translation/translation.service';
 import { ReimbursementType } from '../../types/reimbursement';
 import { getReimbursementOptions } from '../../utils/reimbursement-helpers';
-
-// Supported languages for the complete dosage parser in @icure/medication-sdk
-export type LanguageOfCompleteDosageService = 'fr' | 'en' | 'nl' | 'de';
+import { SamText } from '@icure/cardinal-be-sam';
 
 @Component({
   selector: 'app-prescription-modal',
@@ -96,7 +94,7 @@ export class PrescriptionModalComponent
     return this.translationService.translate(key);
   };
 
-  language: LanguageOfCompleteDosageService = 'fr';
+  language: keyof SamText = 'fr';
 
   prescriptionForm!: FormGroup;
   private subscriptions: Subscription[] = [];
@@ -129,8 +127,7 @@ export class PrescriptionModalComponent
   disableHover = false;
 
   ngOnInit(): void {
-    this.language =
-      this.translationService.getCurrentLanguage() as LanguageOfCompleteDosageService;
+    this.language = this.translationService.getCurrentLanguage();
 
     this.practitionerVisibilityOptions = getPractitionerVisibilityOptions(
       this.t
