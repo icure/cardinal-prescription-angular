@@ -19,6 +19,7 @@ import { CloseIcnComponent } from '../../common/icons/close-icn/close-icn.compon
 import { TranslationService } from '../../../services/translation/translation.service'; // Import JsBarcode library
 
 @Component({
+  standalone: true,
   selector: 'app-print-prescription-modal',
   imports: [
     PrescriptionDocumentToPrintComponent,

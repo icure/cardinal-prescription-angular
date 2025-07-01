@@ -13,6 +13,7 @@ import { ButtonComponent } from '../../form-elements/button/button.component';
 import { TranslationService } from '../../../services/translation/translation.service';
 
 @Component({
+  standalone: true,
   selector: 'app-prescription-list',
   imports: [PrescriptionRowComponent, NgForOf, NgIf, ButtonComponent],
   templateUrl: './prescription-list.component.html',
