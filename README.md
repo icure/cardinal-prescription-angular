@@ -30,11 +30,11 @@ It integrates iCure's APIs —  `@icure/be-fhc-api`, `@icure/cardinal-be-sam-sdk
 
 ## 🏢 About iCure and Cardinal
 
-![iCure logo](./assets/icure.svg)
+![iCure logo](./public/assets/icure.svg)
 
 [iCure](https://icure.com/en/) is the company that provides a **secure, end-to-end encrypted backend-as-a-service** for Health-Tech, allowing companies to build fully compliant medical solutions faster.
 
-![Cardinal logo](./assets/cardinal.svg)
+![Cardinal logo](./public/assets/cardinal.svg)
 
 [Cardinal](https://cardinalsdk.com/en) is iCure’s backend platform that provides data management, security, and interoperability features. *In this project, we do not use the Cardinal backend directly — we integrate with iCure's public API packages to access its SAM and FHC features.*
 
