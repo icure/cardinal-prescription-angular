@@ -1,0 +1,10 @@
+<button
+  [ngClass]="view"
+  [type]="type"
+  [disabled]="disabled"
+  (click)="onClick($event)">
+  <ng-container *ngIf="view === 'withSpinner'; else null">
+    <cardinal-spinner-icn [color]="getSpinnerIcnColor()" />
+  </ng-container>
+  <ng-content />
+</button>

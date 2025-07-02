@@ -1,1 +1,0 @@
-{"version":3,"file":"DataPeriod.mjs","sourceRoot":"","sources":["../../../../tsSourcesProject/model/samv2/embed/DataPeriod.mts"],"names":[],"mappings":"AAAA,sBAAsB","sourcesContent":["// auto-generated file\n\nexport interface DataPeriod {\n\n\tfrom: number | undefined;\n\n\tto: number | undefined;\n\n}\n"]}

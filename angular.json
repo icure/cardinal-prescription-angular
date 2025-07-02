@@ -107,6 +107,49 @@
           }
         }
       }
+    },
+    "cardinal-prescription-be-angular": {
+      "projectType": "library",
+      "root": "projects/cardinal-prescription-be-angular",
+      "sourceRoot": "projects/cardinal-prescription-be-angular/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/cardinal-prescription-be-angular/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/cardinal-prescription-be-angular/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/cardinal-prescription-be-angular/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/cardinal-prescription-be-angular/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/cardinal-prescription-be-angular/**/*.ts",
+              "projects/cardinal-prescription-be-angular/**/*.html"
+            ],
+            "eslintConfig": "projects/cardinal-prescription-be-angular/eslint.config.js"
+          }
+        }
+      }
     }
   },
   "cli": {

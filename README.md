@@ -1,7 +1,7 @@
 # Cardinal Prescription Angular Component 🇧🇪
 
 This is a Belgian-specific Angular application for healthcare professionals to manage electronic prescriptions.  
-It integrates iCure's APIs — `@icure/cardinal-be-sam` and `@icure/be-fhc-api` — to streamline:
+It integrates iCure's APIs —  `@icure/be-fhc-api`, `@icure/cardinal-be-sam-sdk`, and `@icure/medication-sdk` — to streamline:
 
 - 🔐 Practitioner certificate management
 - 🔍 Medication search
@@ -13,12 +13,30 @@ It integrates iCure's APIs — `@icure/cardinal-be-sam` and `@icure/be-fhc-api` 
 
 ---
 
+## 📚 Table of Contents
+
+- [About iCure and Cardinal](#-about-icure-and-cardinal)
+- [Features](#-features)
+- [Technologies](#-technologies)
+- [Prerequisites](#-prerequisites)
+- [Getting Started](#-getting-started)
+- [Available Components and How to Use Them](#-available-components-and-how-to-use-them)
+- [Available Services and How to Use Them](#-available-services-and-how-to-use-them)
+- [SAM and Recip-e Requirements](#-sam-and-recip-e-requirements)
+- [Medications of Interest for Tests](#-medications-of-interest-for-tests)
+- [Example: Full Demo Application](#-example-full-demo-application)
+
+---
+
 ## 🏢 About iCure and Cardinal
+
+![iCure logo](./public/assets/icure.svg)
 
 [iCure](https://icure.com/en/) is the company that provides a **secure, end-to-end encrypted backend-as-a-service** for Health-Tech, allowing companies to build fully compliant medical solutions faster.
 
-[Cardinal](https://cardinalsdk.com/en) is iCure’s backend platform that provides data management, security, and interoperability features.  
-(*In this project, we do not use the Cardinal backend directly — we integrate with iCure's public API packages to access its SAM and FHC features.*)
+![Cardinal logo](./public/assets/cardinal.svg)
+
+[Cardinal](https://cardinalsdk.com/en) is iCure’s backend platform that provides data management, security, and interoperability features. *In this project, we do not use the Cardinal backend directly — we integrate with iCure's public API packages to access its SAM and FHC features.*
 
 ---
 
@@ -28,7 +46,7 @@ It integrates iCure's APIs — `@icure/cardinal-be-sam` and `@icure/be-fhc-api` 
 - 🔐 Practitioner certificate upload & verification
 - 🔍 Medication search powered by iCure's SAM SDK
 - 📝 Create, edit, list, send, and print prescriptions
-- 🧠 Structured and unstructured posology support 
+- 🧠 Structured and unstructured posology support
 - 📜 Interacts with Recip-e to send prescriptions
 - 🧩 Ready to integrate into medical apps
 - 💾 Secure token and certificate storage in IndexedDB
@@ -39,7 +57,7 @@ It integrates iCure's APIs — `@icure/cardinal-be-sam` and `@icure/be-fhc-api` 
 ## 🧰 Technologies
 
 - **Angular 19.x Standalone components**
-- **iCure SDKs** (`@icure/cardinal-be-sam`, `@icure/be-fhc-api`)
+- **iCure SDKs** ( `@icure/be-fhc-api`, `@icure/cardinal-be-sam-sdk`, `@icure/medication-sdk`)
 - **RxJS** for reactive data handling
 - **IndexedDB** for token & certificate persistence
 - **SCSS** for component styles
@@ -56,7 +74,6 @@ Before starting, make sure you have:
 
 - **Node.js v16+ and Yarn** installed
 - A **valid Belgian practitioner certificate file** that you can load into the app
-- The **ICURE_URL** environment URL
 - The **practitioner credentials** for iCure authentication — these must be generated on your side.  
   You can do this inside your application using the `@icure/cardinal-sdk` for a more scalable approach (we will add How-To), or via the iCure Cockpit (we recommend this only for testing purposes or for very small projects):
   - [Create a HCP in Cockpit](https://docs.icure.com/cockpit/how-to/how-to-manage-hcp#creating-an-hcp)
@@ -64,25 +81,130 @@ Before starting, make sure you have:
     Once generated, you will need the HCP’s email address and the authentication token.
 - The **patient** and **healthcare professional** information to populate prescriptions
 
-
 ---
 
 ## 🚀 Getting started
 
-*(This section will be updated when published as a library.)*
+### Install the library:
+
+```bash
+yarn add cardinal-prescription-be-angular
+```
 
 ---
 
-## 🧑‍💻 Development server
+## 🧩 Available Components and How to Use Them
+This library provides modular, standalone Angular components to integrate Belgian prescription workflows into your app.
 
-To start a local development server, run:
+### 🧾 `<cardinal-practitioner-certificate />`
+Handles practitioner certificate upload, decryption, and validation.
 
-```bash
-ng serve
-
+```html
+<cardinal-practitioner-certificate
+[hcp]="hcp"
+[certificateUploaded]="certificateUploaded"
+[certificateValid]="certificateValid"
+[errorWhileVerifyingCertificate]="errorMessage"
+(onUploadCertificate)="handleCertificateUpload($event)"
+></cardinal-practitioner-certificate>
 ```
-Once the server is running, open your browser and navigate to http://localhost:4200/.
-The application will automatically reload whenever you modify any of the source files.
+
+### 💊 `<cardinal-medication-search />`
+Displays a medication search interface using SAM. Triggers an event when a medication is selected for prescription.
+
+```html
+<cardinal-medication-search
+  [deliveryEnvironment]="'P'"
+  (addPrescription)="onCreatePrescription($event)"
+></cardinal-medication-search>
+```
+
+### 📋 `<cardinal-prescription-list />`
+Lists created prescriptions and exposes actions to send, modify, print, or delete them.
+
+```html
+<cardinal-prescription-list
+  [prescribedMedications]="prescriptions"
+  [sending]="sending"
+  [printing]="printing"
+  (handleModifyPrescription)="onModify($event)"
+  (handleDeletePrescription)="onDelete($event)"
+  (sendPrescriptions)="onSend()"
+  (printPrescriptions)="onPrint()"
+  (sendAndPrintPrescriptions)="onSendAndPrint()"
+></cardinal-prescription-list>
+```
+
+### 📝 `<cardinal-prescription-modal />`
+Modal for creating or modifying prescriptions with structured/unstructured posology.
+
+```html
+<cardinal-prescription-modal
+  [modalTitle]="'New prescription'"
+  [medicationToPrescribe]="medication"
+  (handleSubmit)="onSubmit($event)"
+  (handleCancel)="onClose()"
+></cardinal-prescription-modal>
+```
+
+### 🖨 `<cardinal-print-prescription-modal />`
+Generates a printable PDF view of one or more prescriptions.
+
+```html
+<cardinal-print-prescription-modal
+  [prescribedMedications]="prescriptions"
+  [prescriber]="hcp"
+  [patient]="patient"
+  (onCloseModal)="onClosePrintModal()"
+></cardinal-print-prescription-modal>
+```
+
+---
+
+## 🧠 Available Services and How to Use Them
+These services can be injected in your Angular components or other services to handle backend logic, certificates, and translation.
+
+### 🧾 `SamSdkService`
+Wraps the iCure SAM SDK. Manages SDK instance and exposes SAM search/version APIs.
+
+```ts
+constructor(private samSdkService: SamSdkService) {}
+
+await samSdkService.setSdk(samInstance);
+const version = await samSdkService.getSamVersion();
+```
+
+### 🔐 `FhcService`
+Handles interactions with the iCure Free Health Connector (FHC) API, including certificate verification and prescription sending.
+
+```ts
+constructor(private fhcService: FhcService) {}
+
+await fhcService.sendRecipe(samVersion, hcp, patient, prescription, passphrase, tokenStore);
+```
+
+### 🔒 `UploadPractitionerCertificateService`
+Provides helper methods for encrypting, decrypting, saving, and validating practitioner certificates using IndexedDB.
+
+```ts
+constructor(private certService: UploadPractitionerCertificateService) {}
+
+const db = await certService.openCertificatesDatabase();
+await certService.uploadAndEncrypt(db, hcpId, passphrase, certBuffer);
+```
+
+### 🌐 `TranslationService`
+Handles translations based on a predefined dictionary and active language. Set and get the app’s language. Supports `fr - French`, `en - English`, `nl - Dutch`, and `de - German`.
+```ts
+constructor(private translationService: TranslationService) {}
+
+ngOnInit() {
+  this.translationService.setLanguage('fr');
+  const lang = this.translationService.getCurrentLanguage();
+}
+
+const label = translationService.translate('prescription.createTitle');
+```
 
 ---
 
@@ -108,9 +230,6 @@ More information is available on the [SAM portal](https://www.samportal.be/nl/sa
 
 ## 🧪 Medications of interest for tests
 
-#### ⚠️ End of commercialization
-//TODO Need to find an example
-
 #### 🚨 Commercialization & supply problems
 
 * `Polydexa 10 mg/ml`
@@ -127,7 +246,26 @@ More information is available on the [SAM portal](https://www.samportal.be/nl/sa
 * `Ultiva`
 * `Rapifen`
 
+#### ⚠️ Black triangle (additional monitoring), RMA
+
+* `Increlex`
+
 ---
 
 > 💡 **Note:**
 > This module is built for integration with [Belgium’s SAM platform](https://www.samportal.be/nl/sam/documentation), is modular, and can be easily adapted for use in other medical solutions.
+
+---
+
+## ✏️ Example: Full Demo Application
+
+To see the full working version, you can clone the GitHub repository and run the included demo app.
+
+``` bash
+git clone https://github.com/icure/cardinal-prescription-angular
+cd cardinal-prescription-angular
+yarn install
+ng serve
+```
+
+>Make sure to set up your .env variables or hardcode your credentials and HCP/Patient data for testing.

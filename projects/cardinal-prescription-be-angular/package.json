@@ -1,0 +1,23 @@
+{
+  "name": "@icure/cardinal-prescription-be-angular",
+  "version": "0.0.1",
+  "author": "iCure Belgium",
+  "description": "This is a Belgian-specific Angular application for healthcare professionals to manage electronic prescriptions with SAM. Created by iCure.",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": ">=13.0.0",
+    "@angular/core": ">=13.0.0",
+    "@angular/forms": ">=13.0.0",
+    "@angular/router": ">=13.0.0",
+    "@icure/be-fhc-api": "^0.5.4",
+    "@icure/cardinal-be-sam-sdk": "^0.0.1",
+    "@icure/medication-sdk": "^0.0.8",
+    "rxjs": "^7.0.0",
+    "uuid": "^11.0.0"
+  },
+  "keywords": ["angular", "healthcare", "prescription", "icure", "cardinal"],
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

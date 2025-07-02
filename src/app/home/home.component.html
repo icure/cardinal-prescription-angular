@@ -1,24 +1,27 @@
 <div class="home" *ngIf="uiReady">
-  <app-practitioner-certificate
+  <cardinal-practitioner-certificate
     [hcp]="hcp"
     [certificateUploaded]="certificateUploaded"
     [certificateValid]="certificateValid"
     [errorWhileVerifyingCertificate]="errorWhileVerifyingCertificate"
-    (onUploadCertificate)="onUploadCertificate($event)" />
+    (onUploadCertificate)="onUploadCertificate($event)">
+  </cardinal-practitioner-certificate>
+
   <div class="home__divider"></div>
   <p>
     {{ t('home.samVersionLabel') }} <strong>{{ samVersion?.version }}</strong>
   </p>
   <div class="home__divider"></div>
 
-  <app-medication-search
+  <cardinal-medication-search
     *ngIf="certificateValid && !errorWhileVerifyingCertificate"
     (addPrescription)="onCreatePrescription($event)"
-    [deliveryEnvironment]="deliveryEnvironment" />
+    [deliveryEnvironment]="deliveryEnvironment">
+  </cardinal-medication-search>
 
   <div class="home__divider"></div>
 
-  <app-prescription-list
+  <cardinal-prescription-list
     *ngIf="prescriptions"
     [prescribedMedications]="prescriptions"
     [sending]="arePrescriptionsSending"
@@ -27,26 +30,30 @@
     (handleDeletePrescription)="onDeletePrescription($event)"
     (sendPrescriptions)="onSendPrescriptions()"
     (printPrescriptions)="onPrintPrescriptions()"
-    (sendAndPrintPrescriptions)="onSendAndPrintPrescriptions()" />
+    (sendAndPrintPrescriptions)="onSendAndPrintPrescriptions()">
+  </cardinal-prescription-list>
 
-  <app-prescription-modal
+  <cardinal-prescription-modal
     *ngIf="prescriptionModalMode === 'create'"
     [modalTitle]="t('prescription.createTitle')"
     (handleSubmit)="onSubmitCreatePrescription($event)"
     (handleCancel)="onClosePrescriptionModal()"
-    [medicationToPrescribe]="medicationToPrescribe" />
+    [medicationToPrescribe]="medicationToPrescribe">
+  </cardinal-prescription-modal>
 
-  <app-prescription-modal
+  <cardinal-prescription-modal
     *ngIf="prescriptionModalMode === 'modify'"
     [modalTitle]="t('prescription.modifyTitle')"
     (handleSubmit)="onSubmitModifyPrescription($event)"
     (handleCancel)="onClosePrescriptionModal()"
-    [prescriptionToModify]="prescriptionToModify" />
+    [prescriptionToModify]="prescriptionToModify">
+  </cardinal-prescription-modal>
 
-  <app-print-prescription-modal
+  <cardinal-print-prescription-modal
     *ngIf="prescriptions && showPrintPrescriptionsModal"
     [prescribedMedications]="prescriptions"
     [prescriber]="hcp"
     [patient]="patient"
-    (onCloseModal)="onClosePrintPrescriptionsModal()" />
+    (onCloseModal)="onClosePrintPrescriptionsModal()">
+  </cardinal-print-prescription-modal>
 </div>

@@ -1,0 +1,54 @@
+<div class="prescriptionsWrap">
+  <div *ngIf="sentPrescriptions.length" class="prescriptions">
+    <p class="prescriptions__title">{{ t('prescription.list.sentTitle') }}</p>
+    <div class="prescriptions__rows">
+      <cardinal-prescription-card
+        *ngFor="let medication of sentPrescriptions"
+        [prescribedMedication]="medication"
+        (handleModifyPrescription)="handleModifyPrescription.emit($event)"
+        (handleDeletePrescription)="handleDeletePrescription.emit($event)" />
+    </div>
+
+    <div class="prescriptions__footer">
+      <cardinal-button
+        [disabled]="sending"
+        [view]="printing && !sending ? 'withSpinner' : 'outlined'"
+        type="submit"
+        (click)="onClickPrint()">
+        {{ t('prescription.list.print') }}
+      </cardinal-button>
+    </div>
+  </div>
+
+  <div *ngIf="pendingPrescriptions.length" class="prescriptions">
+    <p class="prescriptions__title">
+      {{ t('prescription.list.pendingTitle') }}
+    </p>
+
+    <div class="prescriptions__rows">
+      <cardinal-prescription-card
+        *ngFor="let medication of pendingPrescriptions"
+        [prescribedMedication]="medication"
+        (handleModifyPrescription)="handleModifyPrescription.emit($event)"
+        (handleDeletePrescription)="handleDeletePrescription.emit($event)" />
+    </div>
+
+    <div class="prescriptions__footer">
+      <cardinal-button
+        [disabled]="sending"
+        [view]="printing ? 'withSpinner' : 'outlined'"
+        type="submit"
+        (click)="onClickSendAndPrint()">
+        {{ t('prescription.list.sendAndPrint') }}
+      </cardinal-button>
+
+      <cardinal-button
+        [disabled]="printing"
+        [view]="sending && !printing ? 'withSpinner' : 'primary'"
+        type="submit"
+        (click)="onClickSend()">
+        {{ t('prescription.list.send') }}
+      </cardinal-button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+@use '../../../../../styles/index' as global;
+
+.textInput {
+  @include global.field-common-styles;
+
+  label {
+    @include global.label-common-styles;
+  }
+
+  input {
+    @include global.input-common-styles;
+
+    &::file-selector-button {
+      border-radius: 0;
+      height: 100%;
+      cursor: pointer;
+      background-color: white;
+      border: none;
+      border-right: 1px solid rgba(0, 0, 0, 0.16);
+      margin-right: 16px;
+      padding-right: 12px;
+      transition: background-color 200ms;
+    }
+  }
+
+  &__error {
+    @include global.error-message-common-styles;
+  }
+}

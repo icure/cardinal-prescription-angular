@@ -1,0 +1,34 @@
+<div class="printPrescriptionModal">
+  <div class="printPrescriptionModal__contentWrap">
+    <div class="printPrescriptionModal__content">
+      <div class="printPrescriptionModal__content__header">
+        <h3>{{ t('practitioner.printModal.title') }}</h3>
+        <button
+          type="reset"
+          class="printPrescriptionModal__content__header__closeIcn"
+          (click)="onCloseModal.emit()">
+          <cardinal-close-icn color="#4B6682" />
+        </button>
+      </div>
+      <div class="printPrescriptionModal__content__body">
+        <div #printContainer id="print-container">
+          <cardinal-prescription-document-to-print
+            [prescribedMedications]="sentPrescriptions"
+            [prescriber]="prescriber"
+            [patient]="patient" />
+        </div>
+      </div>
+      <div class="printPrescriptionModal__content__footer">
+        <cardinal-button
+          [view]="'outlined'"
+          [type]="'reset'"
+          (click)="onCloseModal.emit()">
+          {{ t('practitioner.printModal.close') }}
+        </cardinal-button>
+        <cardinal-button [type]="'submit'" (click)="print()" [view]="'primary'">
+          {{ t('practitioner.printModal.print') }}
+        </cardinal-button>
+      </div>
+    </div>
+  </div>
+</div>

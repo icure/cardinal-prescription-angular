@@ -1,0 +1,24 @@
+<div class="certificate">
+  <cardinal-certificate-status
+    *ngIf="certificateValid && !errorWhileVerifyingCertificate"
+    [status]="'success'"
+    [title]="t('practitioner.certificateFeedback.successTitle')"
+    [description]="t('practitioner.certificateFeedback.successDescription')" />
+
+  <cardinal-certificate-status
+    *ngIf="!certificateValid && !certificateUploaded"
+    [status]="'error'"
+    [title]="t('practitioner.certificateFeedback.failureTitle')"
+    [description]="t('practitioner.certificateFeedback.failureDescription')" />
+
+  <cardinal-certificate-status
+    *ngIf="errorWhileVerifyingCertificate"
+    [status]="'error'"
+    [title]="t('practitioner.certificateFeedback.verificationErrorTitle')"
+    [description]="errorWhileVerifyingCertificate" />
+
+  <cardinal-certificate-upload
+    [hcp]="hcp"
+    *ngIf="!certificateValid || !certificateUploaded"
+    (onUploadCertificate)="onUploadCertificate.emit($event)" />
+</div>
