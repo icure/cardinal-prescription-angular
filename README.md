@@ -269,3 +269,22 @@ ng serve
 ```
 
 >Make sure to set up your .env variables or hardcode your credentials and HCP/Patient data for testing.
+
+## 🆕 Update & Republish the Library
+
+1. After making changes:
+
+Bump version in package.json (e.g., "version": "1.0.1").
+
+2. Rebuild:
+
+```bash
+yarn build cardinal-prescription-be-angular
+```
+
+3. Go to dist/... folder and publish again:
+
+```bash
+cd dist/cardinal-prescription-be-angular
+npm publish
+```
