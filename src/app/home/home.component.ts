@@ -10,19 +10,24 @@ import {
   Credentials,
   SamText,
   SamVersion,
-} from '@icure/cardinal-be-sam';
+} from '@icure/cardinal-be-sam-sdk';
 import { Patient, HealthcareParty, Address } from '@icure/be-fhc-api';
 
-import { SamSdkService } from '../services/api/sam-sdk.service';
-import { PrescriptionModalComponent } from '../components/prescription-modal/prescription-modal.component';
-import { MedicationSearchComponent } from '../components/medication-elements/medication-search/medication-search.component';
-import { MedicationType, PrescribedMedicationType, TokenStore } from '../types';
-import { PrescriptionListComponent } from '../components/prescription-elements/prescription-list/prescription-list.component';
-import { FhcService } from '../services/api/fhc.service';
-import { UploadPractitionerCertificateService } from '../services/practitioner/upload-practitioner-certificate.service';
-import { PractitionerCertificateComponent } from '../components/practitioner-certificate-elements/practitioner-certificate/practitioner-certificate.component';
-import { PrintPrescriptionModalComponent } from '../components/prescription-elements/print-prescription-modal/print-prescription-modal.component';
-import { TranslationService } from '../services/translation/translation.service';
+import { SamSdkService } from 'cardinal-prescription-be-angular';
+import { PrescriptionModalComponent } from 'cardinal-prescription-be-angular';
+import { MedicationSearchComponent } from 'cardinal-prescription-be-angular';
+import {
+  MedicationType,
+  PrescribedMedicationType,
+  TokenStore,
+} from 'cardinal-prescription-be-angular';
+import { PrescriptionListComponent } from 'cardinal-prescription-be-angular';
+import { FhcService } from 'cardinal-prescription-be-angular';
+import { UploadPractitionerCertificateService } from 'cardinal-prescription-be-angular';
+import { PractitionerCertificateComponent } from 'cardinal-prescription-be-angular';
+import { PrintPrescriptionModalComponent } from 'cardinal-prescription-be-angular';
+import { TranslationService } from 'cardinal-prescription-be-angular';
+import { IndexedDbTokenStoreService } from 'cardinal-prescription-be-angular';
 
 @Component({
   selector: 'app-home',
@@ -53,8 +58,9 @@ export class HomeComponent implements OnInit {
   prescriptionToModify?: PrescribedMedicationType;
   prescriptions: PrescribedMedicationType[] = [];
   showPrintPrescriptionsModal = false;
-  db!: IDBDatabase;
   language: keyof SamText = 'fr';
+  db: IDBDatabase | undefined;
+  indexedDbTokenStore: TokenStore | undefined;
 
   arePrescriptionsSending = false;
   arePrescriptionsPrinting = false;
@@ -81,55 +87,45 @@ export class HomeComponent implements OnInit {
       }),
     ],
   };
+
+  // To create new Credentials.UsernamePassword(), follow these steps:
+  // 1. Go to https://cockpit.icure.dev/ — the management platform for Cardinal.
+  // 2. Register and log in.
+  // 3. Create a solution, then a database, and then a healthcare professional (HCP).
+  // 4. For this HCP, generate an Active Authentication Token.
+  // 5. Use the HCP's email address as the username, and the token as the password.
   practitionerCredentials = {
     username: 'larisa.shashuk+medicationsTest@gmail.com',
     password: '5aa9d0f0-2fab-4f9f-9f6a-5d8244280873',
   };
   ICURE_URL = 'https://nightly.icure.cloud';
 
-  //TODO: There is going to be an alternative how to upload the practitioner's certificate from a database and not from the input file
+  //TODO: There is going to be an alternative how to upload the certificate's certificate from a database and not from the input file
 
   constructor(
     private samSdkService: SamSdkService,
     private fhcService: FhcService,
     private certificateService: UploadPractitionerCertificateService,
     private translationService: TranslationService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private indexedDbTokenStoreService: IndexedDbTokenStoreService
   ) {}
 
   t(key: string): string {
     return this.translationService.translate(key);
   }
 
-  get indexedDbTokenStore(): TokenStore {
-    return {
-      get: (key: string) => {
-        return new Promise((resolve, reject) => {
-          const tx = this.db.transaction('certificates', 'readonly');
-          const store = tx.objectStore('certificates');
-          const request = store.get(key);
-          request.onsuccess = () => {
-            request.result
-              ? resolve(request.result.value)
-              : reject(new Error(`No value for key: ${key}`));
-          };
-          request.onerror = () => reject(request.error);
-        });
-      },
-      put: (key: string, value: string) => {
-        return new Promise((resolve, reject) => {
-          const tx = this.db.transaction('certificates', 'readwrite');
-          const store = tx.objectStore('certificates');
-          const request = store.put({ id: key, value });
-          request.onsuccess = () => resolve(value);
-          request.onerror = () => reject(request.error);
-        });
-      },
-    };
-  }
-
   async ngOnInit() {
+    // Set the application language here.
+    // Supported languages: 'fr', 'en', 'nl', 'de'
+    this.translationService.setLanguage('en');
+
     this.language = this.translationService.getCurrentLanguage();
+    this.db = await this.indexedDbTokenStoreService.open();
+    this.indexedDbTokenStore = this.indexedDbTokenStoreService.getTokenStore(
+      this.db
+    );
+
     try {
       // Create the SDK instance outside the service:
       const instance = await CardinalBeSamSdk.initialize(
@@ -171,23 +167,16 @@ export class HomeComponent implements OnInit {
   }
 
   async validateCertificate() {
-    try {
-      await this.certificateService.loadAndDecryptCertificate(
-        this.passphrase!,
-        this.hcp.ssin!
-      );
-      const res = await this.fhcService.verifyCertificateWithSts(
+    const certificateValidationResult =
+      await this.fhcService.validateDecryptedCertificate(
         this.hcp,
         this.passphrase!,
-        this.indexedDbTokenStore
+        this.indexedDbTokenStore!
       );
-      this.certificateValid = res.status;
-      this.errorWhileVerifyingCertificate = res.error?.[this.language];
-    } catch {
-      this.certificateValid = false;
-      this.errorWhileVerifyingCertificate = undefined;
-    }
-    this.cdr.markForCheck();
+
+    this.certificateValid = certificateValidationResult.status;
+    this.errorWhileVerifyingCertificate =
+      certificateValidationResult.error?.[this.language];
   }
 
   async onUploadCertificate(passphrase: string) {
@@ -207,7 +196,6 @@ export class HomeComponent implements OnInit {
     this.onClosePrescriptionModal();
     this.cdr.detectChanges();
   }
-
   onClosePrescriptionModal() {
     this.prescriptionModalMode = null;
     this.medicationToPrescribe = undefined;
@@ -232,14 +220,12 @@ export class HomeComponent implements OnInit {
     this.prescriptionToModify = { ...prescription };
     this.cdr.markForCheck();
   };
-
   onDeletePrescription(prescription: PrescribedMedicationType) {
     this.prescriptions = this.prescriptions?.filter(
       item => item.uuid !== prescription.uuid
     );
     this.cdr.markForCheck();
   }
-
   async onSendPrescriptions(): Promise<void> {
     if (this.prescriptions && this.samVersion && this.passphrase) {
       try {
@@ -255,7 +241,7 @@ export class HomeComponent implements OnInit {
               this.patient,
               med,
               this.passphrase!,
-              this.indexedDbTokenStore
+              this.indexedDbTokenStore!
             );
 
             return { ...med, rid: res[0]?.rid };
@@ -271,12 +257,10 @@ export class HomeComponent implements OnInit {
       console.warn('Missing data to send prescriptions');
     }
   }
-
   onPrintPrescriptions(): void {
     this.showPrintPrescriptionsModal = true;
     this.cdr.markForCheck();
   }
-
   async onSendAndPrintPrescriptions(): Promise<void> {
     this.arePrescriptionsPrinting = true;
 
@@ -290,7 +274,6 @@ export class HomeComponent implements OnInit {
       this.cdr.markForCheck();
     }
   }
-
   onClosePrintPrescriptionsModal = () => {
     this.showPrintPrescriptionsModal = false;
     this.cdr.markForCheck();

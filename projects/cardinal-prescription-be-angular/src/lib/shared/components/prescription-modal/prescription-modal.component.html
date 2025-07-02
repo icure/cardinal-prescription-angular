@@ -1,0 +1,227 @@
+<div class="addMedicationModal">
+  <div class="addMedicationModal__content">
+    <form
+      id="prescriptionForm"
+      class="addMedicationForm"
+      [formGroup]="prescriptionForm"
+      (ngSubmit)="onSubmit()">
+      <div class="addMedicationForm__header">
+        <h3>{{ modalTitle }}</h3>
+        <button
+          type="reset"
+          class="addMedicationForm__header__closeIcn"
+          (click)="onCancel()">
+          <cardinal-close-icn color="#4B6682" />
+        </button>
+      </div>
+      <div class="addMedicationForm__body">
+        <div class="addMedicationForm__body__content">
+          <cardinal-text-input
+            [required]="true"
+            [label]="t('prescription.form.medicationTitle')"
+            [id]="'medicationTitle'"
+            formControlName="medicationTitle"
+            [errorMessage]="getErrorMessage('medicationTitle')" />
+          <div class="dosageInput">
+            <cardinal-text-input
+              [label]="t('prescription.form.dosage')"
+              [id]="'dosage'"
+              [required]="true"
+              formControlName="dosage"
+              [errorMessage]="getErrorMessage('dosage')"
+              (keydown)="onKeyDownDosageSuggestions($event)" />
+            <ul
+              class="dosageInput__dropdown"
+              *ngIf="dosageSuggestions.length > 0">
+              <li
+                *ngFor="let suggestion of dosageSuggestions; let i = index"
+                [class.focused]="focusedDosageIndex === i"
+                (click)="validateSuggestion(i)">
+                {{ suggestion }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="addMedicationForm__body__content__inputsGroup">
+            <cardinal-text-input
+              [label]="t('prescription.form.duration')"
+              [id]="'duration'"
+              [type]="'number'"
+              formControlName="duration"
+              [min]="1"
+              [required]="true"
+              [errorMessage]="getErrorMessage('duration')" />
+
+            <cardinal-select-input
+              [label]="t('prescription.form.durationTimeUnit')"
+              [id]="'durationTimeUnit'"
+              [required]="true"
+              [options]="durationTimeUnits"
+              formControlName="durationTimeUnit"
+              [errorMessage]="getErrorMessage('durationTimeUnit')" />
+          </div>
+          <div class="addMedicationForm__body__content__inputsGroup">
+            <cardinal-text-input
+              [label]="t('prescription.form.treatmentStartDate')"
+              [id]="'treatmentStartDate'"
+              [type]="'date'"
+              [required]="true"
+              formControlName="treatmentStartDate"
+              [errorMessage]="getErrorMessage('treatmentStartDate')" />
+
+            <cardinal-text-input
+              [label]="t('prescription.form.executableUntil')"
+              [id]="'executableUntil'"
+              [type]="'date'"
+              [required]="true"
+              formControlName="executableUntil"
+              [errorMessage]="getErrorMessage('executableUntil')" />
+          </div>
+
+          <div
+            class="addMedicationForm__body__content__inputsGroup"
+            *ngIf="medicationToPrescribe">
+            <cardinal-text-input
+              [label]="t('prescription.form.prescriptionsNumber')"
+              [id]="'prescriptionsNumber'"
+              [type]="'number'"
+              [min]="1"
+              [required]="true"
+              formControlName="prescriptionsNumber"
+              [errorMessage]="getErrorMessage('prescriptionsNumber')" />
+
+            <cardinal-select-input
+              [label]="t('prescription.form.periodicityTimeUnit')"
+              [id]="'periodicityTimeUnit'"
+              [required]="true"
+              [options]="periodicityTimeUnits"
+              formControlName="periodicityTimeUnit"
+              *ngIf="
+                prescriptionForm.get('prescriptionsNumber')?.value &&
+                prescriptionForm.get('prescriptionsNumber')?.value > 1
+              "
+              [errorMessage]="getErrorMessage('periodicityTimeUnit')" />
+
+            <cardinal-text-input
+              [label]="t('prescription.form.periodicityDaysNumber')"
+              [id]="'periodicityDaysNumber'"
+              [type]="'number'"
+              [min]="1"
+              [required]="true"
+              formControlName="periodicityDaysNumber"
+              *ngIf="
+                prescriptionForm.get('prescriptionsNumber')?.value &&
+                prescriptionForm.get('periodicityTimeUnit')?.value &&
+                prescriptionForm.get('periodicityTimeUnit')?.value === '1'
+              "
+              [errorMessage]="getErrorMessage('periodicityDaysNumber')" />
+          </div>
+
+          <div class="addMedicationForm__body__content__radioBtns">
+            <cardinal-radio-input
+              [name]="'substitutionAllowed'"
+              [label]="t('prescription.form.substitutionAllowed')"
+              [options]="[
+                {
+                  id: 'yes',
+                  label: t('prescription.form.substitutionYes'),
+                  value: true,
+                },
+                {
+                  id: 'no',
+                  label: t('prescription.form.substitutionNo'),
+                  value: false,
+                },
+              ]"
+              formControlName="substitutionAllowed"
+              [required]="true"
+              [errorMessage]="getErrorMessage('substitutionAllowed')" />
+          </div>
+        </div>
+        <cardinal-toggle-switch
+          [id]="'showExtraFields'"
+          formControlName="showExtraFields"
+          [value]="t('prescription.form.toggleExtraFields')" />
+
+        <div
+          class="addMedicationForm__body__extraFieldsPreview"
+          *ngIf="prescriptionForm.get('showExtraFields')?.value === false">
+          <p>
+            <span>{{ t('prescription.form.patientInstructions') }} :</span>
+            <i
+              ><span> {{ recipeInstructionForPatientLabel }}</span></i
+            >
+          </p>
+          <p>
+            <span
+              >{{ t('prescription.form.reimbursementInstructions') }} :</span
+            >
+            <i
+              ><span> {{ selectedReimbursementLabel }}</span></i
+            >
+          </p>
+          <p>
+            <span>{{ t('prescription.form.prescriberVisibility') }} :</span>
+            <i
+              ><span> {{ selectedPractitionerVisibilityLabel }}</span></i
+            >
+          </p>
+
+          <p>
+            <span>{{ t('prescription.form.pharmacistVisibility') }} :</span>
+            <i
+              ><span> {{ selectedPharmacistVisibilityLabel }}</span></i
+            >
+          </p>
+
+          <p></p>
+        </div>
+
+        <div
+          class="addMedicationForm__body__content"
+          *ngIf="prescriptionForm.get('showExtraFields')?.value === true">
+          <cardinal-textarea-input
+            [label]="t('prescription.form.patientInstructions')"
+            [id]="'recipeInstructionForPatient'"
+            formControlName="recipeInstructionForPatient"
+            *ngIf="prescriptionForm.get('showExtraFields')?.value === true" />
+
+          <cardinal-select-input
+            [label]="t('prescription.form.reimbursementInstructions')"
+            [id]="'instructionsForReimbursement'"
+            [options]="reimbursementOptions"
+            formControlName="instructionsForReimbursement"
+            *ngIf="prescriptionForm.get('showExtraFields')?.value === true" />
+
+          <cardinal-select-input
+            [label]="t('prescription.form.prescriberVisibility')"
+            [id]="'prescriberVisibility'"
+            [options]="practitionerVisibilityOptions"
+            formControlName="prescriberVisibility"
+            *ngIf="prescriptionForm.get('showExtraFields')?.value === true" />
+
+          <cardinal-select-input
+            [label]="t('prescription.form.pharmacistVisibility')"
+            [id]="'pharmacistVisibility'"
+            [options]="pharmacistVisibilityOptions"
+            formControlName="pharmacistVisibility"
+            *ngIf="prescriptionForm.get('showExtraFields')?.value === true" />
+        </div>
+      </div>
+      <div class="addMedicationForm__footer">
+        <cardinal-button
+          [view]="'outlined'"
+          [type]="'reset'"
+          (handleClick)="onCancel()">
+          {{ t('prescription.form.cancel') }}
+        </cardinal-button>
+        <cardinal-button
+          [type]="'submit'"
+          (handleClick)="onSubmit()"
+          [view]="'primary'">
+          {{ t('prescription.form.submit') }}
+        </cardinal-button>
+      </div>
+    </form>
+  </div>
+</div>

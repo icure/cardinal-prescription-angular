@@ -1,1 +1,0 @@
-{"version":3,"file":"api.mjs","sourceRoot":"","sources":["../tsSourcesProject/api.mts"],"names":[],"mappings":"AAAA,cAAc,oBAAoB,CAAA","sourcesContent":["export * from './api/SamV2Api.mjs'\n"]}

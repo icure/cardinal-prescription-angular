@@ -1,0 +1,17 @@
+@use '../../../../../styles/index' as global;
+
+.selectInput {
+  @include global.field-common-styles;
+
+  label {
+    @include global.label-common-styles;
+  }
+
+  select {
+    @include global.input-common-styles;
+  }
+
+  &__error {
+    @include global.error-message-common-styles;
+  }
+}

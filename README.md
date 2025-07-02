@@ -1,7 +1,8 @@
 # Cardinal Prescription Angular Component 🇧🇪
 
 This is a Belgian-specific Angular application for healthcare professionals to manage electronic prescriptions.  
-It integrates iCure's APIs — `@icure/cardinal-be-sam` and `@icure/be-fhc-api` — to streamline:
+It integrates iCure's APIs —  `@icure/be-fhc-api`,
+`@icure/cardinal-be-sam-sdk`, and `@icure/medication-sdk`, — to streamline:
 
 - 🔐 Practitioner certificate management
 - 🔍 Medication search
@@ -39,7 +40,7 @@ It integrates iCure's APIs — `@icure/cardinal-be-sam` and `@icure/be-fhc-api` 
 ## 🧰 Technologies
 
 - **Angular 19.x Standalone components**
-- **iCure SDKs** (`@icure/cardinal-be-sam`, `@icure/be-fhc-api`)
+- **iCure SDKs** ( `@icure/be-fhc-api`, `@icure/cardinal-be-sam-sdk`, `@icure/medication-sdk`)
 - **RxJS** for reactive data handling
 - **IndexedDB** for token & certificate persistence
 - **SCSS** for component styles

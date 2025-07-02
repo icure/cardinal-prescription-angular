@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslationService } from './services/translation/translation.service';
+import { TranslationService } from 'cardinal-prescription-be-angular';
 
 @Component({
   selector: 'app-root',
@@ -15,10 +15,9 @@ import { TranslationService } from './services/translation/translation.service';
 export class AppComponent {
   title = 'cardinal-prescription-angular';
 
-  // Set the application language here.
-  // Supported languages: 'fr', 'en', 'nl', 'de'
-
-  constructor(private translationService: TranslationService) {
-    this.translationService.setLanguage('fr');
-  }
+  // constructor(private translationService: TranslationService) {
+  //   // Set the application language here.
+  //   // Supported languages: 'fr', 'en', 'nl', 'de'
+  //   this.translationService.setLanguage('fr');
+  // }
 }
