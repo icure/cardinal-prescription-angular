@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Duration, Medication, Substanceproduct } from '@icure/be-fhc-api';
-import { Medicinalproduct } from '@icure/be-fhc-api/model/Medicinalproduct';
+import {
+  Duration,
+  Medication,
+  Substanceproduct,
+  Medicinalproduct,
+} from '@icure/be-fhc-lite-api';
 import { v4 as uuid } from 'uuid'; // For generating UUIDs
 import { FhcService } from '../../../shared/services/api/fhc.service';
 import { offsetDate } from '../../utils/date-helpers';

@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { HealthcareParty } from '@icure/be-fhc-api';
+import { HealthcareParty } from '@icure/be-fhc-lite-api';
 
 import { CertificateStatusComponent } from '../../../internal/components/certificate-elements/certificate-status/certificate-status.component';
 import { CertificateUploadComponent } from '../../../internal/components/certificate-elements/certificate-upload/certificate-upload.component';

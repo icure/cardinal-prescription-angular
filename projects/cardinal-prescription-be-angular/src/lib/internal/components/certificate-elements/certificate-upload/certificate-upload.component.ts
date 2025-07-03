@@ -17,7 +17,7 @@ import {
 } from '@angular/forms';
 import { TextInputComponent } from '../../form-elements/text-input/text-input.component';
 import { ButtonComponent } from '../../form-elements/button/button.component';
-import { HealthcareParty } from '@icure/be-fhc-api';
+import { HealthcareParty } from '@icure/be-fhc-lite-api';
 import { NgIf } from '@angular/common';
 import { CertificateStatusComponent } from '../certificate-status/certificate-status.component';
 import { TranslationService } from '../../../../shared/services/translation/translation.service';

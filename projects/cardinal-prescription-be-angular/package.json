@@ -9,11 +9,12 @@
     "@angular/core": ">=13.0.0",
     "@angular/forms": ">=13.0.0",
     "@angular/router": ">=13.0.0",
-    "@icure/be-fhc-api": "^0.5.4",
     "@icure/cardinal-be-sam-sdk": "^0.0.1",
     "@icure/medication-sdk": "^0.0.8",
+    "@icure/be-fhc-lite-api": "0.6.4",
     "rxjs": "^7.0.0",
-    "uuid": "^11.0.0"
+    "uuid": "^11.0.0",
+    "jsbarcode": "^3.11.6"
   },
   "keywords": [
     "angular",

@@ -7,7 +7,7 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Patient, HealthcareParty } from '@icure/be-fhc-api';
+import { Patient, HealthcareParty } from '@icure/be-fhc-lite-api';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { PrescriptionDocumentToPrintComponent } from '../../../internal/components/prescription-elements/prescription-document-to-print/prescription-document-to-print.component';

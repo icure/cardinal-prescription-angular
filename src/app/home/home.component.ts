@@ -11,7 +11,7 @@ import {
   SamText,
   SamVersion,
 } from '@icure/cardinal-be-sam-sdk';
-import { Patient, HealthcareParty, Address } from '@icure/be-fhc-api';
+import { Patient, HealthcareParty, Address } from '@icure/be-fhc-lite-api';
 
 import { SamSdkService } from 'cardinal-prescription-be-angular';
 import { PrescriptionModalComponent } from 'cardinal-prescription-be-angular';

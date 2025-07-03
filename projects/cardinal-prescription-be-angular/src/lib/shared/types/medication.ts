@@ -1,4 +1,4 @@
-import { Medication } from '@icure/be-fhc-api';
+import { Medication } from '@icure/be-fhc-lite-api';
 import {
   Commercialization,
   Reimbursement,
