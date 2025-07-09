@@ -85,6 +85,8 @@ Before starting, make sure you have:
 
 ## 🚀 Getting started
 
+This library is published on [npm](https://www.npmjs.com/package/@icure/cardinal-prescription-be-angular) for easy integration into your projects.
+
 ### Install the library:
 
 ```bash
