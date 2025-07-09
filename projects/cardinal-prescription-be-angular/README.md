@@ -60,7 +60,7 @@ It integrates iCure's APIs —  `@icure/be-fhc-lite-api`, `@icure/cardinal-be-sa
 - **UUID.js** for unique identifiers
 - **jsBarcode** for barcode generation in printed prescriptions
 
-## ⚙️Prerequisites
+## 🛠Prerequisites
 
 Before starting, make sure you have:
 
@@ -78,7 +78,11 @@ Before starting, make sure you have:
 ### Install the library:
 
 ```bash
-yarn add cardinal-prescription-be-angular
+yarn add @icure/cardinal-prescription-be-angular
+```
+
+```bash
+npm i @icure/cardinal-prescription-be-angular
 ```
 
 ## 🧩Available Components and How to Use Them
