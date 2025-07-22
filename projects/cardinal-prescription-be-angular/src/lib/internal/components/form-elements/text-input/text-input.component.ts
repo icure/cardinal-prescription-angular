@@ -36,7 +36,7 @@ export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
   @Input() type?: 'text' | 'number' | 'date' | 'password' | 'file' = 'text';
   @Input() required? = false;
   @Input() autofocus? = false;
-  @Input() disabled = false;
+  @Input() disabled?: boolean | undefined = false;
   @Input() min?: number;
   @Input() max?: number;
   @Input() accept?: string;

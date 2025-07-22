@@ -165,59 +165,50 @@ export class PrescriptionModalComponent
   }
 
   private getInitialFormValues(): Record<string, any> {
-    const base = {
-      medicationTitle: this.medicationToPrescribe?.title ?? '',
-      dosage: '',
-      duration: 1,
-      durationTimeUnit: this.durationTimeUnits[0]?.value,
+    const medicationTitleValue =
+      this.medicationToPrescribe?.title ??
+      this.prescriptionToModify?.medication.medicinalProduct?.intendedname ??
+      this.prescriptionToModify?.medication.substanceProduct?.intendedname ??
+      this.prescriptionToModify?.medication.compoundPrescription ??
+      '';
+
+    return {
+      medicationTitle: {
+        value: medicationTitleValue,
+        disabled: true,
+      },
+      dosage: this.prescriptionToModify?.medication.instructionForPatient ?? '',
+      duration:
+        getDurationFromDays(
+          this.prescriptionToModify?.medication.duration?.value ?? 1
+        ).duration ?? 1,
+      durationTimeUnit:
+        getDurationFromDays(
+          this.prescriptionToModify?.medication.duration?.value ?? 1
+        ).durationTimeUnit ?? this.durationTimeUnits[0]?.value,
       treatmentStartDate: getTreatmentStartDate(this.prescriptionToModify),
       executableUntil: getExecutableUntilDate(this.prescriptionToModify),
       prescriptionsNumber: 1,
-      substitutionAllowed: false,
+      substitutionAllowed:
+        this.prescriptionToModify?.medication.substitutionAllowed ?? false,
       showExtraFields: false,
       periodicityTimeUnit: this.periodicityTimeUnits[0]?.value,
       periodicityDaysNumber: 1,
-      recipeInstructionForPatient: undefined,
-      instructionsForReimbursement: this.reimbursementOptions?.[0]?.value,
-      prescriberVisibility: this.practitionerVisibilityOptions?.[0]?.value,
-      pharmacistVisibility: this.pharmacistVisibilityOptions?.[0]?.value,
-    };
-
-    if (!this.prescriptionToModify) return base;
-
-    const duration = getDurationFromDays(
-      this.prescriptionToModify.medication.duration?.value ?? 1
-    );
-
-    return {
-      ...base,
-      medicationTitle:
-        this.prescriptionToModify.medication.medicinalProduct?.intendedname ??
-        '',
-      dosage: this.prescriptionToModify.medication.instructionForPatient,
-      duration: duration.duration,
-      durationTimeUnit: duration.durationTimeUnit,
       recipeInstructionForPatient:
-        this.prescriptionToModify.medication.recipeInstructionForPatient,
-      substitutionAllowed:
-        this.prescriptionToModify.medication.substitutionAllowed,
+        this.prescriptionToModify?.medication.recipeInstructionForPatient,
       instructionsForReimbursement:
-        this.prescriptionToModify.medication.instructionsForReimbursement ??
-        base.instructionsForReimbursement,
+        this.prescriptionToModify?.medication.instructionsForReimbursement ??
+        this.reimbursementOptions?.[0]?.value,
       prescriberVisibility:
-        this.prescriptionToModify.prescriberVisibility ??
-        base.prescriberVisibility,
+        this.prescriptionToModify?.prescriberVisibility ??
+        this.practitionerVisibilityOptions?.[0]?.value,
       pharmacistVisibility:
-        this.prescriptionToModify.pharmacistVisibility ??
-        base.pharmacistVisibility,
+        this.prescriptionToModify?.pharmacistVisibility ??
+        this.pharmacistVisibilityOptions?.[0]?.value,
     };
   }
-
   private initForm(): void {
-    this.prescriptionForm = this.fb.group({
-      medicationTitle: [{ value: '', disabled: true }, Validators.required],
-      ...this.fb.group(this.getInitialFormValues()).controls,
-    });
+    this.prescriptionForm = this.fb.group(this.getInitialFormValues());
 
     this.recipeInstructionForPatientLabel =
       this.prescriptionToModify?.medication.recipeInstructionForPatient ??

@@ -57,10 +57,11 @@ export class PrintPrescriptionModalComponent {
       newDiv.id = 'new' + div.id;
 
       const hideFrame = document.createElement('iframe');
-      hideFrame.style.display = 'none'; // Hide iframe during printing
-      document.body.appendChild(hideFrame);
+      hideFrame.style.display = 'none';
 
+      // Set onload handler BEFORE setting src and appending to DOM
       hideFrame.onload = () => {
+        console.log('Frame loaded, ready to print');
         const setPrint = () => {
           const closePrint = () => {
             document.body.removeChild(hideFrame);
@@ -86,6 +87,10 @@ export class PrintPrescriptionModalComponent {
         };
         setPrint();
       };
+
+      // Set src and append to DOM after onload handler is set
+      hideFrame.src = 'about:blank';
+      document.body.appendChild(hideFrame);
     }
   }
 }

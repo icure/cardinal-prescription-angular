@@ -54,6 +54,23 @@ export class CreatePrescriptionService {
         ...prescribedMedication,
         medication: new Medication({
           ...prescribedMedication.medication,
+          beginMoment: offsetDate(
+            parseInt(
+              (formValues.treatmentStartDate as string)?.replace(/-/g, '')
+            ),
+            formValues.periodicityTimeUnit
+              ? parseInt(formValues.periodicityTimeUnit) *
+                  (formValues.periodicityDaysNumber ?? 1)
+              : 0
+          ),
+
+          endMoment: offsetDate(
+            parseInt((formValues.executableUntil as string)?.replace(/-/g, '')),
+            formValues.periodicityTimeUnit
+              ? parseInt(formValues.periodicityTimeUnit) *
+                  (formValues.periodicityDaysNumber ?? 1)
+              : 0
+          ),
           duration: new Duration({
             unit: this.fhcService.createFhcFromCode('CD-TIMEUNIT', 'D'),
             value: getDurationInDays(
@@ -101,12 +118,21 @@ export class CreatePrescriptionService {
     return new Medication({
       ...medicationData,
       beginMoment: offsetDate(
-        parseInt((formValues.treatmentStartDate as string).replace(/-/g, '')),
-        this.calculateOffset(formValues, idx)
+        parseInt((formValues.treatmentStartDate as string)?.replace(/-/g, '')),
+        formValues.periodicityTimeUnit
+          ? parseInt(formValues.periodicityTimeUnit) *
+              (formValues.periodicityDaysNumber ?? 1) *
+              idx
+          : 0
       ),
+
       endMoment: offsetDate(
-        parseInt((formValues.executableUntil as string).replace(/-/g, '')),
-        this.calculateOffset(formValues, idx)
+        parseInt((formValues.executableUntil as string)?.replace(/-/g, '')),
+        formValues.periodicityTimeUnit
+          ? parseInt(formValues.periodicityTimeUnit) *
+              (formValues.periodicityDaysNumber ?? 1) *
+              idx
+          : 0
       ),
       duration: new Duration({
         unit: this.fhcService.createFhcFromCode('CD-TIMEUNIT', 'D'),
@@ -157,16 +183,5 @@ export class CreatePrescriptionService {
     } else {
       return { compoundPrescription: medicationToPrescribe.title };
     }
-  }
-
-  private calculateOffset(
-    formValues: PrescriptionFormType,
-    idx: number
-  ): number {
-    return formValues.periodicityTimeUnit
-      ? parseInt(formValues.periodicityTimeUnit) *
-          (formValues.periodicityDaysNumber ?? 1) *
-          idx
-      : 0;
   }
 }
