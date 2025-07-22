@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Duration, Medication, Substanceproduct } from '@icure/be-fhc-api';
-import { Medicinalproduct } from '@icure/be-fhc-api/model/Medicinalproduct';
+import {
+  Duration,
+  Medication,
+  Substanceproduct,
+  Medicinalproduct,
+} from '@icure/be-fhc-lite-api';
 import { v4 as uuid } from 'uuid'; // For generating UUIDs
 import { FhcService } from '../../../shared/services/api/fhc.service';
 import { offsetDate } from '../../utils/date-helpers';
@@ -50,6 +54,23 @@ export class CreatePrescriptionService {
         ...prescribedMedication,
         medication: new Medication({
           ...prescribedMedication.medication,
+          beginMoment: offsetDate(
+            parseInt(
+              (formValues.treatmentStartDate as string)?.replace(/-/g, '')
+            ),
+            formValues.periodicityTimeUnit
+              ? parseInt(formValues.periodicityTimeUnit) *
+                  (formValues.periodicityDaysNumber ?? 1)
+              : 0
+          ),
+
+          endMoment: offsetDate(
+            parseInt((formValues.executableUntil as string)?.replace(/-/g, '')),
+            formValues.periodicityTimeUnit
+              ? parseInt(formValues.periodicityTimeUnit) *
+                  (formValues.periodicityDaysNumber ?? 1)
+              : 0
+          ),
           duration: new Duration({
             unit: this.fhcService.createFhcFromCode('CD-TIMEUNIT', 'D'),
             value: getDurationInDays(
@@ -97,12 +118,21 @@ export class CreatePrescriptionService {
     return new Medication({
       ...medicationData,
       beginMoment: offsetDate(
-        parseInt((formValues.treatmentStartDate as string).replace(/-/g, '')),
-        this.calculateOffset(formValues, idx)
+        parseInt((formValues.treatmentStartDate as string)?.replace(/-/g, '')),
+        formValues.periodicityTimeUnit
+          ? parseInt(formValues.periodicityTimeUnit) *
+              (formValues.periodicityDaysNumber ?? 1) *
+              idx
+          : 0
       ),
+
       endMoment: offsetDate(
-        parseInt((formValues.executableUntil as string).replace(/-/g, '')),
-        this.calculateOffset(formValues, idx)
+        parseInt((formValues.executableUntil as string)?.replace(/-/g, '')),
+        formValues.periodicityTimeUnit
+          ? parseInt(formValues.periodicityTimeUnit) *
+              (formValues.periodicityDaysNumber ?? 1) *
+              idx
+          : 0
       ),
       duration: new Duration({
         unit: this.fhcService.createFhcFromCode('CD-TIMEUNIT', 'D'),
@@ -153,16 +183,5 @@ export class CreatePrescriptionService {
     } else {
       return { compoundPrescription: medicationToPrescribe.title };
     }
-  }
-
-  private calculateOffset(
-    formValues: PrescriptionFormType,
-    idx: number
-  ): number {
-    return formValues.periodicityTimeUnit
-      ? parseInt(formValues.periodicityTimeUnit) *
-          (formValues.periodicityDaysNumber ?? 1) *
-          idx
-      : 0;
   }
 }

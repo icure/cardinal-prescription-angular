@@ -11,7 +11,7 @@ import {
   SamText,
   SamVersion,
 } from '@icure/cardinal-be-sam-sdk';
-import { Patient, HealthcareParty, Address } from '@icure/be-fhc-api';
+import { Patient, HealthcareParty, Address } from '@icure/be-fhc-lite-api';
 
 import { SamSdkService } from 'cardinal-prescription-be-angular';
 import { PrescriptionModalComponent } from 'cardinal-prescription-be-angular';
@@ -118,7 +118,7 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     // Set the application language here.
     // Supported languages: 'fr', 'en', 'nl', 'de'
-    this.translationService.setLanguage('en');
+    this.translationService.setLanguage('fr');
 
     this.language = this.translationService.getCurrentLanguage();
     this.db = await this.indexedDbTokenStoreService.open();
@@ -141,6 +141,7 @@ export class HomeComponent implements OnInit {
       this.samSdkService.setSdk(instance.sam);
 
       this.samVersion = await this.samSdkService.getSamVersion();
+      // the same as  this.db = await this.indexedDbTokenStoreService.open();
       this.db = await this.certificateService.openCertificatesDatabase();
 
       try {
@@ -226,6 +227,7 @@ export class HomeComponent implements OnInit {
     );
     this.cdr.markForCheck();
   }
+
   async onSendPrescriptions(): Promise<void> {
     if (this.prescriptions && this.samVersion && this.passphrase) {
       try {

@@ -1,4 +1,4 @@
-import { Duration } from '@icure/be-fhc-api';
+import { Duration } from '@icure/be-fhc-lite-api';
 import {
   PractitionerVisibilityType,
   PharmacistVisibilityType,

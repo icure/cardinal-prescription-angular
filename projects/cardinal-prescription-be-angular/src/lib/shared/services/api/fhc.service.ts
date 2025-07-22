@@ -8,9 +8,9 @@ import {
   Patient,
   HealthcareParty,
   Code as FhcCode,
-} from '@icure/be-fhc-api';
+  SamlTokenResult,
+} from '@icure/be-fhc-lite-api';
 import { SamText, SamVersion } from '@icure/cardinal-be-sam-sdk';
-import { SamlTokenResult } from '@icure/be-fhc-api/model/SamlTokenResult';
 
 import { UploadPractitionerCertificateService } from '../certificate/upload-practitioner-certificate.service';
 import { dateEncode } from '../../../internal/utils/date-helpers';

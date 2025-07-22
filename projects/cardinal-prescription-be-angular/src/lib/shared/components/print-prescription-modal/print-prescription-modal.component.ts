@@ -7,7 +7,7 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Patient, HealthcareParty } from '@icure/be-fhc-api';
+import { Patient, HealthcareParty } from '@icure/be-fhc-lite-api';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { PrescriptionDocumentToPrintComponent } from '../../../internal/components/prescription-elements/prescription-document-to-print/prescription-document-to-print.component';
@@ -57,10 +57,11 @@ export class PrintPrescriptionModalComponent {
       newDiv.id = 'new' + div.id;
 
       const hideFrame = document.createElement('iframe');
-      hideFrame.style.display = 'none'; // Hide iframe during printing
-      document.body.appendChild(hideFrame);
+      hideFrame.style.display = 'none';
 
+      // Set onload handler BEFORE setting src and appending to DOM
       hideFrame.onload = () => {
+        console.log('Frame loaded, ready to print');
         const setPrint = () => {
           const closePrint = () => {
             document.body.removeChild(hideFrame);
@@ -86,6 +87,10 @@ export class PrintPrescriptionModalComponent {
         };
         setPrint();
       };
+
+      // Set src and append to DOM after onload handler is set
+      hideFrame.src = 'about:blank';
+      document.body.appendChild(hideFrame);
     }
   }
 }
