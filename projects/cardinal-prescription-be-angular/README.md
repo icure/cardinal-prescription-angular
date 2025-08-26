@@ -23,6 +23,7 @@ It integrates iCure's APIs —  `@icure/be-fhc-lite-api`, `@icure/cardinal-be-sa
 - [SAM and Recip-e Requirements](#sam-and-recip-e-requirements)
 - [Medications of Interest for Tests](#medications-of-interest-for-tests)
 - [Example Demo Application](#example-demo-application)
+- [Documentation for an End-User](#documentation-for-an-end-user)
 
 ## About iCure and Cardinal
 
@@ -303,3 +304,95 @@ ng serve
 ```
 
 >Make sure to set up your .env variables or hardcode your credentials and HCP/Patient data for testing.
+
+# Documentation for an End-User
+
+This guide explains how to use the **Cardinal Prescription Angular Component** step by step.  
+Here is a little video guide on how to do that 🎥
+
+![Cardinal Prescription Angular Component Video Guide](https://raw.githubusercontent.com/icure/cardinal-prescription-angular/main/public/assets/how_to_create_prescription.gif
+)
+
+---
+
+## How to Use the Cardinal Prescription Angular Component
+
+This module allows you to search for medications, create prescriptions, and provide patients with printed copies.
+
+---
+
+## Main Components
+
+The interface includes:
+- **eHealth certificate upload** (to securely sign prescriptions)
+- **Drug search** (by medication name)
+- **List of search results** (medications, molecules, or homeopathic products)
+- **Prescription form** (create or edit a prescription)
+- **Prescription list** (all created or sent prescriptions)
+- **Print window** (generate a patient copy)
+
+---
+
+## Searching for a Drug
+
+1. Enter the **drug name** in the search bar.
+2. The system will show a list of matching products.
+
+Each result includes **short information** (if available):
+- Label and active substance
+- Price
+- Icons with explanations, e.g.:
+  - Black triangle → additional monitoring
+  - Risk minimisation measures
+  - Doping / narcotic status
+  - Generic substitution required
+  - Temporary supply problem
+  - Start or end of commercialisation
+  - Supply and prescribing conditions
+  - Reimbursement status
+
+You can also open **extended information**:
+- Active substance(s)
+- Drug group
+- References (CBIP, patient leaflet, SPC, RMA, DHPC)
+- Reimbursement, delivery terms, supply issues, commercialisation dates
+
+---
+
+## Creating a Prescription
+
+To create a new prescription:
+
+1. **Upload your eHealth certificate** and enter your password.
+2. **Search** for the medication by name.
+3. **Select** the correct drug from the results.
+4. A prescription form will open.
+
+**Required fields:**
+- Drug name
+- Dosage
+- Duration (number of units)
+- Start date of treatment
+- End date (if applicable)
+- Number of prescriptions (how many repeats)
+- Permitted substitution (yes/no)
+
+**Optional fields:**
+- Patient instructions (e.g. “take after meals”)
+- Reimbursement instructions
+- Visibility options (for doctor or pharmacy)
+
+5. Click **Save**.
+6. To **send** the prescription, click **Edit → Send**.
+7. To **print** a patient copy, click **Print → Confirm**.
+
+---
+
+## Prescription List
+
+- Shows both **new** and **sent** prescriptions.
+- Sent prescriptions include a **RID code** for identification.
+
+---
+
+👉 With these steps, you can quickly search, prescribe, and provide patients with the necessary documentation.  
