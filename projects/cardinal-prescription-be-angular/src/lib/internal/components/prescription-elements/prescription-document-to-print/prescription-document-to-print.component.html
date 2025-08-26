@@ -39,7 +39,10 @@
             <p>
               {{ t('prescription.pdf.product') }}
               <strong>{{
-                item.medication.medicinalProduct?.intendedname
+                item.medication.medicinalProduct?.intendedname ??
+                  item.medication.substanceProduct?.intendedname ??
+                  item.medication.compoundPrescription ??
+                  '-'
               }}</strong>
             </p>
             <p>

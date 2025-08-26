@@ -22,18 +22,16 @@ import {
 } from '../../types';
 import { TranslationService } from '../translation/translation.service';
 
-// TODO: Replace with actual vendor information and package details
+export interface VendorInfoType {
+  vendorName: string;
+  vendorEmail: string;
+  vendorPhone: string;
+}
 
-const vendor = {
-  vendorEmail: 'support@test.be',
-  vendorName: 'vendorName',
-  vendorPhone: '+3200000000',
-};
-
-const usedPackage = {
-  packageName: 'test[test/1.0]-freehealth-connector',
-  packageVersion: '1.0-freehealth-connector',
-};
+export interface PackageInfoType {
+  packageName: string;
+  packageVersion: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -60,6 +58,8 @@ export class FhcService {
   // Create the prescription request
   makePrescriptionRequest(
     samVersion: SamVersion,
+    vendor: VendorInfoType,
+    packageInfo: PackageInfoType,
     prescriber: HealthcareParty,
     patient: Patient,
     prescribedMedication: PrescribedMedicationType
@@ -83,8 +83,8 @@ export class FhcService {
       vendorName: vendor.vendorName,
       vendorEmail: vendor.vendorEmail,
       vendorPhone: vendor.vendorPhone,
-      packageName: usedPackage.packageName,
-      packageVersion: usedPackage.packageVersion,
+      packageName: packageInfo.packageName,
+      packageVersion: packageInfo.packageVersion,
       vision: prescribedMedication.pharmacistVisibility,
       visionOthers: prescribedMedication.prescriberVisibility,
       samVersion: samVersion.version,
@@ -98,7 +98,10 @@ export class FhcService {
   }
 
   async sendRecipe(
+    FHC_URL: string,
     samVersion: SamVersion,
+    vendor: VendorInfoType,
+    packageInfo: PackageInfoType,
     prescriber: HealthcareParty,
     patient: Patient,
     prescribedMedication: PrescribedMedicationType,
@@ -107,6 +110,8 @@ export class FhcService {
   ): Promise<Prescription[]> {
     const prescription = this.makePrescriptionRequest(
       samVersion,
+      vendor,
+      packageInfo,
       prescriber,
       patient,
       prescribedMedication
@@ -124,11 +129,8 @@ export class FhcService {
     if (!keystore) {
       throw new Error('Cannot obtain keystore');
     }
-
-    const url = 'https://fhcacc.icure.cloud';
-
-    const sts = new fhcStsApi(url, []);
-    const recipe = new fhcRecipeApi(url, []);
+    const sts = new fhcStsApi(FHC_URL, []);
+    const recipe = new fhcRecipeApi(FHC_URL, []);
 
     let storeKey = `keystore.${prescriber.ssin}`;
 
