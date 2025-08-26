@@ -31,14 +31,11 @@ export class SamSdkService {
     if (!this.sdk) throw new Error('SDK not initialized');
     if (!query) throw new Error('Query is not found');
     try {
-      const res = await Promise.all([
+      return await Promise.all([
         this.sdk.findPaginatedAmpsByLabel(lang, query),
         this.sdk.findPaginatedVmpGroupsByLabel(lang, query),
         this.sdk.findPaginatedNmpsByLabel(lang, query),
       ]);
-      console.log('search res');
-      console.log(res);
-      return res;
     } catch (error) {
       console.error('Error searching medications:', error);
       throw error;
