@@ -87,6 +87,17 @@ export class HomeComponent implements OnInit {
       }),
     ],
   };
+  vendor = {
+    vendorEmail: 'support@test.be',
+    vendorName: 'vendorName',
+    vendorPhone: '+3200000000',
+  };
+  package = {
+    packageName: 'test[test/1.0]-freehealth-connector',
+    packageVersion: '1.0-freehealth-connector',
+  };
+  ICURE_URL = 'https://nightly.icure.cloud';
+  FHC_URL = 'https://fhcacc.icure.cloud';
 
   // To create new Credentials.UsernamePassword(), follow these steps:
   // 1. Go to https://cockpit.icure.dev/ — the management platform for Cardinal.
@@ -98,9 +109,6 @@ export class HomeComponent implements OnInit {
     username: 'larisa.shashuk+medicationsTest@gmail.com',
     password: '5aa9d0f0-2fab-4f9f-9f6a-5d8244280873',
   };
-  ICURE_URL = 'https://nightly.icure.cloud';
-
-  //TODO: There is going to be an alternative how to upload the certificate's certificate from a database and not from the input file
 
   constructor(
     private samSdkService: SamSdkService,
@@ -238,7 +246,10 @@ export class HomeComponent implements OnInit {
             if (med.rid) return med;
 
             const res = await this.fhcService.sendRecipe(
+              this.FHC_URL,
               this.samVersion!,
+              this.vendor,
+              this.package,
               this.hcp,
               this.patient,
               med,
