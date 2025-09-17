@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@icure/be-fhc-lite-api@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@icure/be-fhc-lite-api/-/be-fhc-lite-api-0.6.6.tgz#d7e4e9c6099c3dd00ce7c27c778af5323122443a"
+  integrity sha512-b9Cl8oEHSqcEwJCJI5aY4/77/RMk7nat0m9nK4Oxk9rtelC4LNpEpBBakD335PIVSi9xaIkmHBreCIC8YgL89g==
+
 tslib@^2.3.0:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"

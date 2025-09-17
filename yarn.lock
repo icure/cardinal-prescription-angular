@@ -1597,10 +1597,10 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/retry/-/retry-0.4.3.tgz"
   integrity sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==
 
-"@icure/be-fhc-lite-api@0.6.4":
-  version "0.6.4"
-  resolved "https://registry.npmjs.org/@icure/be-fhc-lite-api/-/be-fhc-lite-api-0.6.4.tgz"
-  integrity sha512-vfm17A7Y3HkpqsDp6WpZyh3K6uDlfvUEBK01etNIkQyE2zSm9CCN2dNlWYsEMF70pbk0IHWeRqWnBI1M/gWPlw==
+"@icure/be-fhc-lite-api@0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@icure/be-fhc-lite-api/-/be-fhc-lite-api-0.6.6.tgz#d7e4e9c6099c3dd00ce7c27c778af5323122443a"
+  integrity sha512-b9Cl8oEHSqcEwJCJI5aY4/77/RMk7nat0m9nK4Oxk9rtelC4LNpEpBBakD335PIVSi9xaIkmHBreCIC8YgL89g==
 
 "@icure/cardinal-be-sam-sdk@^0.0.1":
   version "0.0.1"
