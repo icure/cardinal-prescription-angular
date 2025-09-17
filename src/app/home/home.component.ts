@@ -106,8 +106,8 @@ export class HomeComponent implements OnInit {
   // 4. For this HCP, generate an Active Authentication Token.
   // 5. Use the HCP's email address as the username, and the token as the password.
   practitionerCredentials = {
-    username: 'larisa.shashuk+medicationsTest@gmail.com',
-    password: '5aa9d0f0-2fab-4f9f-9f6a-5d8244280873',
+    username: 'larisa.shashuk+angular_prescription_demo@gmail.com',
+    password: '7e781107-c0f2-4ca2-ab76-3b3761002118',
   };
 
   constructor(
@@ -149,7 +149,7 @@ export class HomeComponent implements OnInit {
       this.samSdkService.setSdk(instance.sam);
 
       this.samVersion = await this.samSdkService.getSamVersion();
-      // the same as  this.db = await this.indexedDbTokenStoreService.open();
+      // the same as this.db = await this.indexedDbTokenStoreService.open();
       this.db = await this.certificateService.openCertificatesDatabase();
 
       try {
@@ -180,7 +180,8 @@ export class HomeComponent implements OnInit {
       await this.fhcService.validateDecryptedCertificate(
         this.hcp,
         this.passphrase!,
-        this.indexedDbTokenStore!
+        this.indexedDbTokenStore!,
+        this.FHC_URL
       );
 
     this.certificateValid = certificateValidationResult.status;

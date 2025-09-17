@@ -178,7 +178,8 @@ export class FhcService {
   async verifyCertificateWithSts(
     prescriber: HealthcareParty,
     passphrase: string,
-    cache: TokenStore
+    cache: TokenStore,
+    FHC_URL: string
   ): Promise<CertificateValidationResultType> {
     if (!prescriber?.ssin || !prescriber?.nihii) {
       return {
@@ -209,8 +210,7 @@ export class FhcService {
         };
       }
 
-      const url = 'https://fhcacc.icure.cloud';
-      const sts = new fhcStsApi(url, []);
+      const sts = new fhcStsApi(FHC_URL, []);
 
       const storeKey = `keystore.${prescriber.ssin}`;
 
@@ -250,7 +250,8 @@ export class FhcService {
   async validateDecryptedCertificate(
     hcp: HealthcareParty,
     passphrase: string,
-    indexedDbTokenStore: TokenStore
+    indexedDbTokenStore: TokenStore,
+    FHC_URL: string
   ): Promise<CertificateValidationResultType> {
     try {
       await this.certificateService.loadAndDecryptCertificate(
@@ -260,7 +261,8 @@ export class FhcService {
       const res = await this.verifyCertificateWithSts(
         hcp,
         passphrase,
-        indexedDbTokenStore
+        indexedDbTokenStore,
+        FHC_URL
       );
       return { status: res.status, error: res.error };
     } catch {
