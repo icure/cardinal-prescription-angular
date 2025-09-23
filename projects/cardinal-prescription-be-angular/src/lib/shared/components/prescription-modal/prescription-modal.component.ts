@@ -69,7 +69,7 @@ import { MedicationType, PrescribedMedicationType } from '../../types';
     CloseIcnComponent,
   ],
   templateUrl: './prescription-modal.component.html',
-  styleUrl: './prescription-modal.component.scss',
+  styleUrls: ['./prescription-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrescriptionModalComponent

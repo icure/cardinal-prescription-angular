@@ -20,7 +20,7 @@ import { TranslationService } from '../../../../shared/services/translation/tran
   selector: 'cardinal-prescription-document-to-print',
   imports: [NgForOf, NgIf],
   templateUrl: './prescription-document-to-print.component.html',
-  styleUrl: './prescription-document-to-print.component.scss',
+  styleUrls: ['./prescription-document-to-print.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
@@ -56,7 +56,7 @@ export class PrescriptionDocumentToPrintComponent
   // Chunk the medications into groups of 4 for display
   chunkPrescriptions() {
     const chunkSize = 4;
-    const tmpChunks = [];
+    const tmpChunks: PrescribedMedicationType[][] = [];
     for (let i = 0; i < this.prescribedMedications.length; i += chunkSize) {
       tmpChunks.push(this.prescribedMedications.slice(i, i + chunkSize));
     }

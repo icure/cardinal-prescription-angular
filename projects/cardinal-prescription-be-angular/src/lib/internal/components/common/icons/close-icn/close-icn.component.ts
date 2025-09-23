@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-close-icn',
   imports: [],
   templateUrl: './close-icn.component.html',
-  styleUrl: './close-icn.component.scss',
+  styleUrls: ['./close-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

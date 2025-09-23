@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-edit-icn',
   imports: [],
   templateUrl: './edit-icn.component.html',
-  styleUrl: './edit-icn.component.scss',
+  styleUrls: ['./edit-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

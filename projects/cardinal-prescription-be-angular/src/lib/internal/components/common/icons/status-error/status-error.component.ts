@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-status-error',
   imports: [],
   templateUrl: './status-error.component.html',
-  styleUrl: './status-error.component.scss',
+  styleUrls: ['./status-error.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

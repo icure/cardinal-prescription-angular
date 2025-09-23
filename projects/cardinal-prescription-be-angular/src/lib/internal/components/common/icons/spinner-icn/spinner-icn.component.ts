@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-spinner-icn',
   imports: [],
   templateUrl: './spinner-icn.component.html',
-  styleUrl: './spinner-icn.component.scss',
+  styleUrls: ['./spinner-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

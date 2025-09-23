@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-delete-icn',
   imports: [],
   templateUrl: './delete-icn.component.html',
-  styleUrl: './delete-icn.component.scss',
+  styleUrls: ['./delete-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

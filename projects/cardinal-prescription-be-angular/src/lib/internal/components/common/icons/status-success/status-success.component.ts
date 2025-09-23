@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-status-success',
   imports: [],
   templateUrl: './status-success.component.html',
-  styleUrl: './status-success.component.scss',
+  styleUrls: ['./status-success.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

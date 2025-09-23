@@ -10,7 +10,7 @@ import { TranslationService } from 'cardinal-prescription-be-angular';
       <router-outlet />
     </main>
   `,
-  styleUrl: './app.component.scss',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'cardinal-prescription-angular';

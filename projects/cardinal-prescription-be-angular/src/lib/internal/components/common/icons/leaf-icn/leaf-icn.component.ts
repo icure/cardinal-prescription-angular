@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-leaf-icn',
   imports: [],
   templateUrl: './leaf-icn.component.html',
-  styleUrl: './leaf-icn.component.scss',
+  styleUrls: ['./leaf-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

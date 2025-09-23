@@ -14,7 +14,7 @@ import { DeleteIcnComponent } from '../../common/icons/delete-icn/delete-icn.com
   selector: 'cardinal-prescription-card',
   imports: [NgIf, EditIcnComponent, DeleteIcnComponent],
   templateUrl: './prescription-card.component.html',
-  styleUrl: './prescription-card.component.scss',
+  styleUrls: ['./prescription-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

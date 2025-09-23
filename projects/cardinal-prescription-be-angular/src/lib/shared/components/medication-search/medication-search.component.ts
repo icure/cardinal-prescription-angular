@@ -45,7 +45,7 @@ import { MedicationType } from '../../types';
     ReactiveFormsModule,
   ],
   templateUrl: './medication-search.component.html',
-  styleUrl: './medication-search.component.scss',
+  styleUrls: ['./medication-search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MedicationSearchComponent

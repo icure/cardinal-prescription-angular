@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-molecule-icn',
   imports: [],
   templateUrl: './molecule-icn.component.html',
-  styleUrl: './molecule-icn.component.scss',
+  styleUrls: ['./molecule-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

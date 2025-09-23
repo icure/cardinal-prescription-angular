@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-prescription-icn',
   imports: [],
   templateUrl: './prescription-icn.component.html',
-  styleUrl: './prescription-icn.component.scss',
+  styleUrls: ['./prescription-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
