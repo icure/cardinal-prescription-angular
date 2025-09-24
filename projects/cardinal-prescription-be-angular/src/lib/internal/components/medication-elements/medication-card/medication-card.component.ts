@@ -50,7 +50,7 @@ import { getCategoryLabelForReimbursement } from '../../../utils/reimbursement-h
     StartOfCommercialisationIcnComponent,
   ],
   templateUrl: './medication-card.component.html',
-  styleUrl: './medication-card.component.scss',
+  styleUrls: ['./medication-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MedicationCardComponent implements OnInit {

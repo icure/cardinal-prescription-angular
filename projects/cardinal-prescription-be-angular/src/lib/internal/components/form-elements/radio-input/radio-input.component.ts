@@ -14,7 +14,7 @@ import { NgClass, NgForOf, NgIf } from '@angular/common';
   standalone: true,
   imports: [FormsModule, NgIf, NgForOf, NgClass],
   templateUrl: './radio-input.component.html',
-  styleUrl: './radio-input.component.scss',
+  styleUrls: ['./radio-input.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -18,7 +18,7 @@ import { PrescribedMedicationType } from '../../types';
   selector: 'cardinal-prescription-list',
   imports: [PrescriptionRowComponent, NgForOf, NgIf, ButtonComponent],
   templateUrl: './prescription-list.component.html',
-  styleUrl: './prescription-list.component.scss',
+  styleUrls: ['./prescription-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrescriptionListComponent {

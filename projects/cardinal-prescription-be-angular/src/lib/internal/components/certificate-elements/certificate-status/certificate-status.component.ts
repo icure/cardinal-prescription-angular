@@ -7,7 +7,7 @@ import { NgIf } from '@angular/common';
   selector: 'cardinal-certificate-status',
   imports: [StatusSuccessComponent, StatusErrorComponent, NgIf],
   templateUrl: './certificate-status.component.html',
-  styleUrl: './certificate-status.component.scss',
+  styleUrls: ['./certificate-status.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

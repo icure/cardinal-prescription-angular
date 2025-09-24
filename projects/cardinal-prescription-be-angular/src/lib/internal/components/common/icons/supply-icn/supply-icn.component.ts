@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-supply-icn',
   imports: [],
   templateUrl: './supply-icn.component.html',
-  styleUrl: './supply-icn.component.scss',
+  styleUrls: ['./supply-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-search-icn',
   imports: [],
   templateUrl: './search-icn.component.html',
-  styleUrl: './search-icn.component.scss',
+  styleUrls: ['./search-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

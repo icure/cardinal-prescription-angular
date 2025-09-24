@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-pills-bottle-icn',
   imports: [],
   templateUrl: './pills-bottle-icn.component.html',
-  styleUrl: './pills-bottle-icn.component.scss',
+  styleUrls: ['./pills-bottle-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

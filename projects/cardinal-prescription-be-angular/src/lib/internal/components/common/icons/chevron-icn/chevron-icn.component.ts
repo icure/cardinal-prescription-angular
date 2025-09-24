@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-chevron-icn',
   imports: [],
   templateUrl: './chevron-icn.component.html',
-  styleUrl: './chevron-icn.component.scss',
+  styleUrls: ['./chevron-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

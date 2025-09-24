@@ -18,7 +18,7 @@ import { TranslationService } from '../../services/translation/translation.servi
   standalone: true,
   imports: [CertificateStatusComponent, NgIf, CertificateUploadComponent],
   templateUrl: './practitioner-certificate.component.html',
-  styleUrl: './practitioner-certificate.component.scss',
+  styleUrls: ['./practitioner-certificate.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PractitionerCertificateComponent {

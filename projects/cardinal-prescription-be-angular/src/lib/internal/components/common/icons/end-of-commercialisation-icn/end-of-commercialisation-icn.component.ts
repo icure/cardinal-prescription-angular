@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-end-of-commercialisation-icn',
   imports: [],
   templateUrl: './end-of-commercialisation-icn.component.html',
-  styleUrl: './end-of-commercialisation-icn.component.scss',
+  styleUrls: ['./end-of-commercialisation-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

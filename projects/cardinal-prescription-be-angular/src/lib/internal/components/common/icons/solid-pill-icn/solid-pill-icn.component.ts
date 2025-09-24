@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-solid-pill-icn',
   imports: [],
   templateUrl: './solid-pill-icn.component.html',
-  styleUrl: './solid-pill-icn.component.scss',
+  styleUrls: ['./solid-pill-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

@@ -41,7 +41,7 @@ import { IndexedDbTokenStoreService } from 'cardinal-prescription-be-angular';
     PrintPrescriptionModalComponent,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {

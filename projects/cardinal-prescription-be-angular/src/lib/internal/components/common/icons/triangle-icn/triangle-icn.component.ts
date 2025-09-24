@@ -5,7 +5,7 @@ import { IconComponentBase } from '../../../../types';
   selector: 'cardinal-triangle-icn',
   imports: [],
   templateUrl: './triangle-icn.component.html',
-  styleUrl: './triangle-icn.component.scss',
+  styleUrls: ['./triangle-icn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

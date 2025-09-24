@@ -27,7 +27,7 @@ import { PrescribedMedicationType } from '../../types';
     CloseIcnComponent,
   ],
   templateUrl: './print-prescription-modal.component.html',
-  styleUrl: './print-prescription-modal.component.scss',
+  styleUrls: ['./print-prescription-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrintPrescriptionModalComponent {
