@@ -9,6 +9,7 @@ import { PrescribedMedicationType } from '../../../../shared/types';
 import { NgIf } from '@angular/common';
 import { EditIcnComponent } from '../../common/icons/edit-icn/edit-icn.component';
 import { DeleteIcnComponent } from '../../common/icons/delete-icn/delete-icn.component';
+import { MagistralText } from '@icure/be-fhc-lite-api';
 
 @Component({
   selector: 'cardinal-prescription-card',
@@ -24,6 +25,16 @@ export class PrescriptionRowComponent {
     new EventEmitter();
   @Output() handleDeletePrescription: EventEmitter<PrescribedMedicationType> =
     new EventEmitter();
+
+  get prescriptionTitle(): string | undefined {
+    const med = this.prescribedMedication?.medication;
+    return (
+      med?.medicinalProduct?.intendedname ||
+      med?.substanceProduct?.intendedname ||
+      med?.compoundPrescription ||
+      (med?.compoundPrescriptionV2 as MagistralText)?.text
+    );
+  }
 
   onModifyClick() {
     this.handleModifyPrescription.emit(this.prescribedMedication);
