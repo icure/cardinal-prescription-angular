@@ -10,7 +10,12 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { PrescribedMedicationType } from '../../../../shared/types';
-import { HealthcareParty, Patient } from '@icure/be-fhc-lite-api';
+import {
+  HealthcareParty,
+  MagistralText,
+  Medication,
+  Patient,
+} from '@icure/be-fhc-lite-api';
 import JsBarcode from 'jsbarcode';
 import { dateDecode } from '../../../utils/date-helpers';
 import { NgForOf, NgIf } from '@angular/common';
@@ -89,5 +94,15 @@ export class PrescriptionDocumentToPrintComponent
   // Helper to format dates
   formatDate(date: number | undefined): string | 0 {
     return (date && dateDecode(date)?.toLocaleDateString()) ?? '-';
+  }
+
+  getPrescriptionTitle(medication: Medication): string {
+    return (
+      (medication.medicinalProduct?.intendedname ||
+        medication.substanceProduct?.intendedname ||
+        medication.compoundPrescription ||
+        (medication.compoundPrescriptionV2 as MagistralText)?.text) ??
+      '-'
+    );
   }
 }

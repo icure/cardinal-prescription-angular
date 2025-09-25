@@ -38,12 +38,7 @@
           <div class="prescription-item__block">
             <p>
               {{ t('prescription.pdf.product') }}
-              <strong>{{
-                item.medication.medicinalProduct?.intendedname ??
-                  item.medication.substanceProduct?.intendedname ??
-                  item.medication.compoundPrescription ??
-                  '-'
-              }}</strong>
+              <strong>{{ getPrescriptionTitle(item.medication) }}</strong>
             </p>
             <p>
               {{ t('prescription.pdf.dosage') }}

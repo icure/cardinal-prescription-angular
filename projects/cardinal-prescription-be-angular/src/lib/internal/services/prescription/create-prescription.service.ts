@@ -5,6 +5,7 @@ import {
   Medication,
   Substanceproduct,
   Medicinalproduct,
+  MagistralText,
 } from '@icure/be-fhc-lite-api';
 import { v4 as uuid } from 'uuid'; // For generating UUIDs
 import { FhcService } from '../../../shared/services/api/fhc.service';

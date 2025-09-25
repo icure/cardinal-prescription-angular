@@ -53,6 +53,7 @@ import { getReimbursementOptions } from '../../../internal/utils/reimbursement-h
 
 import { TranslationService } from '../../services/translation/translation.service';
 import { MedicationType, PrescribedMedicationType } from '../../types';
+import { MagistralText } from '@icure/be-fhc-lite-api';
 
 @Component({
   selector: 'cardinal-prescription-modal',
@@ -170,6 +171,10 @@ export class PrescriptionModalComponent
       this.prescriptionToModify?.medication.medicinalProduct?.intendedname ??
       this.prescriptionToModify?.medication.substanceProduct?.intendedname ??
       this.prescriptionToModify?.medication.compoundPrescription ??
+      (
+        this.prescriptionToModify?.medication
+          .compoundPrescriptionV2 as MagistralText
+      )?.text ??
       '';
 
     return {
@@ -371,24 +376,58 @@ export class PrescriptionModalComponent
 
     this.subscriptions.push(
       dosageControl.valueChanges.subscribe((newValue: string) => {
-        if (!newValue?.trim()) {
+        const snapshot = (newValue ?? '') as string;
+
+        // If it's truly empty, keep previous behavior: no suggestions.
+        if (snapshot === '') {
           this.dosageSuggestions = [];
+          this.cdr.markForCheck();
           return;
         }
 
         setTimeout(() => {
-          if (dosageControl.value === newValue) {
-            this.dosageSuggestions = completeDosage(newValue);
+          // Only act if value hasn't changed since we captured it
+          if (dosageControl.value !== snapshot) return;
+
+          const raw: string[] = completeDosage(snapshot) ?? [];
+
+          const endsWithSpace = /\s$/.test(snapshot);
+          const trimmedRight = snapshot.replace(/\s+$/, '');
+          const lastToken = trimmedRight.split(/\s+/).pop() ?? '';
+
+          // letters incl. Latin-1 (covers fr/en/nl/de). Extend if needed.
+          const hasLetterInLastToken = /[A-Za-zÀ-ÖØ-öø-ÿ]/.test(lastToken);
+
+          if (endsWithSpace || !hasLetterInLastToken) {
+            // User just typed a space OR only digits/symbols in last token → show all
+            this.dosageSuggestions = raw;
+          } else {
+            // User typed some letters in the last token → filter by suffix–prefix overlap
+            const withOverlap = raw
+              .map(s => ({ s, k: this.suffixPrefixOverlap(snapshot, s) }))
+              .filter(x => x.k > 0)
+              // Sort by best overlap, then by shorter suggestion
+              .sort((a, b) => b.k - a.k || a.s.length - b.s.length)
+              .map(x => x.s);
+
+            this.dosageSuggestions = withOverlap;
           }
+
+          this.cdr.markForCheck();
         }, 100);
       })
     );
-    this.cdr.markForCheck();
   }
-  private findCommonSequence(a: string, b: string): string {
-    let i = 0;
-    while (i < a.length && a[i] === b[i]) i++;
-    return a.slice(0, i);
+
+  // Longest suffix(a) == prefix(b) overlap (case-insensitive, ignores trailing spaces in a)
+  private suffixPrefixOverlap(a: string, b: string): number {
+    const aTrim = a.replace(/\s+$/, '');
+    const max = Math.min(aTrim.length, b.length);
+    for (let k = max; k > 0; k--) {
+      if (aTrim.slice(-k).toLowerCase() === b.slice(0, k).toLowerCase())
+        return k;
+    }
+    return 0;
   }
 
   validateSuggestion(index: number): void {
@@ -398,13 +437,19 @@ export class PrescriptionModalComponent
 
     if (!suggestion || !dosage) return;
 
-    const common = this.findCommonSequence(dosage, suggestion);
-    const newDosage = (
-      dosage +
-      (common.length ? suggestion.slice(common.length) : ' ' + suggestion)
-    )
-      .replace(/ {2,}/g, ' ')
-      .replace(/\/ /g, '/');
+    const overlap = this.suffixPrefixOverlap(dosage, suggestion);
+
+    let newDosage =
+      (overlap > 0
+        ? dosage.replace(/\s+$/, '')
+        : dosage.trimEnd() + (dosage ? ' ' : '')) + suggestion.slice(overlap);
+
+    newDosage = newDosage
+      // keep one space around slashes like "1 capsule / jours"
+      .replace(/\s*\/\s*/g, ' / ')
+      // collapse any accidental double spaces
+      .replace(/\s{2,}/g, ' ')
+      .trim();
 
     dosageCtrl?.setValue(newDosage);
     this.dosageSuggestions = [];
