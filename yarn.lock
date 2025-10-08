@@ -1611,10 +1611,10 @@
     format-util "^1.0.5"
     ws "8.18.0"
 
-"@icure/medication-sdk@0.0.8":
-  version "0.0.8"
-  resolved "https://registry.npmjs.org/@icure/medication-sdk/-/medication-sdk-0.0.8.tgz"
-  integrity sha512-8OGGo600Vk5E03j8o1N2WzZvo4qnCVb2C0B8MWINATZzNEp6IN5YgntAyV0w7OzNwsr6ZTrLK8ph9kzK+D0JOg==
+"@icure/medication-sdk@0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@icure/medication-sdk/-/medication-sdk-0.0.10.tgz#d4e2247054a7d12f4258eb0f8664a02c22359b73"
+  integrity sha512-YwJacCLPy4CptqB75jaGe1Xcs52Rtvfr0ahQdzs1qaws5erZCGde0lqcw/KiIMq26lk673/qHYHmmQKSPwnGDg==
   dependencies:
     chevrotain "^11.0.3"
 

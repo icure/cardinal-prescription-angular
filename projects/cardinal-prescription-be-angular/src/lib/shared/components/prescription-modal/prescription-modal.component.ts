@@ -450,7 +450,7 @@ export class PrescriptionModalComponent
       .replace(/\s{2,}/g, ' ')
       .trim();
 
-    // I do emitEvent: false to prevent setupDosageSuggestionLogic() running again.
+    // I do emitEvent: false to prevent setupDosageSuggestionLogic() running again after the user had already selected one option
     dosageCtrl?.setValue(newDosage, { emitEvent: false });
     this.dosageSuggestions = [];
     this.focusedDosageIndex = -1;
@@ -472,10 +472,6 @@ export class PrescriptionModalComponent
       event.preventDefault();
       event.stopPropagation();
     } else if (event.key === 'Enter' && this.focusedDosageIndex >= 0) {
-      console.log({
-        key: event.key,
-        focusedDosageIndex: this.focusedDosageIndex,
-      });
       this.validateSuggestion(this.focusedDosageIndex);
       event.preventDefault();
       event.stopPropagation();
