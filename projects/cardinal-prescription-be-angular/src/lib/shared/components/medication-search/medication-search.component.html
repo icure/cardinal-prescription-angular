@@ -18,24 +18,35 @@
       {{ t('medication.search.errorMessage') }}
     </p>
   </div>
-
-  <div
-    #medicationSearchDropdown
-    *ngIf="pages && pages.length > 0"
-    class="medicationSearchDropdown"
-    (keydown)="handleKeyDown($event)">
-    <div
-      *ngFor="let med of pages; let i = index"
-      #resultRef
-      class="medicationSearchDropdown__cardWrap"
-      [class.focused]="focusedMedicationIndex === i">
-      <cardinal-medication-card
-        class="medication-card"
-        [medication]="med"
-        [index]="i"
-        [focused]="focusedMedicationIndex === i"
-        (addPrescription)="handleAddPrescription($event)" />
+  <div class="results">
+    <div class="spinner" *ngIf="showSpinner">
+      <cardinal-spinner />
     </div>
-    <div #scrollAnchor style="height: 1px"></div>
+
+    <div
+      #medicationSearchDropdown
+      *ngIf="pages && pages.length > 0"
+      class="medicationSearchDropdown"
+      (keydown)="handleKeyDown($event)">
+      <div
+        *ngFor="let med of pages; let i = index"
+        #resultRef
+        class="medicationSearchDropdown__cardWrap"
+        [class.focused]="focusedMedicationIndex === i">
+        <cardinal-medication-card
+          class="medication-card"
+          [medication]="med"
+          [index]="i"
+          [focused]="focusedMedicationIndex === i"
+          (addPrescription)="handleAddPrescription($event)" />
+      </div>
+      <div #scrollAnchor style="height: 1px"></div>
+    </div>
+
+    <div class="placeholder" *ngIf="showNoMatchesPlaceholder">
+      <p>
+        {{ t('medication.search.noMatchingPlaceholder') }}
+      </p>
+    </div>
   </div>
 </div>

@@ -409,7 +409,6 @@ export class PrescriptionModalComponent
               // Sort by best overlap, then by shorter suggestion
               .sort((a, b) => b.k - a.k || a.s.length - b.s.length)
               .map(x => x.s);
-
             this.dosageSuggestions = withOverlap;
           }
 
@@ -451,9 +450,11 @@ export class PrescriptionModalComponent
       .replace(/\s{2,}/g, ' ')
       .trim();
 
-    dosageCtrl?.setValue(newDosage);
+    // I do emitEvent: false to prevent setupDosageSuggestionLogic() running again after the user had already selected one option
+    dosageCtrl?.setValue(newDosage, { emitEvent: false });
     this.dosageSuggestions = [];
     this.focusedDosageIndex = -1;
+
     this.cdr.markForCheck();
   }
 
