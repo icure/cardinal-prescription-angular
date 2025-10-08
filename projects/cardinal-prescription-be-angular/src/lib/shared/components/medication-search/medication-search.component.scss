@@ -78,9 +78,10 @@
   justify-content: center;
   position: absolute;
   top: 0;
-  padding: 24px 0;
 
   @include commonBackground;
+
+  padding: 32px;
 }
 
 .medicationSearchDropdown {

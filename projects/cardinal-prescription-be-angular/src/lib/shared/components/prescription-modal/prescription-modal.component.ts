@@ -409,7 +409,6 @@ export class PrescriptionModalComponent
               // Sort by best overlap, then by shorter suggestion
               .sort((a, b) => b.k - a.k || a.s.length - b.s.length)
               .map(x => x.s);
-
             this.dosageSuggestions = withOverlap;
           }
 
@@ -451,9 +450,11 @@ export class PrescriptionModalComponent
       .replace(/\s{2,}/g, ' ')
       .trim();
 
-    dosageCtrl?.setValue(newDosage);
+    // I do emitEvent: false to prevent setupDosageSuggestionLogic() running again.
+    dosageCtrl?.setValue(newDosage, { emitEvent: false });
     this.dosageSuggestions = [];
     this.focusedDosageIndex = -1;
+
     this.cdr.markForCheck();
   }
 
@@ -471,6 +472,10 @@ export class PrescriptionModalComponent
       event.preventDefault();
       event.stopPropagation();
     } else if (event.key === 'Enter' && this.focusedDosageIndex >= 0) {
+      console.log({
+        key: event.key,
+        focusedDosageIndex: this.focusedDosageIndex,
+      });
       this.validateSuggestion(this.focusedDosageIndex);
       event.preventDefault();
       event.stopPropagation();
