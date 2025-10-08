@@ -80,6 +80,8 @@ export const medicationTranslations = {
     search: {
       label: 'Trouver un médicament',
       errorMessage: ' Entrez au moins 3 lettres du nom du médicament',
+      noMatchingPlaceholder:
+        'Aucun médicament ne correspond à vos critères de recherche.',
     },
   },
   en: {
@@ -161,6 +163,8 @@ export const medicationTranslations = {
     search: {
       label: 'Find a medication',
       errorMessage: 'Enter at least 3 letters of the medication name',
+      noMatchingPlaceholder:
+        'No medications correspond to your search criteria.',
     },
   },
   nl: {
@@ -244,6 +248,8 @@ export const medicationTranslations = {
     search: {
       label: 'Zoek een geneesmiddel',
       errorMessage: 'Voer minstens 3 letters van de naam in',
+      noMatchingPlaceholder:
+        'Er komen geen medicijnen overeen met uw zoekcriteria.',
     },
   },
   de: {
@@ -328,6 +334,8 @@ export const medicationTranslations = {
       label: 'Arzneimittel suchen',
       errorMessage:
         'Geben Sie mindestens 3 Buchstaben des Arzneimittelnamens ein',
+      noMatchingPlaceholder:
+        'Keine Medikamente entsprechen Ihren Suchkriterien.',
     },
   },
 };

@@ -33,6 +33,7 @@ import { TooltipContextService } from '../../../internal/services/common/tooltip
 import { TranslationService } from '../../services/translation/translation.service';
 import { SamSdkService } from '../../services/api/sam-sdk.service';
 import { MedicationType } from '../../types';
+import { SpinnerComponent } from '../../../internal/components/common/spinner/spinner.component';
 
 @Component({
   selector: 'cardinal-medication-search',
@@ -43,6 +44,7 @@ import { MedicationType } from '../../types';
     MedicationCardComponent,
     NgForOf,
     ReactiveFormsModule,
+    SpinnerComponent,
   ],
   templateUrl: './medication-search.component.html',
   styleUrls: ['./medication-search.component.scss'],
@@ -77,6 +79,8 @@ export class MedicationSearchComponent
   private observerInitialized = false;
   private medicationSearchDropdownRectInitialized = false;
   private language: keyof SamText = 'fr';
+  showSpinner: boolean = false;
+  showNoMatchesPlaceholder: boolean = false;
 
   destroy$ = new Subject<void>();
 
@@ -106,17 +110,24 @@ export class MedicationSearchComponent
       .pipe(debounceTime(100), takeUntil(this.destroy$))
       .subscribe(query => {
         const q = query?.trim() ?? '';
+        this.showNoMatchesPlaceholder = false;
 
         if (q.length === 0) {
           this.onResetSearch();
+          this.showSpinner = false;
           return;
         }
 
-        if (q.length < 3) return;
+        if (q.length < 3) {
+          this.showSpinner = false;
+          return;
+        }
 
         this.samSdkService
           .searchMedications(this.language, q)
           .then(async ([meds, mols, prods]) => {
+            this.showSpinner = true;
+
             const latestQuery = this.searchControl.value?.trim();
             if (q !== latestQuery) return;
 
@@ -153,10 +164,13 @@ export class MedicationSearchComponent
               deliveryEnvironment: this.deliveryEnvironment,
             });
 
+            this.showSpinner = false;
             this.medicationsPage = updated.medicationsPage;
             this.moleculesPage = updated.moleculesPage;
             this.productsPage = updated.productsPage;
             this.pages = result;
+
+            this.showNoMatchesPlaceholder = !result.length;
 
             this.focusedMedicationIndex = 0;
 

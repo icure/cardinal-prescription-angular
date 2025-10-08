@@ -1,5 +1,17 @@
 @use '../../../../styles/index' as global;
 
+@mixin commonBackground {
+  padding: 6px 8px 6px 6px;
+
+  border-radius: 0 0 6px 6px;
+  border-top: none;
+  background: global.$blue-300;
+  box-shadow:
+    0 9px 28px 0 rgba(0, 0, 0, 0.05),
+    0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 3px 6px 0 rgba(0, 0, 0, 0.12);
+}
+
 .medicationSearch {
   display: flex;
   flex-direction: column;
@@ -52,6 +64,25 @@
   }
 }
 
+.results {
+  display: flex;
+  position: relative;
+}
+
+.spinner {
+  width: 100%;
+  min-height: 50px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  padding: 24px 0;
+
+  @include commonBackground;
+}
+
 .medicationSearchDropdown {
   width: 100%;
   height: 400px;
@@ -61,17 +92,9 @@
   align-items: flex-start;
   align-self: stretch;
   position: relative;
-
-  padding: 6px 8px 6px 6px;
   gap: 5px;
 
-  border-radius: 0 0 6px 6px;
-  border-top: none;
-  background: global.$blue-300;
-  box-shadow:
-    0 9px 28px 0 rgba(0, 0, 0, 0.05),
-    0 6px 16px 0 rgba(0, 0, 0, 0.08),
-    0 3px 6px 0 rgba(0, 0, 0, 0.12);
+  @include commonBackground;
 
   li {
     width: 100%;
@@ -83,5 +106,21 @@
 
   &__cardWrap {
     width: 100%;
+  }
+}
+
+.placeholder {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include commonBackground;
+
+  padding: 32px;
+
+  p {
+    font-size: 14px;
+    color: global.$blue-800;
   }
 }
