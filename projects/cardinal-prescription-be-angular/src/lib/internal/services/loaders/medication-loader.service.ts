@@ -42,106 +42,103 @@ export class MedicationLoaderService {
       ? []
       : await medications.next(min);
 
-    const page: MedicationType[] = loadedPage.flatMap((amp: Amp) =>
-      amp.to && amp.to < now
-        ? []
-        : amp.ampps
-            .filter(
-              ampp =>
-                ampp.from &&
-                ampp.from < now &&
-                (!ampp.to || ampp.to > now) &&
-                ampp.status === AmpStatus.Authorized &&
-                ampp.commercializations?.some(
-                  c => !!c.from && (!c.to || c.to > twoYearsAgo)
-                ) &&
-                ampp.dmpps?.some(
-                  dmpp =>
-                    dmpp.from &&
-                    dmpp.from < now &&
-                    (!dmpp.to || dmpp.to > now) &&
-                    dmpp.deliveryEnvironment?.toString() === deliveryEnvironment
-                )
-            )
-            .map(ampp => {
-              const dmpp = ampp.dmpps?.find(
-                dmpp =>
-                  dmpp.from &&
-                  dmpp.from < now &&
-                  (!dmpp.to || dmpp.to > now) &&
-                  dmpp.deliveryEnvironment?.toString() ===
-                    deliveryEnvironment &&
-                  dmpp.codeType === DmppCodeType.Cnk
-              );
-              const language: keyof SamText = this.language;
-              return {
-                ampId: amp.id,
-                vmpGroupId: amp.vmp?.vmpGroup?.id,
-                id: ampp.ctiExtended,
-                cnk: dmpp?.code,
-                dmppProductId: dmpp?.productId,
-                title:
-                  ampp.prescriptionName?.[language] ??
-                  ampp.prescriptionName?.[this.defaultLanguage] ??
-                  ampp.abbreviatedName?.[language] ??
-                  ampp.abbreviatedName?.[this.defaultLanguage] ??
-                  amp.prescriptionName?.[language] ??
-                  amp.prescriptionName?.[this.defaultLanguage] ??
-                  amp.name?.[language] ??
-                  amp.name?.[this.defaultLanguage] ??
-                  amp.abbreviatedName?.[language] ??
-                  amp.abbreviatedName?.[this.defaultLanguage] ??
-                  '',
-                vmpTitle:
-                  amp.vmp?.name?.[language] ??
-                  amp.vmp?.name?.[this.defaultLanguage] ??
-                  '',
-                activeIngredient:
-                  amp.vmp?.vmpGroup?.name?.[language] ??
-                  amp.vmp?.vmpGroup?.name?.[this.defaultLanguage] ??
-                  '',
-                price: ampp?.exFactoryPrice ? `€${ampp.exFactoryPrice}` : '',
-                crmLink:
-                  ampp.crmLink?.[language] ??
-                  ampp.crmLink?.[this.defaultLanguage],
-                patientInformationLeafletLink:
-                  ampp.leafletLink?.[language] ??
-                  ampp.leafletLink?.[this.defaultLanguage],
-                blackTriangle: amp.blackTriangle,
-                speciallyRegulated: ampp.speciallyRegulated,
-                genericPrescriptionRequired: ampp.genericPrescriptionRequired,
-                intendedName:
-                  ampp.prescriptionName?.[language] ??
-                  ampp.prescriptionName?.[this.defaultLanguage],
-                rmaProfessionalLink:
-                  ampp.rmaProfessionalLink?.[language] ??
-                  ampp.rmaProfessionalLink?.[this.defaultLanguage],
-                spcLink:
-                  ampp.spcLink?.[language] ??
-                  ampp.spcLink?.[this.defaultLanguage],
-                dhpcLink:
-                  ampp.dhpcLink?.[language] ??
-                  ampp.dhpcLink?.[this.defaultLanguage],
-                rmakeyMessages: ampp.rmaKeyMessages,
-                vmp: amp.vmp,
-                supplyProblems: ampp.supplyProblems,
-                commercializations: ampp?.commercializations,
-                deliveryModusCode: ampp.deliveryModusCode,
-                deliveryModus:
-                  ampp.deliveryModus?.[language] ??
-                  ampp.deliveryModus?.[this.defaultLanguage],
-                deliveryModusSpecificationCode:
-                  ampp.deliveryModusSpecificationCode,
-                deliveryModusSpecification:
-                  ampp.deliveryModusSpecification?.[language] ??
-                  ampp.deliveryModusSpecification?.[this.defaultLanguage],
-                reimbursements: dmpp?.reimbursements?.find(
-                  dmpp =>
-                    dmpp.from && dmpp.from < now && (!dmpp.to || dmpp.to > now)
-                ),
-              } as MedicationType;
-            })
-    );
+    const page: MedicationType[] = loadedPage.flatMap((amp: Amp) => {
+      if (amp.to && amp.to < now) {
+        return [];
+      }
+
+      const activeAmpps = amp.ampps.filter(
+        ampp => ampp.from && (!ampp.to || ampp.to > now)
+      );
+      const authorizedAmpps = activeAmpps.filter(
+        ampp => ampp.status === AmpStatus.Authorized
+      );
+      const commercializedAmpps = authorizedAmpps.filter(ampp =>
+        ampp.commercializations?.some(
+          c => !!c.from && (!c.to || c.to > twoYearsAgo)
+        )
+      );
+      const deliverableAmpps = commercializedAmpps.filter(ampp =>
+        ampp.dmpps?.some(
+          dmpp =>
+            dmpp.from &&
+            (!dmpp.to || dmpp.to > now) &&
+            dmpp.deliveryEnvironment?.toString() === deliveryEnvironment
+        )
+      );
+
+      return deliverableAmpps.map(ampp => {
+        const dmpp = ampp.dmpps?.find(
+          dmpp =>
+            dmpp.from &&
+            (!dmpp.to || dmpp.to > now) &&
+            dmpp.deliveryEnvironment?.toString() === deliveryEnvironment &&
+            dmpp.codeType === DmppCodeType.Cnk
+        );
+        const language: keyof SamText = this.language;
+        return {
+          ampId: amp.id,
+          vmpGroupId: amp.vmp?.vmpGroup?.id,
+          id: ampp.ctiExtended,
+          cnk: dmpp?.code,
+          dmppProductId: dmpp?.productId,
+          title:
+            ampp.prescriptionName?.[language] ??
+            ampp.prescriptionName?.[this.defaultLanguage] ??
+            ampp.abbreviatedName?.[language] ??
+            ampp.abbreviatedName?.[this.defaultLanguage] ??
+            amp.prescriptionName?.[language] ??
+            amp.prescriptionName?.[this.defaultLanguage] ??
+            amp.name?.[language] ??
+            amp.name?.[this.defaultLanguage] ??
+            amp.abbreviatedName?.[language] ??
+            amp.abbreviatedName?.[this.defaultLanguage] ??
+            '',
+          vmpTitle:
+            amp.vmp?.name?.[language] ??
+            amp.vmp?.name?.[this.defaultLanguage] ??
+            '',
+          activeIngredient:
+            amp.vmp?.vmpGroup?.name?.[language] ??
+            amp.vmp?.vmpGroup?.name?.[this.defaultLanguage] ??
+            '',
+          price: ampp?.exFactoryPrice ? `€${ampp.exFactoryPrice}` : '',
+          crmLink:
+            ampp.crmLink?.[language] ?? ampp.crmLink?.[this.defaultLanguage],
+          patientInformationLeafletLink:
+            ampp.leafletLink?.[language] ??
+            ampp.leafletLink?.[this.defaultLanguage],
+          blackTriangle: amp.blackTriangle,
+          speciallyRegulated: ampp.speciallyRegulated,
+          genericPrescriptionRequired: ampp.genericPrescriptionRequired,
+          intendedName:
+            ampp.prescriptionName?.[language] ??
+            ampp.prescriptionName?.[this.defaultLanguage],
+          rmaProfessionalLink:
+            ampp.rmaProfessionalLink?.[language] ??
+            ampp.rmaProfessionalLink?.[this.defaultLanguage],
+          spcLink:
+            ampp.spcLink?.[language] ?? ampp.spcLink?.[this.defaultLanguage],
+          dhpcLink:
+            ampp.dhpcLink?.[language] ?? ampp.dhpcLink?.[this.defaultLanguage],
+          rmakeyMessages: ampp.rmaKeyMessages,
+          vmp: amp.vmp,
+          supplyProblems: ampp.supplyProblems,
+          commercializations: ampp?.commercializations,
+          deliveryModusCode: ampp.deliveryModusCode,
+          deliveryModus:
+            ampp.deliveryModus?.[language] ??
+            ampp.deliveryModus?.[this.defaultLanguage],
+          deliveryModusSpecificationCode: ampp.deliveryModusSpecificationCode,
+          deliveryModusSpecification:
+            ampp.deliveryModusSpecification?.[language] ??
+            ampp.deliveryModusSpecification?.[this.defaultLanguage],
+          reimbursements: dmpp?.reimbursements?.find(
+            dmpp => dmpp.from && (!dmpp.to || dmpp.to > now)
+          ),
+        } as MedicationType;
+      });
+    });
 
     return loadedPage.length < min || page.length + acc.length >= min
       ? [...acc, ...page]
