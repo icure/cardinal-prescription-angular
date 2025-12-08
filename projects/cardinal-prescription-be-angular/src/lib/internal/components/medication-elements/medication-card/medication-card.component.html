@@ -110,15 +110,62 @@
                     [iconSnippet]="prescriptionIcn" />
                 </div>
               </div>
+              <ng-template #cheapMedicationContent>
+                <div class="commonTooltip" *ngIf="medication.cheap">
+                  <p class="commonTooltip__title commonTooltip__title--green">
+                    {{ t('medication.drugInfographic.cheap') }}
+                    {{ t('medication.ui.yes') }}
+                  </p>
+                  <div class="commonTooltip__content">
+                    <div>
+                      <p>
+                        {{ t('medication.drugInfographic.cheapDescription') }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="commonTooltip" *ngIf="!medication.cheap">
+                  <p class="commonTooltip__title commonTooltip__title--red">
+                    {{ t('medication.drugInfographic.cheap') }}
+                    {{ t('medication.ui.no') }}
+                  </p>
+                  <div class="commonTooltip__content">
+                    <div>
+                      <p>
+                        {{
+                          t('medication.drugInfographic.notCheapDescription')
+                        }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              <div
+                *ngIf="medication.price"
+                class="medicationCheapPriceInfographic__item"
+                [ngClass]="{
+                  'medicationCheapPriceInfographic__item--green':
+                    medication.cheap,
+                  'medicationCheapPriceInfographic__item--red':
+                    !medication.cheap,
+                }">
+                <ng-template #cheapMedicationIcn>
+                  <cardinal-money-bag-icn
+                    [color]="medication.cheap ? '#09853D' : '#EE1313'" />
+                </ng-template>
+                <cardinal-tooltip
+                  [contentSnippet]="cheapMedicationContent"
+                  [iconSnippet]="cheapMedicationIcn" />
+              </div>
               <div class="medicationAvailabilityInfographics">
                 <ng-template #supplyProblemsContent>
-                  <div class="supplyProblemsTooltip" *ngIf="!!supplyProblem">
+                  <div class="commonTooltip" *ngIf="!!supplyProblem">
                     <p
-                      class="supplyProblemsTooltip__title supplyProblemsTooltip__title--orange">
+                      class="commonTooltip__title commonTooltip__title--orange">
                       {{ t('medication.supply.issueTitle') }}
                     </p>
 
-                    <div class="supplyProblemsTooltip__content">
+                    <div class="commonTooltip__content">
                       <div *ngIf="supplyProblem.from">
                         <span>
                           {{ t('medication.supply.startDate') }}
@@ -179,14 +226,11 @@
                     [contentSnippet]="supplyProblemsContent" />
                 </div>
                 <ng-template #endOfCommercialisationContent>
-                  <div
-                    class="supplyProblemsTooltip"
-                    *ngIf="!!commercialization">
-                    <p
-                      class="supplyProblemsTooltip__title supplyProblemsTooltip__title--red">
+                  <div class="commonTooltip" *ngIf="!!commercialization">
+                    <p class="commonTooltip__title commonTooltip__title--red">
                       {{ t('medication.commercialization.end') }}
                     </p>
-                    <div class="supplyProblemsTooltip__content">
+                    <div class="commonTooltip__content">
                       <div *ngIf="commercialization.from">
                         <span>
                           {{
@@ -255,14 +299,11 @@
                     [contentSnippet]="endOfCommercialisationContent" />
                 </div>
                 <ng-template #startOfCommercialisationContent>
-                  <div
-                    class="supplyProblemsTooltip"
-                    *ngIf="!!commercialization">
-                    <p
-                      class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
+                  <div class="commonTooltip" *ngIf="!!commercialization">
+                    <p class="commonTooltip__title commonTooltip__title--green">
                       {{ t('medication.commercialization.start') }}
                     </p>
-                    <div class="supplyProblemsTooltip__content">
+                    <div class="commonTooltip__content">
                       <div *ngIf="commercialization.from">
                         <span>{{
                           t('medication.commercialization.startAvailableFrom')
@@ -299,12 +340,12 @@
                 </ng-template>
                 <ng-template #reimbursementsContent>
                   <div *ngIf="reimbursement; else noReimbursement">
-                    <div class="supplyProblemsTooltip">
+                    <div class="commonTooltip">
                       <p
-                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
+                        class="commonTooltip__title commonTooltip__title--green">
                         {{ t('medication.reimbursement.title') }}
                       </p>
-                      <div class="supplyProblemsTooltip__content">
+                      <div class="commonTooltip__content">
                         <div
                           *ngIf="
                             reimbursement.reimbursementCriterion?.category
@@ -386,12 +427,12 @@
                   </div>
 
                   <ng-template #noReimbursement>
-                    <div class="supplyProblemsTooltip">
+                    <div class="commonTooltip">
                       <p
-                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
+                        class="commonTooltip__title commonTooltip__title--green">
                         {{ t('medication.reimbursement.noneTitle') }}
                       </p>
-                      <div class="supplyProblemsTooltip__content">
+                      <div class="commonTooltip__content">
                         <div>
                           <p>
                             {{ t('medication.reimbursement.notApplicable') }}
@@ -414,12 +455,12 @@
                 <ng-template #deliveryConditionsContent>
                   <div
                     *ngIf="medication.deliveryModusCode; else noDeliveryModus">
-                    <div class="supplyProblemsTooltip">
+                    <div class="commonTooltip">
                       <p
-                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--orange">
+                        class="commonTooltip__title commonTooltip__title--orange">
                         {{ t('medication.delivery.title') }}
                       </p>
-                      <div class="supplyProblemsTooltip__content">
+                      <div class="commonTooltip__content">
                         <div *ngIf="medication.deliveryModusCode">
                           <span>
                             {{ t('medication.delivery.code') }}
@@ -443,12 +484,12 @@
                   </div>
 
                   <ng-template #noDeliveryModus>
-                    <div class="supplyProblemsTooltip">
+                    <div class="commonTooltip">
                       <p
-                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
+                        class="commonTooltip__title commonTooltip__title--green">
                         {{ t('medication.delivery.title') }}
                       </p>
-                      <div class="supplyProblemsTooltip__content">
+                      <div class="commonTooltip__content">
                         <div>
                           <p>{{ t('medication.prescription.free') }}</p>
                         </div>
@@ -478,12 +519,11 @@
                       medication.deliveryModusSpecificationCode;
                       else noDeliveryModus
                     ">
-                    <div class="supplyProblemsTooltip">
-                      <p
-                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--red">
+                    <div class="commonTooltip">
+                      <p class="commonTooltip__title commonTooltip__title--red">
                         {{ t('medication.prescription.title') }}
                       </p>
-                      <div class="supplyProblemsTooltip__content">
+                      <div class="commonTooltip__content">
                         <div *ngIf="medication.deliveryModusSpecificationCode">
                           <span>
                             {{ t('medication.delivery.code') }}
@@ -504,12 +544,12 @@
                   </div>
 
                   <ng-template #noDeliveryModus>
-                    <div class="supplyProblemsTooltip">
+                    <div class="commonTooltip">
                       <p
-                        class="supplyProblemsTooltip__title supplyProblemsTooltip__title--green">
+                        class="commonTooltip__title commonTooltip__title--green">
                         {{ t('medication.prescription.title') }}
                       </p>
-                      <div class="supplyProblemsTooltip__content">
+                      <div class="commonTooltip__content">
                         <div>
                           <p>{{ t('medication.delivery.notApplicable') }}</p>
                         </div>
@@ -652,6 +692,11 @@
         target="_blank">
         {{ t('medication.links.dhpc') }}
       </a>
+    </div>
+
+    <div class="content__divider" *ngIf="medication.price"></div>
+    <div *ngIf="medication.price">
+      <ng-container *ngTemplateOutlet="cheapMedicationContent"></ng-container>
     </div>
 
     <div class="content__divider" *ngIf="reimbursement"></div>

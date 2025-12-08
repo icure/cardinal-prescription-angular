@@ -9,6 +9,13 @@ export const medicationTranslations = {
       blackTriangle: 'Pharmacovigilance renforcée (Triangle noir)',
       rma: 'Activités additionnelles de minimisation des risques ou additional RMA (Risk Minimisation Activities) (Source: AFMPS)',
       genericPrescriptionRequired: 'Ordonnance générique requise',
+      cheap: 'Bon marché :',
+      cheapTitle: 'Catégorie des médicaments “bon marché” :',
+      cheapDescription:
+        'Médicament classé dans la catégorie des médicaments bon marché',
+      notCheapDescription:
+        'Médicament n’appartenant pas à la catégorie des médicaments “bon marché”',
+      cheapest: 'Le moins cher',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation:
@@ -76,6 +83,8 @@ export const medicationTranslations = {
     },
     ui: {
       price: 'Prix :',
+      yes: 'Oui',
+      no: 'Non',
     },
     search: {
       label: 'Trouver un médicament',
@@ -94,6 +103,12 @@ export const medicationTranslations = {
       blackTriangle: 'Enhanced pharmacovigilance (Black triangle)',
       rma: 'Additional risk minimisation activities or additional RMA (Risk Minimisation Activities) (Source: FAMHP)',
       genericPrescriptionRequired: 'Generic prescription required',
+      cheap: 'Cheap:',
+      cheapTitle: '"Cheap medicine" category:',
+      cheapDescription: 'Medicine is classified as a "cheap" medicine',
+      notCheapDescription:
+        'Medicine that is not classified as a "cheap" medicine',
+      cheapest: 'Cheapest',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation: 'No narcotic, specially regulated drug',
@@ -159,6 +174,8 @@ export const medicationTranslations = {
     },
     ui: {
       price: 'Price:',
+      yes: 'Yes',
+      no: 'No',
     },
     search: {
       label: 'Find a medication',
@@ -177,6 +194,13 @@ export const medicationTranslations = {
       blackTriangle: 'Verhoogde waakzaamheid (Zwarte driehoek)',
       rma: 'Aanvullende risicobeperkende maatregelen (RMA) (Bron: FAGG)',
       genericPrescriptionRequired: 'Generiek voorschrift vereist',
+      cheap: 'Goedkoop:',
+      cheapTitle: 'Categorie van “goedkope” geneesmiddelen:',
+      cheapDescription:
+        'Geneesmiddel dat is ingedeeld in de categorie goedkope geneesmiddelen',
+      notCheapDescription:
+        'Geneesmiddel dat niet behoort tot de “goedkope” geneesmiddelen',
+      cheapest: 'Goedkoopste',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation:
@@ -244,6 +268,8 @@ export const medicationTranslations = {
     },
     ui: {
       price: 'Prijs:',
+      yes: 'Ja',
+      no: 'Nee',
     },
     search: {
       label: 'Zoek een geneesmiddel',
@@ -262,6 +288,13 @@ export const medicationTranslations = {
       blackTriangle: 'Verstärkte Pharmakovigilanz (Schwarzes Dreieck)',
       rma: 'Zusätzliche Maßnahmen zur Risikominimierung (RMA) (Quelle: BfArM)',
       genericPrescriptionRequired: 'Generisches Rezept erforderlich',
+      cheap: 'Günstig :',
+      cheapTitle: 'Kategorie der „günstigen“ Medikamente :',
+      cheapDescription:
+        'Das Medikament wird als „günstiges“ Medikament eingestuft.',
+      notCheapDescription:
+        'Medikament, das nicht als „günstiges“ Medikament eingestuft ist.',
+      cheapest: 'Am günstigsten',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation:
@@ -329,6 +362,8 @@ export const medicationTranslations = {
     },
     ui: {
       price: 'Preis :',
+      yes: 'Ja',
+      no: 'Nein',
     },
     search: {
       label: 'Arzneimittel suchen',

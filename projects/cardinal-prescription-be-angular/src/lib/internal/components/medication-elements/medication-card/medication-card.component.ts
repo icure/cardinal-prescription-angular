@@ -21,7 +21,7 @@ import { MoleculeIcnComponent } from '../../common/icons/molecule-icn/molecule-i
 import { LeafIcnComponent } from '../../common/icons/leaf-icn/leaf-icn.component';
 import { TriangleIcnComponent } from '../../common/icons/triangle-icn/triangle-icn.component';
 import { PillsBottleIcnComponent } from '../../common/icons/pills-bottle-icn/pills-bottle-icn.component';
-import { NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { PrescriptionIcnComponent } from '../../common/icons/prescription-icn/prescription-icn.component';
 import { SupplyIcnComponent } from '../../common/icons/supply-icn/supply-icn.component';
 import { EndOfCommercialisationIcnComponent } from '../../common/icons/end-of-commercialisation-icn/end-of-commercialisation-icn.component';
@@ -29,6 +29,7 @@ import { StartOfCommercialisationIcnComponent } from '../../common/icons/start-o
 import { ChevronIcnComponent } from '../../common/icons/chevron-icn/chevron-icn.component';
 import { TranslationService } from '../../../../shared/services/translation/translation.service';
 import { getCategoryLabelForReimbursement } from '../../../utils/reimbursement-helpers';
+import { MoneyBagIcnComponent } from '../../common/icons/money-bag-icn/money-bag-icn.component';
 
 @Component({
   selector: 'cardinal-medication-card',
@@ -37,6 +38,7 @@ import { getCategoryLabelForReimbursement } from '../../../utils/reimbursement-h
     TooltipComponent,
     NgIf,
     NgForOf,
+    NgClass,
     ChevronIcnComponent,
     NgTemplateOutlet,
     SolidPillIcnComponent,
@@ -48,6 +50,7 @@ import { getCategoryLabelForReimbursement } from '../../../utils/reimbursement-h
     SupplyIcnComponent,
     EndOfCommercialisationIcnComponent,
     StartOfCommercialisationIcnComponent,
+    MoneyBagIcnComponent,
   ],
   templateUrl: './medication-card.component.html',
   styleUrls: ['./medication-card.component.scss'],
@@ -87,6 +90,9 @@ export class MedicationCardComponent implements OnInit {
 
   vmpName?: string;
   vmpGroupName?: string;
+
+  cheap?: boolean;
+  cheapest?: boolean;
 
   handleMedicationClick(): void {
     this.addPrescription.emit(this.medication); // emit the card's medication
@@ -136,6 +142,9 @@ export class MedicationCardComponent implements OnInit {
     this.vmpGroupName = this.getTranslatedText(
       this.medication?.vmp?.vmpGroup?.name
     );
+
+    this.cheap = this.medication.cheap;
+    this.cheapest = this.medication.cheapest;
   }
 
   toggleMedicationDetails(): void {
