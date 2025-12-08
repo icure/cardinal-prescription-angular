@@ -42,7 +42,7 @@ export class SamSdkService {
     }
   }
 
-  async loadCheapAlternativeMedications(
+  async loadAlternativeMedications(
     vmpGroupCode: string,
   ): Promise<
     PaginatedListIterator<Amp>

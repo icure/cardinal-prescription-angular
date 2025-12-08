@@ -210,10 +210,12 @@ export class MedicationSearchComponent
   }
 
   async handleAddPrescription(med: MedicationType): Promise<void> {
-    this.addPrescription.emit([med, med.cheap || !med.vmp?.code ? [] : await this.samSdkService.loadCheapAlternativeMedications(med.vmp?.code).then((ampPage) => this.loader.loadMedicationsPage(
+    this.addPrescription.emit([med, med.cheap || !med.vmp?.code ? [] : await this.samSdkService.loadAlternativeMedications(med.vmp?.code).then((ampPage) => this.loader.loadMedicationsPage(
       ampPage,
       10,
-      this.deliveryEnvironment
+      this.deliveryEnvironment,
+      [],
+      (mt) => mt.cheap || mt.cheapest ? mt : undefined
     ))]);
     this.searchControl.setValue('');
     this.onResetSearch();

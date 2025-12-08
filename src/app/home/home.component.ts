@@ -73,10 +73,10 @@ export class HomeComponent implements OnInit {
     dateOfBirth: 19740104,
   };
   hcp: HealthcareParty = {
-    firstName: 'Fabien',
-    lastName: 'Zimer',
-    ssin: '84100212104',
-    nihii: '10104133000',
+    firstName: 'Antoine',
+    lastName: 'Duchâteau',
+    ssin: '74010414733',
+    nihii: '10032669001',
     addresses: [
       new Address({
         addressType: Address.AddressTypeEnum.Clinic,

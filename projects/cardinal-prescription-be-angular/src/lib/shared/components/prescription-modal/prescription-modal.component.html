@@ -16,6 +16,14 @@
       </div>
       <div class="addMedicationForm__body">
         <div class="addMedicationForm__body__content">
+          <ul
+            class="dosageInput__dropdown"
+            *ngIf="alternativeCheapMedications?.length ?? 0 > 0">
+            <li
+              *ngFor="let alternative of alternativeCheapMedications; let i = index">
+              {{ alternative.intendedName }}
+              </li>
+          </ul>
           <cardinal-text-input
             [required]="true"
             [label]="t('prescription.form.medicationTitle')"
