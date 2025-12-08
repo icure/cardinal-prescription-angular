@@ -55,6 +55,7 @@ export class HomeComponent implements OnInit {
   deliveryEnvironment = 'P';
   prescriptionModalMode: 'create' | 'modify' | null = null;
   medicationToPrescribe?: MedicationType;
+  alternativeCheapMedications?: MedicationType[];
   prescriptionToModify?: PrescribedMedicationType;
   prescriptions: PrescribedMedicationType[] = [];
   showPrintPrescriptionsModal = false;
@@ -196,9 +197,10 @@ export class HomeComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
-  onCreatePrescription(medication: MedicationType) {
+  onCreatePrescription([medication, cheapAlternatives]: [MedicationType, MedicationType[]]) {
     this.prescriptionModalMode = 'create';
     this.medicationToPrescribe = medication;
+    this.alternativeCheapMedications = cheapAlternatives;
     this.cdr.detectChanges();
   }
   onSubmitCreatePrescription(newPrescriptions: PrescribedMedicationType[]) {

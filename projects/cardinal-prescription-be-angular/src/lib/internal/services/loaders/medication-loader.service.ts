@@ -103,6 +103,8 @@ export class MedicationLoaderService {
             amp.vmp?.vmpGroup?.name?.[this.defaultLanguage] ??
             '',
           price: ampp?.exFactoryPrice ? `€${ampp.exFactoryPrice}` : '',
+          cheap: dmpp?.cheap,
+          cheapest: dmpp?.cheapest,
           crmLink:
             ampp.crmLink?.[language] ?? ampp.crmLink?.[this.defaultLanguage],
           patientInformationLeafletLink:

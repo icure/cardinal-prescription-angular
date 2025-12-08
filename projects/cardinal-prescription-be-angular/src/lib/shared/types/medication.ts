@@ -19,7 +19,7 @@ export type DeliveryModusSpecificationCodeType =
   | 'IMP/Sp'
   | 'IMP/Sp1';
 
-export type MedicationType = {
+export interface MedicationType {
   ampId?: string;
   vmpGroupId?: string;
   nmpId?: string;
@@ -30,6 +30,8 @@ export type MedicationType = {
   vmpTitle?: string;
   activeIngredient?: string;
   price?: string;
+  cheap?: boolean;
+  cheapest?: boolean;
   crmLink?: string;
   patientInformationLeafletLink?: string;
   blackTriangle?: boolean;
@@ -48,9 +50,9 @@ export type MedicationType = {
   deliveryModusSpecificationCode?: DeliveryModusSpecificationCodeType;
   deliveryModusSpecification?: string;
   reimbursements?: Reimbursement;
-};
+}
 
-export type PrescribedMedicationType = {
+export interface PrescribedMedicationType {
   uuid: string;
   medication: Medication;
   rid?: string;
@@ -59,4 +61,4 @@ export type PrescribedMedicationType = {
   dmppProductId?: string;
   prescriberVisibility?: PractitionerVisibilityType;
   pharmacistVisibility?: PharmacistVisibilityType;
-};
+}

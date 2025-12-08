@@ -79,6 +79,7 @@ export class PrescriptionModalComponent
   @Input({ required: true }) modalTitle!: string;
   @Input() medicationToPrescribe?: MedicationType;
   @Input() prescriptionToModify?: PrescribedMedicationType;
+  @Input() alternativeCheapMedications?: MedicationType[];
 
   @Output() handleSubmit = new EventEmitter<PrescribedMedicationType[]>();
   @Output() handleCancel = new EventEmitter<void>();

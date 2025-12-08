@@ -42,6 +42,21 @@ export class SamSdkService {
     }
   }
 
+  async loadCheapAlternativeMedications(
+    vmpGroupCode: string,
+  ): Promise<
+    PaginatedListIterator<Amp>
+  > {
+    if (!this.sdk) throw new Error('SDK not initialized');
+    if (!vmpGroupCode) throw new Error('Query is not found');
+    try {
+      return await this.sdk.findPaginatedAmpsByVmpCode(vmpGroupCode);
+    } catch (error) {
+      console.error('Error searching medications:', error);
+      throw error;
+    }
+  }
+
   async getSamVersion(): Promise<SamVersion | undefined> {
     if (!this.sdk) throw new Error('SDK not initialized');
     try {
