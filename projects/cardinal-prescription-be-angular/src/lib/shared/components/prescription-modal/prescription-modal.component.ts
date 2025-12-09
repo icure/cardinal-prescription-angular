@@ -18,7 +18,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { makeParser } from '@icure/medication-sdk';
+import { makeParser, marshal } from '@icure/medication-sdk';
 import { SamText } from '@icure/cardinal-be-sam-sdk';
 
 import { ButtonComponent } from '../../../internal/components/form-elements/button/button.component';
@@ -47,7 +47,10 @@ import {
   getPractitionerVisibilityOptions,
   getPharmacistVisibilityOptions,
 } from '../../../internal/utils/visibility-helpers';
-import { CreatePrescriptionService } from '../../../internal/services/prescription/create-prescription.service';
+import {
+  CreatePrescriptionService,
+  StandardDosageContext,
+} from '../../../internal/services/prescription/create-prescription.service';
 import { ReimbursementType } from '../../../internal/types/reimbursement';
 import { getReimbursementOptions } from '../../../internal/utils/reimbursement-helpers';
 
@@ -84,6 +87,7 @@ export class PrescriptionModalComponent
   @Input() medicationToPrescribe?: MedicationType;
   @Input() prescriptionToModify?: PrescribedMedicationType;
   @Input() alternativeCheapMedications?: MedicationType[];
+  @Input() standardDosageContext?: StandardDosageContext;
 
   @Output() handleSubmit = new EventEmitter<PrescribedMedicationType[]>();
   @Output() handleCancel = new EventEmitter<void>();
@@ -171,6 +175,9 @@ export class PrescriptionModalComponent
   }
 
   private getInitialFormValues(): Record<string, unknown> {
+    const standardDosage = this.medicationToPrescribe?.standardDosage ? this.createPrescriptionService.createPosologyFromStandardDosage(this.medicationToPrescribe?.standardDosage, this.standardDosageContext ?? {}) : undefined;
+    const renderedStandardDosage = standardDosage ? standardDosage.map((sd) => marshal(sd, this.language)).join(', ') : undefined;
+
     const medicationTitleValue =
       this.medicationToPrescribe?.title ??
       this.prescriptionToModify?.medication.medicinalProduct?.intendedname ??
@@ -187,7 +194,7 @@ export class PrescriptionModalComponent
         value: medicationTitleValue,
         disabled: true,
       },
-      dosage: this.prescriptionToModify?.medication.instructionForPatient ?? '',
+      dosage: this.prescriptionToModify?.medication.instructionForPatient ?? renderedStandardDosage ?? '',
       duration:
         getDurationFromDays(
           this.prescriptionToModify?.medication.duration?.value ?? 1

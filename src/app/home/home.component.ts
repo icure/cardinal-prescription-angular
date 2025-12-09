@@ -52,6 +52,8 @@ export class HomeComponent implements OnInit {
   uiReady = false;
   passphrase?: string;
 
+
+  standardDosageContext = { ageInYears: 30, weightInKg: 70 };
   deliveryEnvironment = 'P';
   prescriptionModalMode: 'create' | 'modify' | null = null;
   medicationToPrescribe?: MedicationType;
