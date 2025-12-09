@@ -1,13 +1,14 @@
 <div
   [class.focused]="focused"
   [class.isExpanded]="isExpanded"
+  [class.readOnly]="readOnly"
   [id]="index"
   class="medicationRow">
   <div class="header">
     <div
       class="header__medication"
-      (click)="handleMedicationClick()"
-      tabindex="0">
+      (click)="!readOnly && handleMedicationClick()"
+      [tabindex]="readOnly ? -1 : 0">
       <div class="header__medication__content">
         <div class="header__medication__content__heading">
           <div class="header__medication__content__heading__title">
@@ -122,6 +123,7 @@
       </div>
     </div>
     <button
+      *ngIf="!readOnly"
       class="header__arrow"
       [class.isExpanded]="isExpanded"
       (click)="toggleMedicationDetails()">
@@ -129,7 +131,7 @@
     </button>
   </div>
 
-  <div *ngIf="isExpanded" class="content">
+  <div *ngIf="isExpanded && !readOnly" class="content">
     <div *ngIf="medication.vmp" class="content__vmp">
       <div *ngIf="vmpName" class="content__vmp__item">
         <span>

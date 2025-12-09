@@ -54,6 +54,8 @@ import { getReimbursementOptions } from '../../../internal/utils/reimbursement-h
 import { TranslationService } from '../../services/translation/translation.service';
 import { MedicationType, PrescribedMedicationType } from '../../types';
 import { MagistralText } from '@icure/be-fhc-lite-api';
+import { MedicationCardComponent } from '../../../internal/components/medication-elements/medication-card/medication-card.component';
+import { CheapAlternativesComponent } from '../../../internal/components/medication-elements/cheap-alternatives/cheap-alternatives.component';
 
 @Component({
   selector: 'cardinal-prescription-modal',
@@ -68,6 +70,8 @@ import { MagistralText } from '@icure/be-fhc-lite-api';
     RadioInputComponent,
     ToggleSwitchComponent,
     CloseIcnComponent,
+    MedicationCardComponent,
+    CheapAlternativesComponent,
   ],
   templateUrl: './prescription-modal.component.html',
   styleUrls: ['./prescription-modal.component.scss'],
@@ -128,7 +132,7 @@ export class PrescriptionModalComponent
   disableHover = false;
 
   ngOnInit(): void {
-    console.log((this.alternativeCheapMedications ?? []).map(med => med.title))
+    console.log((this.alternativeCheapMedications ?? []).map(med => med.title));
     this.language = this.translationService.getCurrentLanguage();
 
     this.practitionerVisibilityOptions = getPractitionerVisibilityOptions(
@@ -483,6 +487,47 @@ export class PrescriptionModalComponent
       event.preventDefault();
       event.stopPropagation();
     }
+    this.cdr.markForCheck();
+  }
+
+  onSelectAlternativeMedication(medication: MedicationType): void {
+    // Add the previous medication to alternatives if it exists and is not already there
+    if (this.medicationToPrescribe && this.alternativeCheapMedications) {
+      const previousMed = this.medicationToPrescribe;
+      const isAlreadyInList = this.alternativeCheapMedications.some(
+        med => med.id === previousMed.id
+      );
+
+      if (!isAlreadyInList) {
+        // Remove the selected medication from alternatives
+        this.alternativeCheapMedications =
+          this.alternativeCheapMedications.filter(
+            med => med.id !== medication.id
+          );
+
+        // Add the previous medication to alternatives
+        this.alternativeCheapMedications = [
+          previousMed,
+          ...this.alternativeCheapMedications,
+        ];
+      } else {
+        // Just remove the selected medication from alternatives
+        this.alternativeCheapMedications =
+          this.alternativeCheapMedications.filter(
+            med => med.id !== medication.id
+          );
+      }
+    }
+
+    // Set the new medication as the one to prescribe
+    this.medicationToPrescribe = medication;
+
+    // Update the medication title in the form
+    const medicationTitleCtrl = this.getControl('medicationTitle');
+    if (medicationTitleCtrl) {
+      medicationTitleCtrl.setValue(medication.title);
+    }
+
     this.cdr.markForCheck();
   }
 }

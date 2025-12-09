@@ -10,12 +10,14 @@ export const medicationTranslations = {
       rma: 'Activités additionnelles de minimisation des risques ou additional RMA (Risk Minimisation Activities) (Source: AFMPS)',
       genericPrescriptionRequired: 'Ordonnance générique requise',
       cheap: 'Bon marché :',
-      cheapTitle: 'Catégorie des médicaments “bon marché” :',
+      cheapTitle: 'Catégorie des médicaments "bon marché" :',
       cheapDescription:
         'Médicament classé dans la catégorie des médicaments bon marché',
       notCheapDescription:
-        'Médicament n’appartenant pas à la catégorie des médicaments “bon marché”',
+        'Médicament n\'appartenant pas à la catégorie des médicaments "bon marché"',
       cheapest: 'Le moins cher',
+      cheapAlternativesMessage:
+        'Ce médicament n\'est pas classé comme bon marché. Souhaitez-vous voir des alternatives moins chères ?',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation:
@@ -109,6 +111,8 @@ export const medicationTranslations = {
       notCheapDescription:
         'Medicine that is not classified as a "cheap" medicine',
       cheapest: 'Cheapest',
+      cheapAlternativesMessage:
+        'This medication is not classified as cheap. Would you like to see cheaper alternatives?',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation: 'No narcotic, specially regulated drug',
@@ -195,12 +199,14 @@ export const medicationTranslations = {
       rma: 'Aanvullende risicobeperkende maatregelen (RMA) (Bron: FAGG)',
       genericPrescriptionRequired: 'Generiek voorschrift vereist',
       cheap: 'Goedkoop:',
-      cheapTitle: 'Categorie van “goedkope” geneesmiddelen:',
+      cheapTitle: 'Categorie van "goedkope" geneesmiddelen:',
       cheapDescription:
         'Geneesmiddel dat is ingedeeld in de categorie goedkope geneesmiddelen',
       notCheapDescription:
-        'Geneesmiddel dat niet behoort tot de “goedkope” geneesmiddelen',
+        'Geneesmiddel dat niet behoort tot de "goedkope" geneesmiddelen',
       cheapest: 'Goedkoopste',
+      cheapAlternativesMessage:
+        'Dit geneesmiddel is niet geclassificeerd als goedkoop. Wilt u goedkopere alternatieven zien?',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation:
@@ -289,12 +295,14 @@ export const medicationTranslations = {
       rma: 'Zusätzliche Maßnahmen zur Risikominimierung (RMA) (Quelle: BfArM)',
       genericPrescriptionRequired: 'Generisches Rezept erforderlich',
       cheap: 'Günstig :',
-      cheapTitle: 'Kategorie der „günstigen“ Medikamente :',
+      cheapTitle: 'Kategorie der „günstigen" Medikamente :',
       cheapDescription:
-        'Das Medikament wird als „günstiges“ Medikament eingestuft.',
+        'Das Medikament wird als „günstiges" Medikament eingestuft.',
       notCheapDescription:
-        'Medikament, das nicht als „günstiges“ Medikament eingestuft ist.',
+        'Medikament, das nicht als „günstiges" Medikament eingestuft ist.',
       cheapest: 'Am günstigsten',
+      cheapAlternativesMessage:
+        'Dieses Medikament ist nicht als günstig klassifiziert. Möchten Sie günstigere Alternativen sehen?',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation:

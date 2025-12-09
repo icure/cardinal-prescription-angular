@@ -46,6 +46,7 @@ export class MedicationCardComponent implements OnInit {
   @Input({ required: true }) medication!: MedicationType;
   @Input({ required: true }) index!: number;
   @Input() focused?: boolean = false;
+  @Input() readOnly?: boolean = false;
 
   @Output() addPrescription = new EventEmitter<MedicationType>();
 
@@ -72,7 +73,9 @@ export class MedicationCardComponent implements OnInit {
   cheapest?: boolean;
 
   handleMedicationClick(): void {
-    this.addPrescription.emit(this.medication); // emit the card's medication
+    if (!this.readOnly) {
+      this.addPrescription.emit(this.medication); // emit the card's medication
+    }
   }
 
   ngOnInit(): void {
