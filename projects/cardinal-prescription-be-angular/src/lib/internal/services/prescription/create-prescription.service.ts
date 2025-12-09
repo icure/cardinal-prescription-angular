@@ -65,11 +65,12 @@ export class CreatePrescriptionService {
       //Check the consistency of items
       parsedPosologies.forEach((posology: ParsedRegimenItem) => {
         if ((posology.period?.temporalUnit ?? 'day') === 'day') {
+          const dayMoments = posology.moments.filter(m => m.periodOfTime || m.fullTime);
           if (
-            posology.moments.filter(m => m.periodOfTime || m.fullTime).length >
+            dayMoments.length >
               0 &&
             posology.frequency &&
-            posology.frequency != posology.moments.length
+            posology.frequency != dayMoments.length
           ) {
             errors.push(
               `Inconsistent posology: frequency ${posology.frequency}/day does not match the number of day periods specified`
@@ -149,9 +150,11 @@ export class CreatePrescriptionService {
                       });
                     })
                 );
-              return dailyRegiment.flatMap(item =>
-                posology.moments
-                  .filter(m => m.dayOfWeek)
+              const weekMoments = posology.moments
+                .filter(m => m.dayOfWeek)
+
+              return weekMoments.length > 0 ? dailyRegiment.flatMap(item =>
+                weekMoments
                   .map(moment => {
                     return new RegimenItem({
                       ...item,
@@ -160,7 +163,7 @@ export class CreatePrescriptionService {
                       },
                     });
                   })
-              );
+              ) : dailyRegiment;
             } else if ((posology.frequency ?? 1) === posology.moments.length) {
               const periodOfTimeItem = posology.moments.find(
                 m => m.periodOfTime

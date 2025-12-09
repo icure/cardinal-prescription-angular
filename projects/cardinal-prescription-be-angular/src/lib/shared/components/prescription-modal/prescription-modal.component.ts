@@ -170,7 +170,7 @@ export class PrescriptionModalComponent
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  private getInitialFormValues(): Record<string, any> {
+  private getInitialFormValues(): Record<string, unknown> {
     const medicationTitleValue =
       this.medicationToPrescribe?.title ??
       this.prescriptionToModify?.medication.medicinalProduct?.intendedname ??
@@ -393,30 +393,7 @@ export class PrescriptionModalComponent
         setTimeout(() => {
           // Only act if value hasn't changed since we captured it
           if (dosageControl.value !== snapshot) return;
-
-          const raw: string[] = completeDosage(snapshot) ?? [];
-
-          const endsWithSpace = /\s$/.test(snapshot);
-          const trimmedRight = snapshot.replace(/\s+$/, '');
-          const lastToken = trimmedRight.split(/\s+/).pop() ?? '';
-
-          // letters incl. Latin-1 (covers fr/en/nl/de). Extend if needed.
-          const hasLetterInLastToken = /[A-Za-zÀ-ÖØ-öø-ÿ]/.test(lastToken);
-
-          if (endsWithSpace || !hasLetterInLastToken) {
-            // User just typed a space OR only digits/symbols in last token → show all
-            this.dosageSuggestions = raw;
-          } else {
-            // User typed some letters in the last token → filter by suffix–prefix overlap
-            const withOverlap = raw
-              .map(s => ({ s, k: this.suffixPrefixOverlap(snapshot, s) }))
-              .filter(x => x.k > 0)
-              // Sort by best overlap, then by shorter suggestion
-              .sort((a, b) => b.k - a.k || a.s.length - b.s.length)
-              .map(x => x.s);
-            this.dosageSuggestions = withOverlap;
-          }
-
+          this.dosageSuggestions = completeDosage(snapshot) ?? [];
           this.cdr.markForCheck();
         }, 100);
       })

@@ -2296,12 +2296,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@icure/medication-sdk@npm:0.0.15":
-  version: 0.0.15
-  resolution: "@icure/medication-sdk@npm:0.0.15"
+"@icure/medication-sdk@npm:0.0.20":
+  version: 0.0.20
+  resolution: "@icure/medication-sdk@npm:0.0.20"
   dependencies:
     chevrotain: "npm:^11.0.3"
-  checksum: 10c0/88cea930a38286d3923d2053a98dbb5fa868c1b9dfff4b5bd614a171306d5f5e2ee3e6c40106c394fe2a8c59cebc339900bd992ad3b2e5e37104d42452350413
+  checksum: 10c0/d2e5eaee8f029408ec7d6162cdbd4566a57fe6879aefd6007c4308b19821cedd547e43a17cbcaa188767e34409e9422ef7373377a2dcb9f094b606a88cd180e8
   languageName: node
   linkType: hard
 
@@ -5019,7 +5019,7 @@ __metadata:
     "@eslint/js": "npm:^9.23.0"
     "@icure/be-fhc-lite-api": "npm:0.6.6"
     "@icure/cardinal-be-sam-sdk": "npm:^0.0.1"
-    "@icure/medication-sdk": "npm:0.0.15"
+    "@icure/medication-sdk": "npm:0.0.20"
     "@types/jasmine": "npm:~5.1.0"
     angular-eslint: "npm:19.3.0"
     eslint: "npm:^9.23.0"
