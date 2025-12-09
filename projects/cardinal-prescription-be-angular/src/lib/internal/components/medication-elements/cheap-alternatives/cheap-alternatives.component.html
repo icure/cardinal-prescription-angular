@@ -18,9 +18,9 @@
     <li
       *ngFor="let medication of medications"
       class="cheap-alternatives__content__item">
-      <a href="javascript:void(0)" (click)="onMedicationClick(medication)">
+      <button type="button" (click)="onMedicationClick(medication)">
         {{ medication.title }}
-      </a>
+      </button>
     </li>
   </ul>
 </div>
