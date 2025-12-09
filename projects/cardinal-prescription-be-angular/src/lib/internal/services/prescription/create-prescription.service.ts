@@ -5,7 +5,7 @@ import {
   Medication,
   Substanceproduct,
   Medicinalproduct,
-  MagistralText,
+  RegimenItem,
 } from '@icure/be-fhc-lite-api';
 import { v4 as uuid } from 'uuid'; // For generating UUIDs
 import { FhcService } from '../../../shared/services/api/fhc.service';
@@ -19,6 +19,10 @@ import {
   MedicationType,
   PrescribedMedicationType,
 } from '../../../shared/types';
+import {
+  makeParser,
+  RegimenItem as ParsedRegimenItem,
+} from '@icure/medication-sdk';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +47,157 @@ export class CreatePrescriptionService {
       );
     } else {
       return [];
+    }
+  }
+
+  private createRegimenItemsFromDosage(
+    dosage: string | undefined
+  ): RegimenItem[] | undefined {
+    try {
+      const { parsePosology } = makeParser('fr');
+      const parsedPosologies = dosage ? parsePosology(dosage) : undefined;
+
+      if (!parsedPosologies || parsedPosologies.length === 0) {
+        return undefined;
+      }
+
+      const errors = [];
+      //Check the consistency of items
+      parsedPosologies.forEach((posology: ParsedRegimenItem) => {
+        if ((posology.period?.temporalUnit ?? 'day') === 'day') {
+          if (
+            posology.moments.filter(m => m.periodOfTime || m.fullTime).length >
+              0 &&
+            posology.frequency &&
+            posology.frequency != posology.moments.length
+          ) {
+            errors.push(
+              `Inconsistent posology: frequency ${posology.frequency}/day does not match the number of day periods specified`
+            );
+          }
+        } else if (posology.period?.temporalUnit === 'week') {
+          if (
+            posology.moments.filter(m => m.dayOfWeek).length > 0 &&
+            posology.frequency &&
+            posology.frequency != posology.moments.length
+          ) {
+            errors.push(
+              `Inconsistent posology: frequency ${posology.frequency}/week does not match number of days specified`
+            );
+          }
+          if (
+            posology.moments.filter(m => m.periodOfTime || m.fullTime).length >
+            1
+          ) {
+            errors.push(
+              `Inconsistent posology: for weekly posologies, only one time of day specification is allowed`
+            );
+          }
+        }
+      });
+
+      return errors.length > 0
+        ? undefined
+        : parsedPosologies.flatMap((posology: ParsedRegimenItem) => {
+            if ((posology.period?.temporalUnit ?? 'day') === 'day') {
+              const dailyRegiment = [
+                ...new Array(
+                  Math.max(
+                    (posology.frequency ?? 1) -
+                      posology.moments.filter(m => m.periodOfTime || m.fullTime)
+                        .length,
+                    0
+                  )
+                ),
+              ]
+                .map(() => {
+                  return new RegimenItem({
+                    administratedQuantity: {
+                      quantity: posology.regimenQuantity?.quantity ?? 1,
+                      unit: posology.regimenQuantity?.galenic ?? 'unit',
+                    },
+                  });
+                })
+                .concat(
+                  posology.moments
+                    .filter(m => m.periodOfTime)
+                    .map(moment => {
+                      return new RegimenItem({
+                        administratedQuantity: {
+                          quantity: posology.regimenQuantity?.quantity ?? 1,
+                          unit: posology.regimenQuantity?.galenic ?? 'unit',
+                        },
+                        dayPeriod: {
+                          type: 'CD-PERIOD',
+                          code: moment.periodOfTime,
+                        },
+                      });
+                    })
+                )
+                .concat(
+                  posology.moments
+                    .filter(m => m.fullTime)
+                    .map(moment => {
+                      return new RegimenItem({
+                        administratedQuantity: {
+                          quantity: posology.regimenQuantity?.quantity ?? 1,
+                          unit: posology.regimenQuantity?.galenic ?? 'unit',
+                        },
+                        timeOfDay: parseInt(
+                          moment.fullTime?.replace(':', '') ?? '0000'
+                        ),
+                      });
+                    })
+                );
+              return dailyRegiment.flatMap(item =>
+                posology.moments
+                  .filter(m => m.dayOfWeek)
+                  .map(moment => {
+                    return new RegimenItem({
+                      ...item,
+                      weekday: {
+                        weekDay: { type: 'CD-WEEKDAY', code: moment.dayOfWeek },
+                      },
+                    });
+                  })
+              );
+            } else if ((posology.frequency ?? 1) === posology.moments.length) {
+              const periodOfTimeItem = posology.moments.find(
+                m => m.periodOfTime
+              );
+              const timeOfDayItem = posology.moments.find(m => m.fullTime);
+
+              return posology.moments
+                .filter(m => m.dayOfWeek)
+                .map(moment => {
+                  return new RegimenItem({
+                    administratedQuantity: {
+                      quantity: posology.regimenQuantity?.quantity ?? 1,
+                      unit: posology.regimenQuantity?.galenic ?? 'unit',
+                    },
+                    weekday: {
+                      weekDay: { type: 'CD-WEEKDAY', code: moment.dayOfWeek },
+                    },
+                    dayPeriod: periodOfTimeItem
+                      ? {
+                          type: 'CD-PERIOD',
+                          code: periodOfTimeItem.periodOfTime,
+                        }
+                      : undefined,
+                    timeOfDay: timeOfDayItem
+                      ? parseInt(
+                          timeOfDayItem.fullTime?.replace(':', '') ?? '0000'
+                        )
+                      : undefined,
+                  });
+                });
+            } else {
+              return [];
+            }
+          });
+    } catch (e) {
+      console.error('Error parsing dosage:', dosage, e);
+      return undefined;
     }
   }
 
@@ -79,6 +234,7 @@ export class CreatePrescriptionService {
               formValues.duration as number
             ),
           }),
+          regimen: this.createRegimenItemsFromDosage(formValues.dosage),
           instructionForPatient: formValues.dosage,
           recipeInstructionForPatient: formValues.recipeInstructionForPatient,
           instructionsForReimbursement: formValues.instructionsForReimbursement,
@@ -121,7 +277,7 @@ export class CreatePrescriptionService {
       beginMoment: offsetDate(
         parseInt((formValues.treatmentStartDate as string)?.replace(/-/g, '')),
         formValues.periodicityTimeUnit
-          ? parseInt(formValues.periodicityTimeUnit) *
+          ? parseInt(formValues.periodicityTimeUnit ?? '1') *
               (formValues.periodicityDaysNumber ?? 1) *
               idx
           : 0
@@ -130,7 +286,7 @@ export class CreatePrescriptionService {
       endMoment: offsetDate(
         parseInt((formValues.executableUntil as string)?.replace(/-/g, '')),
         formValues.periodicityTimeUnit
-          ? parseInt(formValues.periodicityTimeUnit) *
+          ? parseInt(formValues.periodicityTimeUnit ?? '1') *
               (formValues.periodicityDaysNumber ?? 1) *
               idx
           : 0
@@ -142,6 +298,7 @@ export class CreatePrescriptionService {
           formValues.duration as number
         ),
       }),
+      regimen: this.createRegimenItemsFromDosage(formValues.dosage),
       instructionForPatient: formValues.dosage,
       recipeInstructionForPatient: formValues.recipeInstructionForPatient,
       instructionsForReimbursement: formValues.instructionsForReimbursement,

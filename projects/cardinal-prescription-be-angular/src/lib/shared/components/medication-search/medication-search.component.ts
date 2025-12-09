@@ -55,7 +55,9 @@ export class MedicationSearchComponent
 {
   @Input({ required: true }) deliveryEnvironment!: string;
 
-  @Output() addPrescription = new EventEmitter<[MedicationType, MedicationType[]]>();
+  @Output() addPrescription = new EventEmitter<
+    [MedicationType, MedicationType[]]
+  >();
 
   @ViewChild('inputRef') inputRef!: ElementRef<HTMLInputElement>;
   @ViewChild('scrollAnchor', { static: false }) scrollAnchor!: ElementRef;
@@ -210,13 +212,28 @@ export class MedicationSearchComponent
   }
 
   async handleAddPrescription(med: MedicationType): Promise<void> {
-    this.addPrescription.emit([med, med.cheap || !med.vmp?.code ? [] : await this.samSdkService.loadAlternativeMedications(med.vmp?.code).then((ampPage) => this.loader.loadMedicationsPage(
-      ampPage,
-      10,
-      this.deliveryEnvironment,
-      [],
-      (mt) => mt.cheap || mt.cheapest ? mt : undefined
-    ))]);
+    this.addPrescription.emit([
+      {
+        ...med,
+        standardDosage: med.vmp?.vmpGroup?.code
+          ? (await this.samSdkService.loadVmpGroup(med.vmp?.vmpGroup?.code))
+              ?.standardDosage
+          : undefined,
+      },
+      med.cheap || !med.vmp?.vmpGroup?.code
+        ? []
+        : await this.samSdkService
+            .loadAlternativeMedications(med.vmp?.vmpGroup?.code)
+            .then(ampPage =>
+              this.loader.loadMedicationsPage(
+                ampPage,
+                10,
+                this.deliveryEnvironment,
+                [],
+                mt => (mt.cheap || mt.cheapest ? mt : undefined)
+              )
+            ),
+    ]);
     this.searchControl.setValue('');
     this.onResetSearch();
     this.cdr.markForCheck();

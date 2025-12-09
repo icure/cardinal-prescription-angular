@@ -2,6 +2,7 @@ import { Medication } from '@icure/be-fhc-lite-api';
 import {
   Commercialization,
   Reimbursement,
+  StandardDosage,
   SupplyProblem,
   VmpStub,
 } from '@icure/cardinal-be-sam-sdk';
@@ -43,6 +44,7 @@ export interface MedicationType {
   dhpcLink?: string;
   rmakeyMessages?: string;
   vmp?: VmpStub;
+  standardDosage?: StandardDosage[];
   supplyProblems?: SupplyProblem[];
   commercializations?: Commercialization[];
   deliveryModusCode?: string;
@@ -62,3 +64,4 @@ export interface PrescribedMedicationType {
   prescriberVisibility?: PractitionerVisibilityType;
   pharmacistVisibility?: PharmacistVisibilityType;
 }
+
