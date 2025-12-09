@@ -132,7 +132,6 @@ export class PrescriptionModalComponent
   disableHover = false;
 
   ngOnInit(): void {
-    console.log((this.alternativeCheapMedications ?? []).map(med => med.title));
     this.language = this.translationService.getCurrentLanguage();
 
     this.practitionerVisibilityOptions = getPractitionerVisibilityOptions(
