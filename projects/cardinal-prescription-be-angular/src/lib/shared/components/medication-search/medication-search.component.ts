@@ -55,7 +55,9 @@ export class MedicationSearchComponent
 {
   @Input({ required: true }) deliveryEnvironment!: string;
 
-  @Output() addPrescription = new EventEmitter<MedicationType>();
+  @Output() addPrescription = new EventEmitter<
+    [MedicationType, MedicationType[]]
+  >();
 
   @ViewChild('inputRef') inputRef!: ElementRef<HTMLInputElement>;
   @ViewChild('scrollAnchor', { static: false }) scrollAnchor!: ElementRef;
@@ -79,8 +81,8 @@ export class MedicationSearchComponent
   private observerInitialized = false;
   private medicationSearchDropdownRectInitialized = false;
   private language: keyof SamText = 'fr';
-  showSpinner: boolean = false;
-  showNoMatchesPlaceholder: boolean = false;
+  showSpinner = false;
+  showNoMatchesPlaceholder = false;
 
   destroy$ = new Subject<void>();
 
@@ -94,7 +96,7 @@ export class MedicationSearchComponent
   productsPage: MedicationType[] = [];
 
   focusedMedicationIndex: number | undefined = undefined;
-  searchControl: FormControl<string | null> = new FormControl('');
+  searchControl = new FormControl<string | null>('');
 
   get totalPagesLength(): number {
     return this.pages.length;
@@ -209,8 +211,29 @@ export class MedicationSearchComponent
     }
   }
 
-  handleAddPrescription(med: MedicationType): void {
-    this.addPrescription.emit(med);
+  async handleAddPrescription(med: MedicationType): Promise<void> {
+    this.addPrescription.emit([
+      {
+        ...med,
+        standardDosage: med.vmp?.vmpGroup?.code
+          ? (await this.samSdkService.loadVmpGroup(med.vmp?.vmpGroup?.code))
+              ?.standardDosage
+          : undefined,
+      },
+      med.cheap || !med.vmp?.vmpGroup?.code
+        ? []
+        : await this.samSdkService
+            .loadAlternativeMedications(med.vmp?.vmpGroup?.code)
+            .then(ampPage =>
+              this.loader.loadMedicationsPage(
+                ampPage,
+                10,
+                this.deliveryEnvironment,
+                [],
+                mt => (mt.cheap || mt.cheapest ? mt : undefined)
+              )
+            ),
+    ]);
     this.searchControl.setValue('');
     this.onResetSearch();
     this.cdr.markForCheck();
@@ -269,7 +292,7 @@ export class MedicationSearchComponent
   private initIntersectionObserver(): void {
     this.intersectionObserver = new IntersectionObserver(
       async entries => {
-        for (let entry of entries) {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             const res = await this.loader.loadMore({
               medicationsPage: this.medicationsPage,

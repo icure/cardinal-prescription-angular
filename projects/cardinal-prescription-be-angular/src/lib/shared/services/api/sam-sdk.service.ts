@@ -42,6 +42,37 @@ export class SamSdkService {
     }
   }
 
+  async loadAlternativeMedications(
+    vmpGroupCode: string,
+  ): Promise<
+    PaginatedListIterator<Amp>
+  > {
+    if (!this.sdk) throw new Error('SDK not initialized');
+    if (!vmpGroupCode) throw new Error('Query is not found');
+    try {
+      return await this.sdk.findPaginatedAmpsByGroupCode(vmpGroupCode);
+    } catch (error) {
+      console.error('Error searching medications:', error);
+      throw error;
+    }
+  }
+
+  async loadVmpGroup(
+    vmpGroupCode: string,
+  ): Promise<
+    VmpGroup
+  > {
+    if (!this.sdk) throw new Error('SDK not initialized');
+    if (!vmpGroupCode) throw new Error('Query is not found');
+    try {
+      return (await this.sdk.listVmpGroupsByVmpGroupCodes([vmpGroupCode]))[0]
+    } catch (error) {
+      console.error('Error searching medications:', error);
+      throw error;
+    }
+  }
+
+
   async getSamVersion(): Promise<SamVersion | undefined> {
     if (!this.sdk) throw new Error('SDK not initialized');
     try {

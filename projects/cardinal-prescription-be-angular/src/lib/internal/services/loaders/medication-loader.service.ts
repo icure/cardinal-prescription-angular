@@ -34,7 +34,8 @@ export class MedicationLoaderService {
     medications: PaginatedListIterator<Amp>,
     min: number,
     deliveryEnvironment: string,
-    acc: MedicationType[] = []
+    acc: MedicationType[] = [],
+    filter: (medication: MedicationType) => MedicationType|undefined = (m) => m
   ): Promise<MedicationType[]> {
     const now = Date.now();
     const twoYearsAgo = now - 2 * 365 * 24 * 3600 * 1000;
@@ -103,6 +104,8 @@ export class MedicationLoaderService {
             amp.vmp?.vmpGroup?.name?.[this.defaultLanguage] ??
             '',
           price: ampp?.exFactoryPrice ? `€${ampp.exFactoryPrice}` : '',
+          cheap: dmpp?.cheap,
+          cheapest: dmpp?.cheapest,
           crmLink:
             ampp.crmLink?.[language] ?? ampp.crmLink?.[this.defaultLanguage],
           patientInformationLeafletLink:
@@ -138,7 +141,7 @@ export class MedicationLoaderService {
           ),
         } as MedicationType;
       });
-    });
+    }).map(filter).filter((m): m is MedicationType => !!m);
 
     return loadedPage.length < min || page.length + acc.length >= min
       ? [...acc, ...page]

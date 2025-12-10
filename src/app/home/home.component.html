@@ -38,7 +38,10 @@
     [modalTitle]="t('prescription.createTitle')"
     (handleSubmit)="onSubmitCreatePrescription($event)"
     (handleCancel)="onClosePrescriptionModal()"
-    [medicationToPrescribe]="medicationToPrescribe">
+    [medicationToPrescribe]="medicationToPrescribe"
+    [alternativeCheapMedications]="alternativeCheapMedications"
+    [standardDosageContext]="standardDosageContext"
+  >
   </cardinal-prescription-modal>
 
   <cardinal-prescription-modal

@@ -15,13 +15,31 @@
         </button>
       </div>
       <div class="addMedicationForm__body">
+        <div
+          class="addMedicationForm__body__content"
+          *ngIf="medicationToPrescribe">
+          <cardinal-medication-card
+            class="medication-card"
+            [medication]="medicationToPrescribe"
+            [index]="1"
+            [readOnly]="true" />
+
+          <cardinal-cheap-alternatives
+            *ngIf="
+              alternativeCheapMedications &&
+              alternativeCheapMedications.length > 0
+            "
+            [medications]="alternativeCheapMedications"
+            (selectMedication)="onSelectAlternativeMedication($event)" />
+        </div>
         <div class="addMedicationForm__body__content">
           <cardinal-text-input
             [required]="true"
             [label]="t('prescription.form.medicationTitle')"
             [id]="'medicationTitle'"
             formControlName="medicationTitle"
-            [errorMessage]="getErrorMessage('medicationTitle')" />
+            [errorMessage]="getErrorMessage('medicationTitle')"
+            *ngIf="!medicationToPrescribe" />
           <div class="dosageInput">
             <cardinal-text-input
               [label]="t('prescription.form.dosage')"

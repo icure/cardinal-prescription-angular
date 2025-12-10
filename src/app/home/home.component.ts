@@ -52,9 +52,12 @@ export class HomeComponent implements OnInit {
   uiReady = false;
   passphrase?: string;
 
+
+  standardDosageContext = { ageInYears: 30, weightInKg: 70 };
   deliveryEnvironment = 'P';
   prescriptionModalMode: 'create' | 'modify' | null = null;
   medicationToPrescribe?: MedicationType;
+  alternativeCheapMedications?: MedicationType[];
   prescriptionToModify?: PrescribedMedicationType;
   prescriptions: PrescribedMedicationType[] = [];
   showPrintPrescriptionsModal = false;
@@ -72,10 +75,10 @@ export class HomeComponent implements OnInit {
     dateOfBirth: 19740104,
   };
   hcp: HealthcareParty = {
-    firstName: 'Fabien',
-    lastName: 'Zimer',
-    ssin: '84100212104',
-    nihii: '10104133000',
+    firstName: 'Antoine',
+    lastName: 'Duchâteau',
+    ssin: '74010414733',
+    nihii: '10032669001',
     addresses: [
       new Address({
         addressType: Address.AddressTypeEnum.Clinic,
@@ -196,9 +199,10 @@ export class HomeComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
-  onCreatePrescription(medication: MedicationType) {
+  onCreatePrescription([medication, cheapAlternatives]: [MedicationType, MedicationType[]]) {
     this.prescriptionModalMode = 'create';
     this.medicationToPrescribe = medication;
+    this.alternativeCheapMedications = cheapAlternatives;
     this.cdr.detectChanges();
   }
   onSubmitCreatePrescription(newPrescriptions: PrescribedMedicationType[]) {

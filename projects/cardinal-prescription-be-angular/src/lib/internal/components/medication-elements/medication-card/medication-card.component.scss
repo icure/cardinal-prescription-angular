@@ -29,6 +29,20 @@
     }
   }
 
+  &.readOnly {
+    border: none;
+
+    &:hover {
+      border-color: transparent;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .header {
+      padding: 0;
+    }
+  }
+
   .header {
     width: 100%;
     display: flex;
@@ -77,57 +91,6 @@
               font-size: 16px;
               font-style: normal;
               font-weight: 500;
-            }
-          }
-
-          &__infographics {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            .deliveryPrescriptionConditions,
-            .medicationInfographics,
-            .medicationAvailabilityInfographics {
-              display: flex;
-              align-items: center;
-              gap: 2px;
-            }
-
-            .medicationInfographics {
-              &__item {
-                display: flex;
-                width: 22px;
-                height: 22px;
-                justify-content: center;
-                align-items: center;
-
-                border-radius: 5px;
-                border: 1px solid #add5ff;
-              }
-            }
-
-            .medicationAvailabilityInfographics {
-              &__item {
-                display: flex;
-                width: 22px;
-                height: 22px;
-                justify-content: center;
-                align-items: center;
-
-                border-radius: 5px;
-
-                &--red {
-                  background-color: #ffcdcd;
-                }
-
-                &--orange {
-                  background-color: #ffda83;
-                }
-
-                &--green {
-                  background-color: #c7f4ab;
-                }
-              }
             }
           }
 
@@ -262,116 +225,5 @@
         }
       }
     }
-  }
-}
-
-.supplyProblemsTooltip {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  &__title {
-    width: 100%;
-    font-size: 14px;
-    font-weight: 500;
-
-    &--orange {
-      background-color: #ffda83;
-    }
-
-    &--red {
-      background-color: #ffcdcd;
-    }
-
-    &--green {
-      background-color: #c7f4ab;
-    }
-  }
-
-  &__content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    div {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-
-      span {
-        font-size: 12px;
-        font-weight: 400;
-        color: global.$blue-600;
-      }
-
-      p {
-        font-size: 14px;
-        font-weight: 400;
-        color: black;
-      }
-
-      a {
-        font-size: 14px;
-        font-weight: 400;
-        color: global.$blue-600;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-}
-
-.textToIcon {
-  height: 22px;
-  width: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 6px;
-  border-radius: 5px;
-
-  &--orange {
-    background-color: #e5a613;
-  }
-
-  &--red {
-    background-color: #ee5d59;
-  }
-
-  &--green {
-    background-color: #33b96b;
-  }
-
-  &--gray {
-    background-color: #7e827f;
-  }
-
-  p {
-    font-size: 11px !important;
-    font-weight: 600;
-    color: white !important;
-  }
-}
-
-.tooltipBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.snippetLink {
-  color: global.$blue-500;
-  font-size: 14px !important;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-
-  &:hover {
-    text-decoration: underline;
   }
 }

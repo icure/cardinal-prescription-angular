@@ -1,0 +1,26 @@
+<div class="cheap-alternatives" *ngIf="medications && medications.length > 0">
+  <div class="cheap-alternatives__header" (click)="toggleExpanded()">
+    <div class="cheap-alternatives__header__content">
+      <cardinal-warning-icn color="#3D87C5" />
+      <span>
+        {{ t('medication.drugInfographic.cheapAlternativesMessage') }}
+      </span>
+    </div>
+    <button
+      class="cheap-alternatives__toggle"
+      [class.isExpanded]="isExpanded"
+      type="button">
+      <cardinal-chevron-icn color="#3D87C5" />
+    </button>
+  </div>
+
+  <ul *ngIf="isExpanded" class="cheap-alternatives__content">
+    <li
+      *ngFor="let medication of medications"
+      class="cheap-alternatives__content__item">
+      <button type="button" (click)="onMedicationClick(medication)">
+        {{ medication.title }}
+      </button>
+    </li>
+  </ul>
+</div>

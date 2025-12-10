@@ -18,7 +18,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { makeParser } from '@icure/medication-sdk';
+import { makeParser, marshal } from '@icure/medication-sdk';
 import { SamText } from '@icure/cardinal-be-sam-sdk';
 
 import { ButtonComponent } from '../../../internal/components/form-elements/button/button.component';
@@ -47,13 +47,18 @@ import {
   getPractitionerVisibilityOptions,
   getPharmacistVisibilityOptions,
 } from '../../../internal/utils/visibility-helpers';
-import { CreatePrescriptionService } from '../../../internal/services/prescription/create-prescription.service';
+import {
+  CreatePrescriptionService,
+  StandardDosageContext,
+} from '../../../internal/services/prescription/create-prescription.service';
 import { ReimbursementType } from '../../../internal/types/reimbursement';
 import { getReimbursementOptions } from '../../../internal/utils/reimbursement-helpers';
 
 import { TranslationService } from '../../services/translation/translation.service';
 import { MedicationType, PrescribedMedicationType } from '../../types';
 import { MagistralText } from '@icure/be-fhc-lite-api';
+import { MedicationCardComponent } from '../../../internal/components/medication-elements/medication-card/medication-card.component';
+import { CheapAlternativesComponent } from '../../../internal/components/medication-elements/cheap-alternatives/cheap-alternatives.component';
 
 @Component({
   selector: 'cardinal-prescription-modal',
@@ -68,6 +73,8 @@ import { MagistralText } from '@icure/be-fhc-lite-api';
     RadioInputComponent,
     ToggleSwitchComponent,
     CloseIcnComponent,
+    MedicationCardComponent,
+    CheapAlternativesComponent,
   ],
   templateUrl: './prescription-modal.component.html',
   styleUrls: ['./prescription-modal.component.scss'],
@@ -79,6 +86,8 @@ export class PrescriptionModalComponent
   @Input({ required: true }) modalTitle!: string;
   @Input() medicationToPrescribe?: MedicationType;
   @Input() prescriptionToModify?: PrescribedMedicationType;
+  @Input() alternativeCheapMedications?: MedicationType[];
+  @Input() standardDosageContext?: StandardDosageContext;
 
   @Output() handleSubmit = new EventEmitter<PrescribedMedicationType[]>();
   @Output() handleCancel = new EventEmitter<void>();
@@ -165,7 +174,10 @@ export class PrescriptionModalComponent
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  private getInitialFormValues(): Record<string, any> {
+  private getInitialFormValues(): Record<string, unknown> {
+    const standardDosage = this.medicationToPrescribe?.standardDosage ? this.createPrescriptionService.createPosologyFromStandardDosage(this.medicationToPrescribe?.standardDosage, this.standardDosageContext ?? {}) : undefined;
+    const renderedStandardDosage = standardDosage ? standardDosage.map((sd) => marshal(sd, this.language)).join(', ') : undefined;
+
     const medicationTitleValue =
       this.medicationToPrescribe?.title ??
       this.prescriptionToModify?.medication.medicinalProduct?.intendedname ??
@@ -182,7 +194,7 @@ export class PrescriptionModalComponent
         value: medicationTitleValue,
         disabled: true,
       },
-      dosage: this.prescriptionToModify?.medication.instructionForPatient ?? '',
+      dosage: this.prescriptionToModify?.medication.instructionForPatient ?? renderedStandardDosage ?? '',
       duration:
         getDurationFromDays(
           this.prescriptionToModify?.medication.duration?.value ?? 1
@@ -388,30 +400,7 @@ export class PrescriptionModalComponent
         setTimeout(() => {
           // Only act if value hasn't changed since we captured it
           if (dosageControl.value !== snapshot) return;
-
-          const raw: string[] = completeDosage(snapshot) ?? [];
-
-          const endsWithSpace = /\s$/.test(snapshot);
-          const trimmedRight = snapshot.replace(/\s+$/, '');
-          const lastToken = trimmedRight.split(/\s+/).pop() ?? '';
-
-          // letters incl. Latin-1 (covers fr/en/nl/de). Extend if needed.
-          const hasLetterInLastToken = /[A-Za-zÀ-ÖØ-öø-ÿ]/.test(lastToken);
-
-          if (endsWithSpace || !hasLetterInLastToken) {
-            // User just typed a space OR only digits/symbols in last token → show all
-            this.dosageSuggestions = raw;
-          } else {
-            // User typed some letters in the last token → filter by suffix–prefix overlap
-            const withOverlap = raw
-              .map(s => ({ s, k: this.suffixPrefixOverlap(snapshot, s) }))
-              .filter(x => x.k > 0)
-              // Sort by best overlap, then by shorter suggestion
-              .sort((a, b) => b.k - a.k || a.s.length - b.s.length)
-              .map(x => x.s);
-            this.dosageSuggestions = withOverlap;
-          }
-
+          this.dosageSuggestions = completeDosage(snapshot) ?? [];
           this.cdr.markForCheck();
         }, 100);
       })
@@ -481,6 +470,47 @@ export class PrescriptionModalComponent
       event.preventDefault();
       event.stopPropagation();
     }
+    this.cdr.markForCheck();
+  }
+
+  onSelectAlternativeMedication(medication: MedicationType): void {
+    // Add the previous medication to alternatives if it exists and is not already there
+    if (this.medicationToPrescribe && this.alternativeCheapMedications) {
+      const previousMed = this.medicationToPrescribe;
+      const isAlreadyInList = this.alternativeCheapMedications.some(
+        med => med.id === previousMed.id
+      );
+
+      if (!isAlreadyInList) {
+        // Remove the selected medication from alternatives
+        this.alternativeCheapMedications =
+          this.alternativeCheapMedications.filter(
+            med => med.id !== medication.id
+          );
+
+        // Add the previous medication to alternatives
+        this.alternativeCheapMedications = [
+          previousMed,
+          ...this.alternativeCheapMedications,
+        ];
+      } else {
+        // Just remove the selected medication from alternatives
+        this.alternativeCheapMedications =
+          this.alternativeCheapMedications.filter(
+            med => med.id !== medication.id
+          );
+      }
+    }
+
+    // Set the new medication as the one to prescribe
+    this.medicationToPrescribe = medication;
+
+    // Update the medication title in the form
+    const medicationTitleCtrl = this.getControl('medicationTitle');
+    if (medicationTitleCtrl) {
+      medicationTitleCtrl.setValue(medication.title);
+    }
+
     this.cdr.markForCheck();
   }
 }

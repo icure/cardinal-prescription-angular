@@ -109,6 +109,8 @@
         padding: 18px;
       }
 
+      cardinal-medication-card,
+      cardinal-cheap-alternatives,
       cardinal-text-input,
       cardinal-select-input,
       cardinal-textarea-input {
@@ -140,7 +142,7 @@
     &__extraFieldsPreview {
       display: flex;
       width: 100%;
-      padding: 12px;
+      padding: 24px;
       flex-direction: column;
       align-items: flex-start;
       align-self: stretch;

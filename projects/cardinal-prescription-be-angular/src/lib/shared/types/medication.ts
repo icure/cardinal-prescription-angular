@@ -2,6 +2,7 @@ import { Medication } from '@icure/be-fhc-lite-api';
 import {
   Commercialization,
   Reimbursement,
+  StandardDosage,
   SupplyProblem,
   VmpStub,
 } from '@icure/cardinal-be-sam-sdk';
@@ -19,7 +20,7 @@ export type DeliveryModusSpecificationCodeType =
   | 'IMP/Sp'
   | 'IMP/Sp1';
 
-export type MedicationType = {
+export interface MedicationType {
   ampId?: string;
   vmpGroupId?: string;
   nmpId?: string;
@@ -30,6 +31,8 @@ export type MedicationType = {
   vmpTitle?: string;
   activeIngredient?: string;
   price?: string;
+  cheap?: boolean;
+  cheapest?: boolean;
   crmLink?: string;
   patientInformationLeafletLink?: string;
   blackTriangle?: boolean;
@@ -41,6 +44,7 @@ export type MedicationType = {
   dhpcLink?: string;
   rmakeyMessages?: string;
   vmp?: VmpStub;
+  standardDosage?: StandardDosage[];
   supplyProblems?: SupplyProblem[];
   commercializations?: Commercialization[];
   deliveryModusCode?: string;
@@ -48,9 +52,9 @@ export type MedicationType = {
   deliveryModusSpecificationCode?: DeliveryModusSpecificationCodeType;
   deliveryModusSpecification?: string;
   reimbursements?: Reimbursement;
-};
+}
 
-export type PrescribedMedicationType = {
+export interface PrescribedMedicationType {
   uuid: string;
   medication: Medication;
   rid?: string;
@@ -59,4 +63,5 @@ export type PrescribedMedicationType = {
   dmppProductId?: string;
   prescriberVisibility?: PractitionerVisibilityType;
   pharmacistVisibility?: PharmacistVisibilityType;
-};
+}
+
