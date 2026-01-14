@@ -30,20 +30,27 @@
       (keydown)="handleKeyDown($event)">
       <div
         *ngFor="let med of pages; let i = index"
-        class="medicationSearchDropdown__cardWrap"
-        [class.focused]="focusedMedicationIndex === i">
-        <div *ngIf="med.product"
-          class="medication-card"
-        >{{ med.product.title}}</div>
+        class="medicationSearchDropdown__medOrProdWrap">
+        <cardinal-medication-product-title
+          *ngIf="med.product"
+          [productTitle]="med.product?.title ?? 'error'" />
         <div
+          class="medicationSearchDropdown__cardWrap"
           *ngFor="let smed of med.medications; let j = index"
-          [class.focused]="focusedSubMedicationIndex === j">
-          <cardinal-medication-card class="medication-card"
-                                    #resultRef
-                                    [medication]="smed"
-                                    [index]="j"
-                                    [focused]="focusedMedicationIndex === j"
-                                    (addPrescription)="handleAddPrescription($event)" />
+          [class.focused]="
+            focusedSubMedicationIndex === j && focusedMedicationIndex === i
+          "
+          [class.subMedication]="!!med.product">
+          <cardinal-medication-card
+            class="medication-card"
+            #resultRef
+            [medication]="smed"
+            [index]="j"
+            [subMedication]="!!med.product"
+            [focused]="
+              focusedSubMedicationIndex === j && focusedMedicationIndex === i
+            "
+            (addPrescription)="handleAddPrescription($event)" />
         </div>
       </div>
 

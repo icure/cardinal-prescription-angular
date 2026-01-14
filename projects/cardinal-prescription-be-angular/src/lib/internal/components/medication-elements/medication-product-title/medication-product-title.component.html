@@ -1,0 +1,11 @@
+<div class="medicationProductTitle">
+  <cardinal-tooltip
+    [iconSnippet]="medicationIcn"
+    content="{{ t('medication.drugType.medication') }}" />
+
+  <ng-template #medicationIcn>
+    <cardinal-solid-pill-icn [color]="'#3D87C5'" />
+  </ng-template>
+
+  <h3>{{ productTitle }}</h3>
+</div>
