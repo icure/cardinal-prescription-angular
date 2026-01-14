@@ -2,6 +2,7 @@
   [class.focused]="focused"
   [class.isExpanded]="isExpanded"
   [class.readOnly]="readOnly"
+  [class.subMedication]="subMedication"
   [id]="index"
   class="medicationRow">
   <div class="header">
@@ -12,28 +13,31 @@
       <div class="header__medication__content">
         <div class="header__medication__content__heading">
           <div class="header__medication__content__heading__title">
-            <!-- Choose the appropriate icon based on the drug type: medications,molecules, non-medicinal products -->
-            <ng-container *ngIf="!!medication.ampId; else checkVmpGroup">
-              <cardinal-tooltip
-                [iconSnippet]="medicationIcn"
-                content="{{ t('medication.drugType.medication') }}" />
+            <!-- Drug type icon (only for main medications) -->
+            <ng-container *ngIf="!subMedication">
+              <!-- Choose the appropriate icon based on the drug type: medications,molecules, non-medicinal products -->
+              <ng-container *ngIf="!!medication.ampId; else checkVmpGroup">
+                <cardinal-tooltip
+                  [iconSnippet]="medicationIcn"
+                  content="{{ t('medication.drugType.medication') }}" />
+              </ng-container>
+
+              <ng-template #checkVmpGroup>
+                <ng-container *ngIf="!!medication.vmpGroupId; else checkNmp">
+                  <cardinal-tooltip
+                    [iconSnippet]="moleculeIcn"
+                    content="{{ t('medication.drugType.molecule') }}" />
+                </ng-container>
+              </ng-template>
+
+              <ng-template #checkNmp>
+                <ng-container *ngIf="!!medication.nmpId">
+                  <cardinal-tooltip
+                    [iconSnippet]="naturalIcn"
+                    content="{{ t('medication.drugType.homologation') }}" />
+                </ng-container>
+              </ng-template>
             </ng-container>
-
-            <ng-template #checkVmpGroup>
-              <ng-container *ngIf="!!medication.vmpGroupId; else checkNmp">
-                <cardinal-tooltip
-                  [iconSnippet]="moleculeIcn"
-                  content="{{ t('medication.drugType.molecule') }}" />
-              </ng-container>
-            </ng-template>
-
-            <ng-template #checkNmp>
-              <ng-container *ngIf="!!medication.nmpId">
-                <cardinal-tooltip
-                  [iconSnippet]="naturalIcn"
-                  content="{{ t('medication.drugType.homologation') }}" />
-              </ng-container>
-            </ng-template>
 
             <!-- Templates for icons -->
             <ng-template #medicationIcn>

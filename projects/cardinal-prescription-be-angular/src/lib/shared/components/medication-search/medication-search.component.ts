@@ -35,6 +35,7 @@ import { SamSdkService } from '../../services/api/sam-sdk.service';
 import { Med, MedicationProductType, MedicationType } from '../../types';
 import { SpinnerComponent } from '../../../internal/components/common/spinner/spinner.component';
 import { MedicinalProductType } from '@icure/be-fhc-lite-api';
+import { MedicationProductTitleComponent } from '../../../internal/components/medication-elements/medication-product-title/medication-product-title.component';
 
 @Component({
   selector: 'cardinal-medication-search',
@@ -43,6 +44,7 @@ import { MedicinalProductType } from '@icure/be-fhc-lite-api';
     SearchIcnComponent,
     NgIf,
     MedicationCardComponent,
+    MedicationProductTitleComponent,
     NgForOf,
     ReactiveFormsModule,
     SpinnerComponent,
@@ -165,7 +167,7 @@ export class MedicationSearchComponent
               deliveryEnvironment: this.deliveryEnvironment,
             });
 
-            if(q !== this.searchControl.value?.trim()) return;
+            if (q !== this.searchControl.value?.trim()) return;
 
             this.showSpinner = false;
             this.medicationsPage = updated.medicationsPage;
@@ -177,6 +179,7 @@ export class MedicationSearchComponent
             this.showNoMatchesPlaceholder = !result.length;
 
             this.focusedMedicationIndex = 0;
+            this.focusedSubMedicationIndex = 0;
 
             this.cdr.markForCheck();
           });
@@ -249,6 +252,7 @@ export class MedicationSearchComponent
     this.productsPage = [];
     this.pages = [];
     this.focusedMedicationIndex = undefined;
+    this.focusedSubMedicationIndex = undefined;
     this.cdr.markForCheck();
   }
 
@@ -257,24 +261,38 @@ export class MedicationSearchComponent
     const pageCount = this.totalPagesLength;
     const viewCount = this.resultRefs.length;
 
-    if (this.focusedMedicationIndex !== undefined && this.focusedSubMedicationIndex != undefined) {
+    if (
+      this.focusedMedicationIndex !== undefined &&
+      this.focusedSubMedicationIndex != undefined
+    ) {
       if (event.key === 'ArrowDown') {
-        this.focusedSubMedicationIndex++
-        if (this.focusedSubMedicationIndex >= this.pages[this.focusedMedicationIndex]?.medications?.length!) {
+        this.focusedSubMedicationIndex++;
+        if (
+          this.focusedSubMedicationIndex >=
+          this.pages[this.focusedMedicationIndex]?.medications?.length!
+        ) {
           this.focusedSubMedicationIndex = 0;
           this.focusedMedicationIndex =
             (this.focusedMedicationIndex + 1) % pageCount;
         }
       } else if (event.key === 'ArrowUp') {
-        this.focusedSubMedicationIndex--
+        this.focusedSubMedicationIndex--;
         if (this.focusedSubMedicationIndex < 0) {
           this.focusedMedicationIndex =
             (this.focusedMedicationIndex - 1 + pageCount) % pageCount;
           this.focusedSubMedicationIndex =
             this.pages[this.focusedMedicationIndex]?.medications?.length! - 1;
         }
-      } else if (event.key === 'Enter' && this.focusedMedicationIndex >= 0 && this.focusedSubMedicationIndex >= 0) {
-        this.handleAddPrescription(this.pages[this.focusedMedicationIndex]?.medications?.[this.focusedSubMedicationIndex ?? 0]!);
+      } else if (
+        event.key === 'Enter' &&
+        this.focusedMedicationIndex >= 0 &&
+        this.focusedSubMedicationIndex >= 0
+      ) {
+        this.handleAddPrescription(
+          this.pages[this.focusedMedicationIndex]?.medications?.[
+            this.focusedSubMedicationIndex ?? 0
+          ]!
+        );
       }
 
       if (viewCount > 0) {
@@ -289,6 +307,7 @@ export class MedicationSearchComponent
     setTimeout(() => {
       const refs = this.resultRefs?.toArray();
       const index = this.focusedMedicationIndex;
+      const subIndex = this.focusedSubMedicationIndex;
       if (index !== undefined && refs && refs[index]) {
         refs[index].nativeElement.scrollIntoView({
           behavior: 'smooth',
@@ -339,6 +358,6 @@ export class MedicationSearchComponent
 }
 
 interface MedOrProduct {
-  product?: MedicationProductType
-  medications?: MedicationType[]
+  product?: MedicationProductType;
+  medications?: MedicationType[];
 }

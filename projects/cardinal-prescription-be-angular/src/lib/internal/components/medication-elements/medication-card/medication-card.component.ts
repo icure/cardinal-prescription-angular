@@ -47,6 +47,7 @@ export class MedicationCardComponent implements OnInit {
   @Input({ required: true }) index!: number;
   @Input() focused?: boolean = false;
   @Input() readOnly?: boolean = false;
+  @Input() subMedication?: boolean = false;
 
   @Output() addPrescription = new EventEmitter<MedicationType>();
 
