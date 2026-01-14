@@ -18,7 +18,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { makeParser, marshal } from '@icure/medication-sdk';
+import { makeParser, marshal, RegimenItem as ParsedRegimenItem } from '@icure/medication-sdk';
 import { SamText } from '@icure/cardinal-be-sam-sdk';
 
 import { ButtonComponent } from '../../../internal/components/form-elements/button/button.component';
@@ -59,6 +59,9 @@ import { MedicationType, PrescribedMedicationType } from '../../types';
 import { MagistralText } from '@icure/be-fhc-lite-api';
 import { MedicationCardComponent } from '../../../internal/components/medication-elements/medication-card/medication-card.component';
 import { CheapAlternativesComponent } from '../../../internal/components/medication-elements/cheap-alternatives/cheap-alternatives.component';
+import {
+  StandardDosagesComponent
+} from '../../../internal/components/medication-elements/standard-dosages/standard-dosages.component';
 
 @Component({
   selector: 'cardinal-prescription-modal',
@@ -75,6 +78,7 @@ import { CheapAlternativesComponent } from '../../../internal/components/medicat
     CloseIcnComponent,
     MedicationCardComponent,
     CheapAlternativesComponent,
+    StandardDosagesComponent,
   ],
   templateUrl: './prescription-modal.component.html',
   styleUrls: ['./prescription-modal.component.scss'],
@@ -133,6 +137,7 @@ export class PrescriptionModalComponent
 
   focusedDosageIndex = -1;
   dosageSuggestions: string[] = [];
+  standardDosages: ParsedRegimenItem[] = [];
   disableHover = false;
 
   ngOnInit(): void {
@@ -175,8 +180,12 @@ export class PrescriptionModalComponent
   }
 
   private getInitialFormValues(): Record<string, unknown> {
-    const standardDosage = this.medicationToPrescribe?.standardDosage ? this.createPrescriptionService.createPosologyFromStandardDosage(this.medicationToPrescribe?.standardDosage, this.standardDosageContext ?? {}) : undefined;
-    const renderedStandardDosage = standardDosage ? standardDosage.map((sd) => marshal(sd, this.language)).join(', ') : undefined;
+    this.standardDosages = this.medicationToPrescribe?.vmpGroup
+      ? this.createPrescriptionService.createPosologyFromStandardDosage(
+          this.medicationToPrescribe?.vmpGroup,
+          this.standardDosageContext ?? {}
+        )
+      : [];
 
     const medicationTitleValue =
       this.medicationToPrescribe?.title ??
@@ -194,7 +203,6 @@ export class PrescriptionModalComponent
         value: medicationTitleValue,
         disabled: true,
       },
-      dosage: this.prescriptionToModify?.medication.instructionForPatient ?? renderedStandardDosage ?? '',
       duration:
         getDurationFromDays(
           this.prescriptionToModify?.medication.duration?.value ?? 1
@@ -511,6 +519,21 @@ export class PrescriptionModalComponent
       medicationTitleCtrl.setValue(medication.title);
     }
 
+    this.standardDosages = this.medicationToPrescribe?.vmpGroup
+      ? this.createPrescriptionService.createPosologyFromStandardDosage(
+          this.medicationToPrescribe?.vmpGroup,
+          this.standardDosageContext ?? {}
+        )
+      : [];
+
     this.cdr.markForCheck();
+  }
+
+  protected onSelectStandardDosage($event: ParsedRegimenItem) {
+    const medicationDosageCtrl = this.getControl('dosage');
+    if (medicationDosageCtrl) {
+      medicationDosageCtrl.setValue(marshal($event, this.language));
+    }
+
   }
 }

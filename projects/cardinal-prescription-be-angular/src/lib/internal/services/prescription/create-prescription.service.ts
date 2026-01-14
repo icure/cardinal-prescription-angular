@@ -23,7 +23,7 @@ import {
   makeParser,
   RegimenItem as ParsedRegimenItem,
 } from '@icure/medication-sdk';
-import { StandardDosage } from '@icure/cardinal-be-sam-sdk';
+import { StandardDosage, VmpGroup } from '@icure/cardinal-be-sam-sdk';
 
 export interface StandardDosageContext {
   ageInYears?: number;
@@ -316,13 +316,13 @@ export class CreatePrescriptionService {
     });
   }
 
-  createPosologyFromStandardDosage(dosages: StandardDosage[] | undefined, context: StandardDosageContext): ParsedRegimenItem[] {
-    if (!dosages || dosages.length === 0) {
+  createPosologyFromStandardDosage(group: VmpGroup | undefined, context: StandardDosageContext): ParsedRegimenItem[] {
+    if (!group?.standardDosage || group?.standardDosage.length === 0) {
       return [];
     }
 
     // Filter dosages based on context (age, weight, renal function)
-    const filteredDosages = dosages.filter(dosage => {
+    const filteredDosages = group.standardDosage.filter(dosage => {
       // Check target group based on age
       if (dosage.targetGroup && context.ageInYears !== undefined) {
         const targetGroup = dosage.targetGroup;
@@ -397,8 +397,8 @@ export class CreatePrescriptionService {
       // Create the regimen item
       const regimenItem: ParsedRegimenItem = {
         regimenQuantity: {
-          quantity: quantity,
-          galenic: 'unit' // Could be extracted from dosage if available
+          quantity: quantity * (group.singleAdministrationDose?.value ?? 1),
+          galenic: group.singleAdministrationDose?.unit ?? 'unit' // Could be extracted from dosage if available
         },
         frequency: frequency, // Normalize to per temporal unit
         period: {

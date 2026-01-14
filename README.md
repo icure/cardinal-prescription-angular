@@ -20,6 +20,7 @@ It integrates iCure's APIs —  `@icure/be-fhc-lite-api`, `@icure/cardinal-be-sa
 - [Getting Started](#getting-started)
 - [Available Components and How to Use Them](#available-components-and-how-to-use-them)
 - [Available Services and How to Use Them](#available-services-and-how-to-use-them)
+- [Testing](#testing)
 - [SAM and Recip-e Requirements](#sam-and-recip-e-requirements)
 - [Medications of Interest for Tests](#medications-of-interest-for-tests)
 - [Example Demo Application](#example-demo-application)
@@ -248,6 +249,62 @@ ngOnInit() {
 
 const label = translationService.translate('prescription.createTitle');
 ```
+
+## Testing
+
+This project includes a comprehensive testing infrastructure for both the library and application.
+
+### Running Tests
+
+```bash
+# Run all tests with watch mode
+npm test
+
+# Run library tests only
+npm run test:lib
+
+# Run tests in headless mode (CI/CD)
+npm run test:headless
+
+# Run tests with coverage report
+npm run test:coverage
+
+# Run tests for CI/CD (headless + coverage)
+npm run test:ci
+```
+
+### Writing Tests
+
+The testing infrastructure provides multiple approaches for writing tests:
+
+```typescript
+import { setupServiceTest, AmpMockFactory } from '../testing';
+
+describe('MyService', () => {
+  let service: MyService;
+
+  beforeEach(() => {
+    const setup = setupServiceTest(MyService);
+    service = setup.service;
+  });
+
+  it('should process medications', () => {
+    const medications = AmpMockFactory.createList(5);
+    const result = service.process(medications);
+    expect(result.length).toBe(5);
+  });
+});
+```
+
+### Testing Resources
+
+- **Main Testing Guide**: See [TESTING.md](./TESTING.md) for comprehensive testing documentation
+- **Test Utilities**: Located in `projects/cardinal-prescription-be-angular/src/testing/`
+- **Examples**: See `example-service.test.spec.ts` for detailed examples
+- **Mock Factories**: Create realistic test data with `AmpMockFactory`, `TestDataBuilder`, etc.
+- **Service Spies**: Pre-configured spies for common services
+
+For more details, refer to the [Testing Documentation](./TESTING.md).
 
 ## SAM and Recip-e requirements
 

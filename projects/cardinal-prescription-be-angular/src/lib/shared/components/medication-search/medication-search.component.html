@@ -30,16 +30,23 @@
       (keydown)="handleKeyDown($event)">
       <div
         *ngFor="let med of pages; let i = index"
-        #resultRef
         class="medicationSearchDropdown__cardWrap"
         [class.focused]="focusedMedicationIndex === i">
-        <cardinal-medication-card
+        <div *ngIf="med.product"
           class="medication-card"
-          [medication]="med"
-          [index]="i"
-          [focused]="focusedMedicationIndex === i"
-          (addPrescription)="handleAddPrescription($event)" />
+        >{{ med.product.title}}</div>
+        <div
+          *ngFor="let smed of med.medications; let j = index"
+          [class.focused]="focusedSubMedicationIndex === j">
+          <cardinal-medication-card class="medication-card"
+                                    #resultRef
+                                    [medication]="smed"
+                                    [index]="j"
+                                    [focused]="focusedMedicationIndex === j"
+                                    (addPrescription)="handleAddPrescription($event)" />
+        </div>
       </div>
+
       <div #scrollAnchor style="height: 1px"></div>
     </div>
 

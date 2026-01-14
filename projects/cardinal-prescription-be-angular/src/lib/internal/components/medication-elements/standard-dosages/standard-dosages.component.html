@@ -1,0 +1,24 @@
+<div class="standard-dosages" *ngIf="dosages && dosages.length > 0">
+  <div class="standard-dosages__header" (click)="toggleExpanded()">
+    <div class="standard-dosages__header__content">
+      <cardinal-warning-icn color="#3D87C5" />
+        {{ t('medication.drugInfographic.standardDosagesMessage') }}
+    </div>
+    <button
+      class="standard-dosages__toggle"
+      [class.isExpanded]="isExpanded"
+      type="button">
+      <cardinal-chevron-icn color="#3D87C5" />
+    </button>
+  </div>
+
+  <ul *ngIf="isExpanded" class="standard-dosages__content">
+    <li
+      *ngFor="let dosage of dosages"
+      class="standard-dosages__content__item">
+      <button type="button" (click)="onDosageClick(dosage)">
+        {{ marshal(dosage, language) }}
+      </button>
+    </li>
+  </ul>
+</div>

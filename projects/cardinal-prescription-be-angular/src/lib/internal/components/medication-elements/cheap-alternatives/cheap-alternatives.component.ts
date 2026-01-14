@@ -10,6 +10,7 @@ import { MedicationType } from '../../../../shared/types';
 import { ChevronIcnComponent } from '../../common/icons/chevron-icn/chevron-icn.component';
 import { WarningIcnComponent } from '../../common/icons/warning-icn/warning-icn.component';
 import { TranslationService } from '../../../../shared/services/translation/translation.service';
+import { SamSdkService } from '../../../../shared/services/api/sam-sdk.service';
 
 @Component({
   selector: 'cardinal-cheap-alternatives',
@@ -24,8 +25,9 @@ export class CheapAlternativesComponent {
   @Output() selectMedication = new EventEmitter<MedicationType>();
 
   isExpanded: boolean = false;
+  isCheap: boolean = false;
 
-  constructor(private translationService: TranslationService) {}
+  constructor(private translationService: TranslationService, private samSdkService: SamSdkService) {}
 
   t = (key: string): string => this.translationService.translate(key);
 
@@ -33,7 +35,11 @@ export class CheapAlternativesComponent {
     this.isExpanded = !this.isExpanded;
   }
 
-  onMedicationClick(medication: MedicationType): void {
-    this.selectMedication.emit(medication);
+  async onMedicationClick(medication: MedicationType): Promise<void> {
+    this.isCheap = true;
+    this.selectMedication.emit({...medication,
+      vmpGroup: medication.vmp?.vmpGroup?.code
+      ? (await this.samSdkService.loadVmpGroup(medication.vmp?.vmpGroup?.code))
+      : undefined})
   }
 }

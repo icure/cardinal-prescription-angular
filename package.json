@@ -7,6 +7,13 @@
     "build": "ng build",
     "dev": "cd projects/cardinal-prescription-be-angular && ng build --watch --configuration development",
     "test": "ng test",
+    "test:lib": "ng test cardinal-prescription-be-angular",
+    "test:app": "ng test cardinal-prescription-angular",
+    "test:headless": "ng test --watch=false --browsers=ChromeHeadlessCI",
+    "test:coverage": "ng test --watch=false --code-coverage --browsers=ChromeHeadlessCI",
+    "test:lib:headless": "ng test cardinal-prescription-be-angular --watch=false --browsers=ChromeHeadlessCI",
+    "test:lib:coverage": "ng test cardinal-prescription-be-angular --watch=false --code-coverage --browsers=ChromeHeadlessCI",
+    "test:ci": "ng test --watch=false --code-coverage --browsers=ChromeHeadlessCI",
     "lint": "ng lint"
   },
   "private": true,
@@ -51,7 +58,6 @@
   },
   "resolutions": {
     "node-forge": "^1.3.2",
-    "glob": "^10.5.0",
     "vite": "^6.4.1",
     "js-yaml": "^4.1.1",
     "on-headers": "^1.1.0",

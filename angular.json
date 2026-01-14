@@ -132,11 +132,14 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "main": "projects/cardinal-prescription-be-angular/src/test.ts",
+            "karmaConfig": "projects/cardinal-prescription-be-angular/karma.conf.js",
             "tsConfig": "projects/cardinal-prescription-be-angular/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
-            ]
+            ],
+            "codeCoverage": true
           }
         },
         "lint": {

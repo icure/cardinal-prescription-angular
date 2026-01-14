@@ -1,0 +1,118 @@
+[
+  {
+    "id": "af1bc5f74f75eab439c935e68c8838ee",
+    "rev": "1-6fe231476d974ced0e8a910c6ba9db2e",
+    "from": 1551398400000,
+    "code": "3893997",
+    "productId": "rqm3BhL0kSt2vKPEzZEb4+dxNXS5dZ6GmfOTI4lQ8rU=",
+    "name": {
+      "fr": "PARACID                  CAPS 45 25022  METAGENICS",
+      "nl": "PARACID                  CAPS 45 25022  METAGENICS"
+    },
+    "producer": {
+      "fr": "METAGENICS BELGIUM",
+      "nl": "METAGENICS BELGIUM"
+    },
+    "distributor": {
+      "fr": "METAGENICS BELGIUM",
+      "nl": "METAGENICS BELGIUM"
+    }
+  },
+  {
+    "id": "1dafe206d720f41b699e7a4ee0ab59f9",
+    "rev": "1-6d5e625dfef49adb765e7bcf847407b8",
+    "from": 1593561600000,
+    "code": "2216851",
+    "productId": "PCAEbNAQ0NGfknGWxktmZtoTbeVjHlC6WSSg+Z8dg9c=",
+    "name": {
+      "fr": "PARACID                  CAPS  45 3834  METAGENICS",
+      "nl": "PARACID                  CAPS  45 3834  METAGENICS"
+    },
+    "producer": {
+      "fr": "METAGENICS BELGIUM",
+      "nl": "METAGENICS BELGIUM"
+    },
+    "distributor": {
+      "fr": "METAGENICS BELGIUM",
+      "nl": "METAGENICS BELGIUM"
+    }
+  },
+  {
+    "id": "2321facae09d0029dcae18358e415386",
+    "rev": "1-e6633e58ba156569f936301d3bb7c2d6",
+    "from": 1396310400000,
+    "to": 1593475200000,
+    "code": "2216851",
+    "productId": "PCAEbNAQ0NGfknGWxktmZtoTbeVjHlC6WSSg+Z8dg9c=",
+    "name": {
+      "fr": "PARACID                  CAPS  45 3834  METAGENICS",
+      "nl": "PARACID                  CAPS  45 3834  METAGENICS"
+    },
+    "producer": {
+      "fr": "METAGENICS BELGIUM",
+      "nl": "METAGENICS BELGIUM"
+    },
+    "distributor": {
+      "fr": "METAGENICS BELGIUM",
+      "nl": "METAGENICS BELGIUM"
+    }
+  },
+  {
+    "id": "0dcaf380497d84fafa5e02d8657b38dc",
+    "rev": "1-165e860edfacd6137aaf5afc82d102c9",
+    "from": 1754006400000,
+    "code": "4961710",
+    "productId": "sm/ey8DqJVrzC5YLwZ2o4GLA2hML9YZtyTlp3V9RKJg=",
+    "name": {
+      "fr": "PARACID CAPS 45 NF METAGENICS",
+      "nl": "PARACID CAPS 45 NF METAGENICS"
+    },
+    "producer": {
+      "fr": "METAGENICS BELGIUM",
+      "nl": "METAGENICS BELGIUM"
+    },
+    "distributor": {
+      "fr": "METAGENICS BELGIUM",
+      "nl": "METAGENICS BELGIUM"
+    }
+  },
+  {
+    "id": "686e8cdbdca8c0fadc75aae1e8dab676",
+    "rev": "1-292765b4662b24be388eceb0fc0b4570",
+    "from": 1761955200000,
+    "code": "4682365",
+    "productId": "WP3GqOJUrQrwSMd+OMssrK5U1ji8MH5+D9A//ONSVKY=",
+    "name": {
+      "fr": "PARACONCEPT                 CAPS 30",
+      "nl": "PARACONCEPT                 CAPS 30"
+    },
+    "producer": {
+      "fr": "LABORATOIRES FENIOUX BENELUX",
+      "nl": "LABORATOIRES FENIOUX BENELUX"
+    },
+    "distributor": {
+      "fr": "LABORATOIRES FENIOUX BENELUX",
+      "nl": "LABORATOIRES FENIOUX BENELUX"
+    }
+  },
+  {
+    "id": "f8a5bf8d5d07636348796c4dc9f65aef",
+    "rev": "2-ea0cd497ba946774b8a6860bb92023fd",
+    "from": 1680307200000,
+    "to": 1761868800000,
+    "code": "4682365",
+    "productId": "WP3GqOJUrQrwSMd+OMssrK5U1ji8MH5+D9A//ONSVKY=",
+    "name": {
+      "fr": "PARACONCEPT                 CAPS 30",
+      "nl": "PARACONCEPT                 CAPS 30"
+    },
+    "producer": {
+      "fr": "LABORATOIRES FENIOUX BENELUX",
+      "nl": "LABORATOIRES FENIOUX BENELUX"
+    },
+    "distributor": {
+      "fr": "LABORATOIRES FENIOUX BENELUX",
+      "nl": "LABORATOIRES FENIOUX BENELUX"
+    }
+  }
+]

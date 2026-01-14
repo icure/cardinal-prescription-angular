@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { normalizeForSort } from '../../utils/string-helpers';
 
 export interface NamedItem {
   title: string;
@@ -8,6 +9,15 @@ export type FetchMissingCallback = (
   fromName: string,
   toName?: string
 ) => Promise<NamedItem[]>;
+
+function isSorted(items: NamedItem[]): boolean {
+  for (let i = 0; i < items.length - 1; i++) {
+    if (normalizeForSort(items[i].title) > normalizeForSort(items[i + 1].title)) {
+      return false;
+    }
+  }
+  return true;
+}
 
 /**
  * Service to merge multiple sorted, partially loaded arrays of NamedItems.
@@ -29,46 +39,57 @@ export class MergeLazySortedNamedItemsService {
     const pointers = arrays.map(() => 0);
     let lastPushedName = '';
 
-    async function drainArrayUpTo(
+    /**
+     * Utility function to load items at pointer position for array k.
+     * Loads items from lastPushedName up to toName (if provided).
+     */
+    async function loadItemsAtPointer(
       k: number,
-      limitName: string | null,
-      limit: number
+      toName: string | undefined
     ): Promise<void> {
-      const arr = arrays[k];
-      let p = pointers[k];
-      const fetchMissing = fetchMissingCallbacks[k];
+      const p = pointers[k];
+      if (p >= arrays[k].length) {
+        const newItems = await fetchMissingCallbacks[k](lastPushedName, toName);
 
-      while (result.length < limit) {
-        if (p < arr.length) {
-          const itemName = arr[p].title.toLowerCase();
-          if (limitName === null || itemName < limitName) {
-            result.push(arr[p]);
-            lastPushedName = itemName;
-            p++;
-          } else {
-            break;
+        if (!isSorted(newItems)) {
+          throw new Error(`Fetched items for array ${k} are not sorted.`);
+        }
+
+        if (newItems.length > 0) {
+          arrays[k].splice(p, 0, ...newItems);
+        }
+      }
+    }
+
+    async function indexOfSmallestFront(): Promise<number | null> {
+      let smallestName: string | undefined = undefined;
+
+      // First pass: identify the smallest front element among already-loaded items
+      for (let k = 0; k < arrays.length; k++) {
+        const p = pointers[k];
+        if (p < arrays[k].length) {
+          const candidateName = normalizeForSort(arrays[k][p].title);
+          if (smallestName === undefined || candidateName < smallestName) {
+            smallestName = candidateName;
           }
-        } else {
-          const upper = limitName === null ? undefined : limitName;
-          const newItems = await fetchMissing(lastPushedName, upper);
-
-          if (newItems.length === 0) break;
-          arr.splice(p, 0, ...newItems);
         }
       }
 
-      pointers[k] = p;
-    }
+      // Second pass: load missing items, but only up to the smallest known element
+      // This ensures we don't load unnecessarily large data when we only need to find the smallest
+      for (let k = 0; k < arrays.length; k++) {
+        await loadItemsAtPointer(k, smallestName);
+      }
 
-    function indexOfSmallestFront(): number | null {
+      // Third pass: find the actual smallest front element now that all arrays are loaded
       let smallestIndex: number | null = null;
-      let smallestName = '';
+      smallestName = undefined;
 
       for (let k = 0; k < arrays.length; k++) {
         const p = pointers[k];
         if (p < arrays[k].length) {
-          const candidateName = arrays[k][p].title.toLowerCase();
-          if (smallestIndex === null || candidateName < smallestName) {
+          const candidateName = normalizeForSort(arrays[k][p].title);
+          if (smallestName === undefined || candidateName < smallestName) {
             smallestIndex = k;
             smallestName = candidateName;
           }
@@ -78,29 +99,14 @@ export class MergeLazySortedNamedItemsService {
     }
 
     while (result.length < limit) {
-      const si = indexOfSmallestFront();
+      const si = await indexOfSmallestFront();
       if (si === null) break;
 
-      const nextName = arrays[si][pointers[si]].title.toLowerCase();
+      let item = arrays[si][pointers[si]];
 
-      for (let k = 0; k < arrays.length; k++) {
-        await drainArrayUpTo(k, nextName, limit);
-      }
-
-      if (result.length < limit && pointers[si] < arrays[si].length) {
-        const item = arrays[si][pointers[si]];
-        if (item.title.toLowerCase() === nextName) {
-          result.push(item);
-          lastPushedName = nextName;
-          pointers[si]++;
-        }
-      }
-    }
-
-    if (result.length < limit) {
-      for (let k = 0; k < arrays.length; k++) {
-        await drainArrayUpTo(k, null, limit);
-      }
+      result.push(item);
+      lastPushedName = normalizeForSort(item.title);
+      pointers[si]++;
     }
 
     return [result, pointers];

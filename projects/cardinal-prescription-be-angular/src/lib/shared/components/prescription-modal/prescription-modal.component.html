@@ -60,6 +60,15 @@
             </ul>
           </div>
 
+          <cardinal-standard-dosages
+            *ngIf="
+              standardDosages &&
+              standardDosages.length > 0
+            "
+            [dosages]="standardDosages"
+            [language]="language"
+            (selectDosage)="onSelectStandardDosage($event)" />
+
           <div class="addMedicationForm__body__content__inputsGroup">
             <cardinal-text-input
               [label]="t('prescription.form.duration')"

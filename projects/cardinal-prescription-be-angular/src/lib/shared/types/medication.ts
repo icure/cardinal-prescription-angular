@@ -4,6 +4,7 @@ import {
   Reimbursement,
   StandardDosage,
   SupplyProblem,
+  VmpGroup,
   VmpStub,
 } from '@icure/cardinal-be-sam-sdk';
 
@@ -20,6 +21,9 @@ export type DeliveryModusSpecificationCodeType =
   | 'IMP/Sp'
   | 'IMP/Sp1';
 
+
+export type Med = MedicationType | MedicationProductType
+
 export interface MedicationType {
   ampId?: string;
   vmpGroupId?: string;
@@ -27,6 +31,7 @@ export interface MedicationType {
   cnk?: string;
   dmppProductId?: string;
   id?: string;
+  index?: number;
   title: string;
   vmpTitle?: string;
   activeIngredient?: string;
@@ -44,7 +49,7 @@ export interface MedicationType {
   dhpcLink?: string;
   rmakeyMessages?: string;
   vmp?: VmpStub;
-  standardDosage?: StandardDosage[];
+  vmpGroup?: VmpGroup,
   supplyProblems?: SupplyProblem[];
   commercializations?: Commercialization[];
   deliveryModusCode?: string;
@@ -52,6 +57,12 @@ export interface MedicationType {
   deliveryModusSpecificationCode?: DeliveryModusSpecificationCodeType;
   deliveryModusSpecification?: string;
   reimbursements?: Reimbursement;
+}
+
+export interface MedicationProductType {
+  ampId: string;
+  title: string;
+  medications: MedicationType[];
 }
 
 export interface PrescribedMedicationType {

@@ -18,6 +18,9 @@ export const medicationTranslations = {
       cheapest: 'Le moins cher',
       cheapAlternativesMessage:
         'Ce médicament n\'est pas classé comme bon marché. Souhaitez-vous voir des alternatives moins chères ?',
+      otherCheapAlternativesMessage:
+        'Voici d\'autres alternatives bon marché pour ce médicament :',
+      standardDosagesMessage: 'Posologie suggérée',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation:
@@ -113,6 +116,9 @@ export const medicationTranslations = {
       cheapest: 'Cheapest',
       cheapAlternativesMessage:
         'This medication is not classified as cheap. Would you like to see cheaper alternatives?',
+      otherCheapAlternativesMessage:
+        'Here are other cheap alternatives for this medication:',
+      standardDosagesMessage: 'Suggested dosage',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation: 'No narcotic, specially regulated drug',
@@ -207,6 +213,9 @@ export const medicationTranslations = {
       cheapest: 'Goedkoopste',
       cheapAlternativesMessage:
         'Dit geneesmiddel is niet geclassificeerd als goedkoop. Wilt u goedkopere alternatieven zien?',
+      otherCheapAlternativesMessage:
+        'Hier zijn andere goedkope alternatieven voor dit geneesmiddel:',
+      standardDosagesMessage: 'Voorgestelde dosering',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation:
@@ -303,6 +312,9 @@ export const medicationTranslations = {
       cheapest: 'Am günstigsten',
       cheapAlternativesMessage:
         'Dieses Medikament ist nicht als günstig klassifiziert. Möchten Sie günstigere Alternativen sehen?',
+      otherCheapAlternativesMessage:
+        'Hier sind weitere günstige Alternativen für dieses Medikament:',
+      standardDosagesMessage: 'Empfohlene Dosierung',
     },
     drugSpecialRegulation: {
       noNarcoticRegulation:

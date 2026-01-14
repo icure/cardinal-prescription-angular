@@ -1,0 +1,3308 @@
+[
+  {
+    "id": "643c0fc96b1a4cacc9b7ec79d5c72896",
+    "rev": "1-baa1e28bf9dcbc46f5ec4490e19f23e2",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "vI+1/E3lK6/pRRzBXnjb6g==",
+    "code": "6106",
+    "name": {
+      "fr": "chlorphénamine + paracétamol oral 3,2 mg + 240 mg",
+      "nl": "chloorfenamine + paracetamol oraal 3,2 mg + 240 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "843a33c9feb43e13ecbd08cfe7bb3321",
+    "rev": "273-65206a5cbef87b0cacf64ba2bacb0c37",
+    "from": 1740700800000,
+    "productId": "vI+1/E3lK6/pRRzBXnjb6g==",
+    "code": "6106",
+    "name": {
+      "fr": "chlorphénamine + paracétamol oral 3,2 mg + 240 mg",
+      "nl": "chloorfenamine + paracetamol oraal 3,2 mg + 240 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 3326,
+        "targetGroup": "ADOLESCENT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "maximum 3 fois par jour",
+          "nl": "maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "186",
+            "name": {
+              "fr": "rhinite/sinusite",
+              "nl": "rhinitis/sinusitis"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 32,
+            "upperBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      },
+      {
+        "from": 1734652800000,
+        "code": 3328,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "maximum 6 fois par jour",
+          "nl": "maximum 6 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "186",
+            "name": {
+              "fr": "rhinite/sinusite",
+              "nl": "rhinitis/sinusitis"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      },
+      {
+        "from": 1740700800000,
+        "code": 3325,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "maximum 2 fois par jour",
+          "nl": "maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "186",
+            "name": {
+              "fr": "rhinite/sinusite",
+              "nl": "rhinitis/sinusitis"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 32,
+            "upperBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      },
+      {
+        "from": 1740700800000,
+        "code": 3324,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "maximum 2 fois par jour",
+          "nl": "maximum 2 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "186",
+            "name": {
+              "fr": "rhinite/sinusite",
+              "nl": "rhinitis/sinusitis"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 18,
+            "upperBound": 32
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "8436ada01f3fb31d5c714bcaa0ab085c",
+    "rev": "1-7db5fd81ae6335cf1d917b5f65547284",
+    "from": 1475280000000,
+    "to": 1734566400000,
+    "productId": "ETevoCQfs+m9zr8rjrwRZw==",
+    "code": "24778",
+    "name": {
+      "fr": "paracétamol + acide acétylsalicylique + acide ascorbique oral 200 mg + 300 mg + 300 mg",
+      "nl": "paracetamol + acetylsalicylzuur + ascorbinezuur oraal 200 mg + 300 mg + 300 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "d1b4211bf68951993247a6c9f6880d49",
+    "rev": "273-3638acace06263add947c573869a0ffe",
+    "from": 1734652800000,
+    "to": 1738454400000,
+    "productId": "ETevoCQfs+m9zr8rjrwRZw==",
+    "code": "24778",
+    "name": {
+      "fr": "paracétamol + acide acétylsalicylique + acide ascorbique oral 200 mg + 300 mg + 300 mg",
+      "nl": "paracetamol + acetylsalicylzuur + ascorbinezuur oraal 200 mg + 300 mg + 300 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 29,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "1ff04f901f310a1235f23247e19411c6",
+    "rev": "1-78c162ce77589505bc88a8e87eab033a",
+    "from": 1475280000000,
+    "to": 1564876800000,
+    "productId": "vK3Pnw3rh2GmpyiF2oUeNA==",
+    "code": "24752",
+    "name": {
+      "fr": "paracétamol + acide acétylsalicylique + caféine oral 200 mg + 200 mg + 46 mg",
+      "nl": "paracetamol + acetylsalicylzuur + coffeïne oraal 200 mg + 200 mg + 46 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "0fcb13be356c268cbb3314f5749bf19d",
+    "rev": "1-3d3760aeece7e906116127df81e7c999",
+    "from": 1475280000000,
+    "to": 1734566400000,
+    "productId": "Y6B5nm6t8bDEHaRsc2eMiA==",
+    "code": "24760",
+    "name": {
+      "fr": "paracétamol + acide acétylsalicylique + caféine oral 200 mg + 200 mg + 50 mg",
+      "nl": "paracetamol + acetylsalicylzuur + coffeïne oraal 200 mg + 200 mg + 50 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "ff6b72fa4033950c8f672b02a9888ddc",
+    "rev": "273-7e21d357425eab437c29d7ad597ed844",
+    "from": 1734652800000,
+    "productId": "Y6B5nm6t8bDEHaRsc2eMiA==",
+    "code": "24760",
+    "name": {
+      "fr": "paracétamol + acide acétylsalicylique + caféine oral 200 mg + 200 mg + 50 mg",
+      "nl": "paracetamol + acetylsalicylzuur + coffeïne oraal 200 mg + 200 mg + 50 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 33,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour",
+          "nl": "Maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "af1ee4cd35ef56ba4f46ffbda9a50bfd",
+    "rev": "1-bb5b9ced2b850e6e89921576c1edab36",
+    "from": 1475280000000,
+    "to": 1734566400000,
+    "productId": "z4nMQy+v8QRGbYtpwGBQQA==",
+    "code": "24794",
+    "name": {
+      "fr": "paracétamol + acide acétylsalicylique + caféine oral 250 mg + 250 mg + 65 mg",
+      "nl": "paracetamol + acetylsalicylzuur + coffeïne oraal 250 mg + 250 mg + 65 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "b10ba58171ebcc8f6d6b3244d5f87100",
+    "rev": "273-12b225873964c6b4b114aacde82ab712",
+    "from": 1734652800000,
+    "productId": "z4nMQy+v8QRGbYtpwGBQQA==",
+    "code": "24794",
+    "name": {
+      "fr": "paracétamol + acide acétylsalicylique + caféine oral 250 mg + 250 mg + 65 mg",
+      "nl": "paracetamol + acetylsalicylzuur + coffeïne oraal 250 mg + 250 mg + 65 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 36,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour",
+          "nl": "Maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "7ccd8d78a77e4a67cf0131d8959ca003",
+    "rev": "273-af330c1390ce57a5ed1fe1c912842bc3",
+    "from": 1734652800000,
+    "productId": "HK/7HHeH0ebyCprJs8bAgQ==",
+    "code": "24836",
+    "name": {
+      "fr": "paracétamol + acide acétylsalicylique + caféine rectal 400 mg + 400 mg + 92 mg",
+      "nl": "paracetamol + acetylsalicylzuur + coffeïne rectaal 400 mg + 400 mg + 92 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 37,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour",
+          "nl": "Maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "66",
+          "name": {
+            "fr": "Voie rectale",
+            "nl": "Rectaal gebruik",
+            "de": "rektale Anwendung",
+            "en": "Rectal use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "b5195232146b3efa360b6b3bf83af643",
+    "rev": "1-25efd914efedca7c6e010b5d1f7afa4e",
+    "from": 1475280000000,
+    "to": 1734566400000,
+    "productId": "HK/7HHeH0ebyCprJs8bAgQ==",
+    "code": "24836",
+    "name": {
+      "fr": "paracétamol + acide acétylsalicylique + caféine rectal 400 mg + 400 mg + 92 mg",
+      "nl": "paracetamol + acetylsalicylzuur + coffeïne rectaal 400 mg + 400 mg + 92 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "3826b602cd5c3fc4d594157de1b5bf08",
+    "rev": "273-ac66773e38cd57b181ef9c3bcd841c3a",
+    "from": 1738540800000,
+    "productId": "ETevoCQfs+m9zr8rjrwRZw==",
+    "code": "24778",
+    "name": {
+      "fr": "paracétamol + acide acétylsalicylique oral 200 mg + 300 mg",
+      "nl": "paracetamol + acetylsalicylzuur oraal 200 mg + 300 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 29,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "ab2aca2edc880bea2315884918af87a2",
+    "rev": "1-115e0e88cc75ff6a38779bd7652c5154",
+    "from": 1475280000000,
+    "to": 1733011200000,
+    "productId": "hsyGK50D/79013Bb967R6w==",
+    "code": "24844",
+    "name": {
+      "fr": "paracétamol + caféine oral 400 mg + 50 mg",
+      "nl": "paracetamol + coffeïne oraal 400 mg + 50 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "2ef9a1221ca998be4d74966bb1b667cd",
+    "rev": "1-9582766b73c038b3bcc6534caedc7a35",
+    "from": 1475280000000,
+    "to": 1504137600000,
+    "productId": "fVQLwGebFdzuOd+pcxhauA==",
+    "code": "24885",
+    "name": {
+      "fr": "paracétamol + caféine oral 500 mg + 50 mg [CAVE séc., solide/liq.]",
+      "nl": "paracetamol + coffeïne oraal 500 mg + 50 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "bf3b59c2a85b77538731b7934fc23d17",
+    "rev": "273-46ea029305d7ac8f237cff7ca9c52873",
+    "from": 1740700800000,
+    "to": 1745452800000,
+    "productId": "fVQLwGebFdzuOd+pcxhauA==",
+    "code": "24885",
+    "name": {
+      "fr": "paracétamol + caféine oral 500 mg + 50 mg [CAVE séc., solide/liq.]",
+      "nl": "paracetamol + coffeïne oraal 500 mg + 50 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 42,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "fa62a2837cfea4f7e1ad42c2aadba45e",
+    "rev": "1-654de3914dbefa6b51c223c83b610ae1",
+    "from": 1580947200000,
+    "to": 1740614400000,
+    "productId": "fVQLwGebFdzuOd+pcxhauA==",
+    "code": "24885",
+    "name": {
+      "fr": "paracétamol + caféine oral 500 mg + 50 mg [CAVE séc., solide/liq.]",
+      "nl": "paracetamol + coffeïne oraal 500 mg + 50 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "cfa2fa904fbd7ff641d5fb5dfd20ac71",
+    "rev": "250-ee6980ece0608014d6135b5c69a8ae92",
+    "from": 1745539200000,
+    "productId": "fVQLwGebFdzuOd+pcxhauA==",
+    "code": "24885",
+    "name": {
+      "fr": "paracétamol + caféine oral 500 mg + 50 mg [CAVE solide/liq.]",
+      "nl": "paracetamol + coffeïne oraal 500 mg + 50 mg [CAVE vast/vloeib.]"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 42,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "2bbac1322ae3f36fafa66cdc8220b95a",
+    "rev": "1-679646e5829f3b2bb90f287c33ad78ef",
+    "from": 1504224000000,
+    "to": 1580860800000,
+    "productId": "fVQLwGebFdzuOd+pcxhauA==",
+    "code": "24885",
+    "name": {
+      "fr": "paracétamol + caféine oral 500 mg + 50 mg [CAVE solide/liq., séc.]",
+      "nl": "paracetamol + coffeïne oraal 500 mg + 50 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "2533273c8f0607f05b708490ef9b62b7",
+    "rev": "273-dcaecbf49211f9297e90cad5420384b6",
+    "from": 1740700800000,
+    "productId": "rAPDpSib+igzSe65Kj9HDQ==",
+    "code": "24893",
+    "name": {
+      "fr": "paracétamol + caféine oral 500 mg + 65 mg",
+      "nl": "paracetamol + coffeïne oraal 500 mg + 65 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 43,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "d18572af3b7cf8eea479ee559b3e1452",
+    "rev": "1-75011e6c4d2b7fc1a09f48c83beae7c8",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "rAPDpSib+igzSe65Kj9HDQ==",
+    "code": "24893",
+    "name": {
+      "fr": "paracétamol + caféine oral 500 mg + 65 mg",
+      "nl": "paracetamol + coffeïne oraal 500 mg + 65 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "16e3a8cef8def12198a93fc92f3dac6f",
+    "rev": "273-052380b0f956793a23d3dc2cf1b4a665",
+    "from": 1740700800000,
+    "to": 1744243200000,
+    "productId": "WmIFdWip7iSnNwKVgSnVHQ==",
+    "code": "24869",
+    "name": {
+      "fr": "paracétamol + codéine + caféine oral 500 mg + 30 mg + 50 mg",
+      "nl": "paracetamol + codeïne + coffeïne oraal 500 mg + 30 mg + 50 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "to": 1744243200000,
+        "code": 2758,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour",
+          "nl": "Maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "147",
+            "name": {
+              "fr": "douleur",
+              "nl": "pijn"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "c0baa5612ffa9ab5abb749091321ff7f",
+    "rev": "1-3f6f5c4b133d1b5fd83232a023129554",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "WmIFdWip7iSnNwKVgSnVHQ==",
+    "code": "24869",
+    "name": {
+      "fr": "paracétamol + codéine + caféine oral 500 mg + 30 mg + 50 mg",
+      "nl": "paracetamol + codeïne + coffeïne oraal 500 mg + 30 mg + 50 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "3376d5f34dbc1cbd07ac553a4ae22f43",
+    "rev": "273-02c5fc9ca843d464a47252292413b4a1",
+    "from": 1740700800000,
+    "productId": "5J/AQcjeMGzgjSMHQUhv0w==",
+    "code": "40535",
+    "name": {
+      "fr": "paracétamol + codéine oral 1 000 mg + 60 mg",
+      "nl": "paracetamol + codeïne oraal 1 000 mg + 60 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 2743,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "147",
+            "name": {
+              "fr": "douleur",
+              "nl": "pijn"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "7ce04a3192525e73555362d15f3a8c9e",
+    "rev": "1-a17fb3300d47ebb3a79cabdd24b3574d",
+    "from": 1566172800000,
+    "to": 1740614400000,
+    "productId": "5J/AQcjeMGzgjSMHQUhv0w==",
+    "code": "40535",
+    "name": {
+      "fr": "paracétamol + codéine oral 1 000 mg + 60 mg",
+      "nl": "paracetamol + codeïne oraal 1 000 mg + 60 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "535f2a2bbd6adc39211fbf7e20b2cce8",
+    "rev": "1-d5fb64bfa214cb84cd5482d683b4ffa5",
+    "from": 1475280000000,
+    "to": 1504137600000,
+    "productId": "qZjnzkIjAY9R/qEbZ2UJsQ==",
+    "code": "24877",
+    "name": {
+      "fr": "paracétamol + codéine oral 500 mg + 30 mg [CAVE séc., solide/liq.]",
+      "nl": "paracetamol + codeïne oraal 500 mg + 30 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "765ee2c1930dea7cdf7ff4fda2efee9c",
+    "rev": "273-b73ba2da1be358cb4f3392f7bd3aa745",
+    "from": 1740700800000,
+    "productId": "qZjnzkIjAY9R/qEbZ2UJsQ==",
+    "code": "24877",
+    "name": {
+      "fr": "paracétamol + codéine oral 500 mg + 30 mg [CAVE séc., solide/liq.]",
+      "nl": "paracetamol + codeïne oraal 500 mg + 30 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 2741,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour",
+          "nl": "Maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "147",
+            "name": {
+              "fr": "douleur",
+              "nl": "pijn"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "da80cb2caa5bfcb6e311d4d154563174",
+    "rev": "1-c51fc9634c059ecaf2501b8c26343276",
+    "from": 1580947200000,
+    "to": 1740614400000,
+    "productId": "qZjnzkIjAY9R/qEbZ2UJsQ==",
+    "code": "24877",
+    "name": {
+      "fr": "paracétamol + codéine oral 500 mg + 30 mg [CAVE séc., solide/liq.]",
+      "nl": "paracetamol + codeïne oraal 500 mg + 30 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "128a786a3b866d5ae42d7add4044a031",
+    "rev": "1-294845113f9a661fcc64ab1f20165372",
+    "from": 1504224000000,
+    "to": 1580860800000,
+    "productId": "qZjnzkIjAY9R/qEbZ2UJsQ==",
+    "code": "24877",
+    "name": {
+      "fr": "paracétamol + codéine oral 500 mg + 30 mg [CAVE solide/liq., séc.]",
+      "nl": "paracetamol + codeïne oraal 500 mg + 30 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "23e3f1033399a039fdcab01bdd7aeec4",
+    "rev": "1-e4909396a35e8c7237adb01c269b3bea",
+    "from": 1642377600000,
+    "to": 1655769600000,
+    "productId": "F24FIU5Afvl+KBHI6B39rA==",
+    "code": "43604",
+    "name": {
+      "fr": "paracétamol + ibuprofène oral 500 mg + 150 mg",
+      "nl": "paracetamol + ibuprofen oraal 500 mg + 150 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "25899052439dba2434507ca5c10fae1e",
+    "rev": "1-3cb7befc390d542b0cfd7529046c0317",
+    "from": 1600387200000,
+    "to": 1601337600000,
+    "productId": "F24FIU5Afvl+KBHI6B39rA==",
+    "code": "43604",
+    "name": {
+      "fr": "paracétamol + ibuprofène oral 500 mg + 150 mg",
+      "nl": "paracetamol + ibuprofen oraal 500 mg + 150 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "29d0c3fcb9796fe86e6304affde15e96",
+    "rev": "1-0744f6e6a1c895f0439098e7e59ec955",
+    "from": 1622419200000,
+    "to": 1625961600000,
+    "productId": "F24FIU5Afvl+KBHI6B39rA==",
+    "code": "43604",
+    "name": {
+      "fr": "paracétamol + ibuprofène oral 500 mg + 150 mg",
+      "nl": "paracetamol + ibuprofen oraal 500 mg + 150 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "46e56f3614c8a4a4539bd83744d8198a",
+    "rev": "273-0b6a6b559e5d386e1a23cd2115f47058",
+    "from": 1734652800000,
+    "productId": "F24FIU5Afvl+KBHI6B39rA==",
+    "code": "43604",
+    "name": {
+      "fr": "paracétamol + ibuprofène oral 500 mg + 150 mg",
+      "nl": "paracetamol + ibuprofen oraal 500 mg + 150 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 4719,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour\nMaximum 3 jours",
+          "nl": "Maximum 3 keer per dag \nMaximum 3 dagen"
+        },
+        "indication": [
+          {
+            "code": "147",
+            "name": {
+              "fr": "douleur",
+              "nl": "pijn"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "96e667a3c7ca237aa1e12ff9611160d9",
+    "rev": "1-365c382f06deae3bf6d3e2a4a17abc1d",
+    "from": 1609804800000,
+    "to": 1610150400000,
+    "productId": "F24FIU5Afvl+KBHI6B39rA==",
+    "code": "43604",
+    "name": {
+      "fr": "paracétamol + ibuprofène oral 500 mg + 150 mg",
+      "nl": "paracetamol + ibuprofen oraal 500 mg + 150 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "b271560a8f6cf36dd6a5122681c96f2d",
+    "rev": "1-1412466c819225191d113d39a89435c9",
+    "from": 1694131200000,
+    "to": 1734566400000,
+    "productId": "F24FIU5Afvl+KBHI6B39rA==",
+    "code": "43604",
+    "name": {
+      "fr": "paracétamol + ibuprofène oral 500 mg + 150 mg",
+      "nl": "paracetamol + ibuprofen oraal 500 mg + 150 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "f0a61d672e9bd85c6422ed79b6a9ba2d",
+    "rev": "1-7ee08928d7c6e7cbfc5c2f3e6f3a8511",
+    "from": 1684281600000,
+    "to": 1684972800000,
+    "productId": "F24FIU5Afvl+KBHI6B39rA==",
+    "code": "43604",
+    "name": {
+      "fr": "paracétamol + ibuprofène oral 500 mg + 150 mg",
+      "nl": "paracetamol + ibuprofen oraal 500 mg + 150 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "5a8a84d7cf8bf96c04159d3a941bc764",
+    "rev": "1-144656b9e7f1129bae2347221f400de4",
+    "from": 1664496000000,
+    "to": 1734566400000,
+    "productId": "8o/AUhjr89nZAyiPD7P0Ww==",
+    "code": "46516",
+    "name": {
+      "fr": "paracétamol + ibuprofène oral 500 mg + 200 mg",
+      "nl": "paracetamol + ibuprofen oraal 500 mg + 200 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "afec12945cf4ec77b23dccc99e37abd6",
+    "rev": "273-5ee909548d9da1e73b9de6ae250f68fc",
+    "from": 1734652800000,
+    "productId": "8o/AUhjr89nZAyiPD7P0Ww==",
+    "code": "46516",
+    "name": {
+      "fr": "paracétamol + ibuprofène oral 500 mg + 200 mg",
+      "nl": "paracetamol + ibuprofen oraal 500 mg + 200 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 2670,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour, maximum 3 jour",
+          "nl": "Maximum 3 keer per dag, maximum 3 dagen"
+        },
+        "indication": [
+          {
+            "code": "147",
+            "name": {
+              "fr": "douleur",
+              "nl": "pijn"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "76a928c37972ebbe3fffb75c0ff2c7ad",
+    "rev": "1-fb8869bb51a11347a9661d08e6ba833e",
+    "from": 1680825600000,
+    "productId": "Rat0g+bRqtV0fQp4PYXUfQ==",
+    "code": "47209",
+    "name": {
+      "fr": "paracétamol + ibuprofène perfusion 10 mg + 3 mg / 1 ml",
+      "nl": "paracetamol + ibuprofen infusie 10 mg + 3 mg / 1 ml"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "4cca02cdf6ff4c1f7ad98ed133b327a4",
+    "rev": "1-4e6c9b50634df9e70c9280801946eaac",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "QToIZu1/K2gFRjXuXXfI3w==",
+    "code": "24703",
+    "name": {
+      "fr": "paracétamol oral 150 mg / 5 ml",
+      "nl": "paracetamol oraal 150 mg / 5 ml"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "e3ceb90eb273b0df66805294b37b7c9c",
+    "rev": "273-576003a9d42ff1aef3e71a40ee11b4f5",
+    "from": 1740700800000,
+    "productId": "QToIZu1/K2gFRjXuXXfI3w==",
+    "code": "24703",
+    "name": {
+      "fr": "paracétamol oral 150 mg / 5 ml",
+      "nl": "paracetamol oraal 150 mg / 5 ml"
+    },
+    "singleAdministrationDose": {
+      "value": 5,
+      "unit": "ml"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 8,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 15,
+        "quantityDenominator": 150,
+        "quantityMultiplicator": "weight",
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 4
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "0e5f8ebc32c30becadc3acff9863541f",
+    "rev": "273-222b133f4db0aacc0811ea7d46d8c0ce",
+    "from": 1740700800000,
+    "productId": "5pey3yfQOhsogOLaeTETOA==",
+    "code": "24729",
+    "name": {
+      "fr": "paracétamol oral 160 mg / 5 ml",
+      "nl": "paracetamol oraal 160 mg / 5 ml"
+    },
+    "singleAdministrationDose": {
+      "value": 5,
+      "unit": "ml"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 9,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 15,
+        "quantityDenominator": 160,
+        "quantityMultiplicator": "weight",
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 1
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "1dddf8288c44f07b7358ef437b957ee7",
+    "rev": "1-219f1f089add524a4e21466929f79093",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "5pey3yfQOhsogOLaeTETOA==",
+    "code": "24729",
+    "name": {
+      "fr": "paracétamol oral 160 mg / 5 ml",
+      "nl": "paracetamol oraal 160 mg / 5 ml"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "58845bd86d3994d5142ef8ab45c58aa1",
+    "rev": "1-1e36fbf0676d7a7fd96df337733a9ff5",
+    "from": 1580947200000,
+    "to": 1740614400000,
+    "productId": "OXMWDgBzNeYnL6WdhanHMQ==",
+    "code": "24745",
+    "name": {
+      "fr": "paracétamol oral 1 g [CAVE séc., solide/liq.]",
+      "nl": "paracetamol oraal 1 g [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "6a0dce3c8701ae7671cee9262bde73a4",
+    "rev": "273-a2244938747e5972b9d74d7b9ad0590a",
+    "from": 1740700800000,
+    "to": 1745452800000,
+    "productId": "OXMWDgBzNeYnL6WdhanHMQ==",
+    "code": "24745",
+    "name": {
+      "fr": "paracétamol oral 1 g [CAVE séc., solide/liq.]",
+      "nl": "paracetamol oraal 1 g [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 3,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour",
+          "nl": "Maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "96090434991f9d7d60d8e75d65b7e5d2",
+    "rev": "1-c2c05c9bf15b54637df4d1288f5eccc7",
+    "from": 1475280000000,
+    "to": 1504137600000,
+    "productId": "OXMWDgBzNeYnL6WdhanHMQ==",
+    "code": "24745",
+    "name": {
+      "fr": "paracétamol oral 1 g [CAVE séc., solide/liq.]",
+      "nl": "paracetamol oraal 1 g [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "648e0b0267871ee012f18df730874c7d",
+    "rev": "250-e7ff995c78ad3e63ca11a9965af9b2e1",
+    "from": 1745539200000,
+    "productId": "OXMWDgBzNeYnL6WdhanHMQ==",
+    "code": "24745",
+    "name": {
+      "fr": "paracétamol oral 1 g [CAVE solide/liq.]",
+      "nl": "paracetamol oraal 1 g [CAVE vast/vloeib.]"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 3,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour",
+          "nl": "Maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "644735c0db11601dfb580a8a66c37aa9",
+    "rev": "1-7d977d60067a2279e8a82612a89463f8",
+    "from": 1504224000000,
+    "to": 1580860800000,
+    "productId": "OXMWDgBzNeYnL6WdhanHMQ==",
+    "code": "24745",
+    "name": {
+      "fr": "paracétamol oral 1 g [CAVE solide/liq., séc.]",
+      "nl": "paracetamol oraal 1 g [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "7fab5218f3196fd64b03d0d098b9b99b",
+    "rev": "1-ab9ddaf2e11acc27046d943b0bedbd32",
+    "from": 1497312000000,
+    "to": 1664841600000,
+    "productId": "KASeIO1X7YlqAenYFSjakQ==",
+    "code": "37218",
+    "name": {
+      "fr": "paracétamol oral 200 mg / 5 ml",
+      "nl": "paracetamol oraal 200 mg / 5 ml"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "19ff8573c3c9354906034797ce0680f3",
+    "rev": "1-8b00ece152d89afe88a1f86cc13a952e",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "3MdAj7VFvG+RVCLdCenqrw==",
+    "code": "24802",
+    "name": {
+      "fr": "paracétamol oral 250 mg",
+      "nl": "paracetamol oraal 250 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "b06e7b71e2f039cdb86adb0402c2460d",
+    "rev": "273-a5ec60a8a8b8ae273792126515e96f60",
+    "from": 1740700800000,
+    "productId": "3MdAj7VFvG+RVCLdCenqrw==",
+    "code": "24802",
+    "name": {
+      "fr": "paracétamol oral 250 mg",
+      "nl": "paracetamol oraal 250 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 2656,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 6 fois par jour",
+          "nl": "Maximum 6 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 46,
+            "upperBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      },
+      {
+        "from": 1740700800000,
+        "code": 2645,
+        "targetGroup": "ADOLESCENT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 6 fois par jour",
+          "nl": "Maximum 6 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 27,
+            "upperBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      },
+      {
+        "from": 1740700800000,
+        "code": 2651,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 5 fois par jour",
+          "nl": "Maximum 5 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 21,
+            "upperBound": 25
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      },
+      {
+        "from": 1740700800000,
+        "code": 2650,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 17,
+            "upperBound": 21
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "698ad75d2b36e4a1cb7610421216d2c7",
+    "rev": "273-228459fef8afb8b38e2a5b4533cc8b6c",
+    "from": 1740700800000,
+    "productId": "6eVpRStZbYrIm56RH99pYg==",
+    "code": "24901",
+    "name": {
+      "fr": "paracétamol oral 500 mg [CAVE séc., solide/liq.]",
+      "nl": "paracetamol oraal 500 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 2657,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": true,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 34,
+            "upperBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      },
+      {
+        "from": 1740700800000,
+        "code": 12,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 6 fois par jour",
+          "nl": "Maximum 6 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      },
+      {
+        "from": 1740700800000,
+        "code": 14,
+        "targetGroup": "ADOLESCENT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 34,
+            "upperBound": 50
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "7f4f7eedb2a019209dec31d065153666",
+    "rev": "1-e7cc5694769e796a52d57e8ce082d195",
+    "from": 1580947200000,
+    "to": 1740614400000,
+    "productId": "6eVpRStZbYrIm56RH99pYg==",
+    "code": "24901",
+    "name": {
+      "fr": "paracétamol oral 500 mg [CAVE séc., solide/liq.]",
+      "nl": "paracetamol oraal 500 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "d6ffc458c124d379b738aa4cfd2fc779",
+    "rev": "1-c1f68b3a163fd6902b0a4056e3d9c6ec",
+    "from": 1475280000000,
+    "to": 1504137600000,
+    "productId": "6eVpRStZbYrIm56RH99pYg==",
+    "code": "24901",
+    "name": {
+      "fr": "paracétamol oral 500 mg [CAVE séc., solide/liq.]",
+      "nl": "paracetamol oraal 500 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "c9915b41e4024bd5670aa8a33f4647e1",
+    "rev": "1-868d27adb056fad71436600a27f41471",
+    "from": 1504224000000,
+    "to": 1580860800000,
+    "productId": "6eVpRStZbYrIm56RH99pYg==",
+    "code": "24901",
+    "name": {
+      "fr": "paracétamol oral 500 mg [CAVE solide/liq., séc.]",
+      "nl": "paracetamol oraal 500 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "56893e410c9fd107f744252b9bdece20",
+    "rev": "1-5dbdb68ae9eb3d280ee8f5c7d7801e0d",
+    "from": 1475280000000,
+    "to": 1521417600000,
+    "productId": "swU/JIWP6iP9JVoKyHwxAw==",
+    "code": "24950",
+    "name": {
+      "fr": "paracétamol oral (libér. modifiée) 665 mg",
+      "nl": "paracetamol oraal (gereg. afgifte) 665 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "9b2f04dbdd77497a1e08dc0f3f7a8625",
+    "rev": "1-42b17c7daff943c886d2b147a06e14be",
+    "from": 1497312000000,
+    "to": 1700006400000,
+    "productId": "udW0k4T14dk8s8Rp/UCxVg==",
+    "code": "37564",
+    "name": {
+      "fr": "paracétamol perfusion 100 mg / 10 ml",
+      "nl": "paracetamol infusie 100 mg / 10 ml"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "0fd0b840dce52676fdfa0c5ae3302c8f",
+    "rev": "1-6475118886286e974d4d2b2e5e71058b",
+    "from": 1475280000000,
+    "productId": "tzLonZT7zxXdOm6QiaqGSA==",
+    "code": "24737",
+    "name": {
+      "fr": "paracétamol perfusion 1 g / 100 ml",
+      "nl": "paracetamol infusie 1 g / 100 ml"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "f280e4116620cf3b8f11ea742526fb6a",
+    "rev": "1-bf270d873fa9ad9c93952c34dcee1150",
+    "from": 1475280000000,
+    "productId": "HPHEbC/BJfj24VCqW855Rw==",
+    "code": "24851",
+    "name": {
+      "fr": "paracétamol perfusion 500 mg / 50 ml",
+      "nl": "paracetamol infusie 500 mg / 50 ml"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "15ef8cd6eaa19cf5aa30248b286e6dc6",
+    "rev": "1-38c209a58066c305331c6a7bb7d1cf09",
+    "from": 1475280000000,
+    "to": 1721865600000,
+    "productId": "cfA7HaexPQWMUrPoAFEd8w==",
+    "code": "24919",
+    "name": {
+      "fr": "paracétamol + pseudoéphédrine oral 500 mg + 30 mg",
+      "nl": "paracetamol + pseudo-efedrine oraal 500 mg + 30 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "4733f87eaf3f1932841514809805d8c2",
+    "rev": "1-403718c60e876e6af36d2bbee92ea051",
+    "from": 1475280000000,
+    "to": 1721865600000,
+    "productId": "Ox71zPfcaNRSvsGov2OpWQ==",
+    "code": "24927",
+    "name": {
+      "fr": "paracétamol + pseudoéphédrine oral 500 mg + 60 mg [CAVE solide/liq.]",
+      "nl": "paracetamol + pseudo-efedrine oraal 500 mg + 60 mg [CAVE vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "862c7478302439d17548bfec8a004ba8",
+    "rev": "1-cb6802cd74cb6fb29af76785fca8fbaa",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "oR5s3ekFp3legJC+CV+qrg==",
+    "code": "24695",
+    "name": {
+      "fr": "paracétamol rectal 100 mg",
+      "nl": "paracetamol rectaal 100 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "c63acc38bebe99b2856d50ccc8247dd3",
+    "rev": "273-1a536cfad0f15b131627b893319a806b",
+    "from": 1740700800000,
+    "productId": "oR5s3ekFp3legJC+CV+qrg==",
+    "code": "24695",
+    "name": {
+      "fr": "paracétamol rectal 100 mg",
+      "nl": "paracetamol rectaal 100 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 16,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour",
+          "nl": "Maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 5,
+            "upperBound": 10
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "66",
+          "name": {
+            "fr": "Voie rectale",
+            "nl": "Rectaal gebruik",
+            "de": "rektale Anwendung",
+            "en": "Rectal use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "0f37116d83773708986f357c4ac2fa13",
+    "rev": "273-5e6868a6ab877132d8aa5efeb4413a69",
+    "from": 1740700800000,
+    "productId": "GIxvmuRy08ZGqyLdScQVNg==",
+    "code": "24711",
+    "name": {
+      "fr": "paracétamol rectal 150 mg",
+      "nl": "paracetamol rectaal 150 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 17,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 3 fois par jour",
+          "nl": "Maximum 3 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 8,
+            "upperBound": 15
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "66",
+          "name": {
+            "fr": "Voie rectale",
+            "nl": "Rectaal gebruik",
+            "de": "rektale Anwendung",
+            "en": "Rectal use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "d6ae140432eb685c88d2989e4b985857",
+    "rev": "1-a5c3ed6d7ead8b721a456e95a6256e71",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "GIxvmuRy08ZGqyLdScQVNg==",
+    "code": "24711",
+    "name": {
+      "fr": "paracétamol rectal 150 mg",
+      "nl": "paracetamol rectaal 150 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "4a96c37d3a44e1b0ebb2ba23b71ec7ee",
+    "rev": "273-c4205df6a6ab780941447145672863b6",
+    "from": 1740700800000,
+    "productId": "eqxf+ezWu1sQzg7gCVXj6w==",
+    "code": "24786",
+    "name": {
+      "fr": "paracétamol rectal 200 mg",
+      "nl": "paracetamol rectaal 200 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 19,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 16,
+            "upperBound": 20
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "66",
+          "name": {
+            "fr": "Voie rectale",
+            "nl": "Rectaal gebruik",
+            "de": "rektale Anwendung",
+            "en": "Rectal use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "cc40cc6a89f242e5983e4e42fb013900",
+    "rev": "1-e4dcef2ee0008184bc05943217387be7",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "eqxf+ezWu1sQzg7gCVXj6w==",
+    "code": "24786",
+    "name": {
+      "fr": "paracétamol rectal 200 mg",
+      "nl": "paracetamol rectaal 200 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "e83e79508980b58770fdeba866d440f8",
+    "rev": "1-c7c055d6db321db442c5636c24c8c32b",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "Swfx2roX1OHhVU21TMAxkw==",
+    "code": "24810",
+    "name": {
+      "fr": "paracétamol rectal 300 mg",
+      "nl": "paracetamol rectaal 300 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "e8a5afb9dc635b209f3b52e75d9b00ef",
+    "rev": "273-0121b1f952002947dea5aa362277192e",
+    "from": 1740700800000,
+    "productId": "Swfx2roX1OHhVU21TMAxkw==",
+    "code": "24810",
+    "name": {
+      "fr": "paracétamol rectal 300 mg",
+      "nl": "paracetamol rectaal 300 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 20,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 20,
+            "upperBound": 30
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "66",
+          "name": {
+            "fr": "Voie rectale",
+            "nl": "Rectaal gebruik",
+            "de": "rektale Anwendung",
+            "en": "Rectal use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "3b305ed1287719b561cac64680b9f7e2",
+    "rev": "273-49f74f01159dc2ffd42a3754ebacb07f",
+    "from": 1740700800000,
+    "productId": "I5jweKi8jint4HiN7bu4VQ==",
+    "code": "24828",
+    "name": {
+      "fr": "paracétamol rectal 350 mg",
+      "nl": "paracetamol rectaal 350 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 22,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 6 fois par jour",
+          "nl": "Maximum 6 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 35,
+            "upperBound": 39
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "66",
+          "name": {
+            "fr": "Voie rectale",
+            "nl": "Rectaal gebruik",
+            "de": "rektale Anwendung",
+            "en": "Rectal use"
+          },
+          "standardRoutes": []
+        }
+      },
+      {
+        "from": 1740700800000,
+        "code": 21,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 24,
+            "upperBound": 34
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "66",
+          "name": {
+            "fr": "Voie rectale",
+            "nl": "Rectaal gebruik",
+            "de": "rektale Anwendung",
+            "en": "Rectal use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "8bff68d3ab16288009868dc7391e0619",
+    "rev": "1-bebbc54118be80383ad66227e096dd09",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "I5jweKi8jint4HiN7bu4VQ==",
+    "code": "24828",
+    "name": {
+      "fr": "paracétamol rectal 350 mg",
+      "nl": "paracetamol rectaal 350 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "a951b57e269057de4eece846c9d7d9b5",
+    "rev": "273-6485c0675c2eeb7162ccd3303da435ee",
+    "from": 1734652800000,
+    "productId": "QNsfx4CY4XwrdpTEtjJJZg==",
+    "code": "24935",
+    "name": {
+      "fr": "paracétamol rectal 500 mg",
+      "nl": "paracetamol rectaal 500 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 23,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "66",
+          "name": {
+            "fr": "Voie rectale",
+            "nl": "Rectaal gebruik",
+            "de": "rektale Anwendung",
+            "en": "Rectal use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "ad0ae46e4f6cf9c63f7d2be60a3da012",
+    "rev": "1-6dfe443cdb6e4c918012ec8ae94e00e0",
+    "from": 1475280000000,
+    "to": 1734566400000,
+    "productId": "QNsfx4CY4XwrdpTEtjJJZg==",
+    "code": "24935",
+    "name": {
+      "fr": "paracétamol rectal 500 mg",
+      "nl": "paracetamol rectaal 500 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "72a8451ad4bf3dbffcf1fb3a7c3137ef",
+    "rev": "1-92bd35cb82cc132c137dea29fee39441",
+    "from": 1475280000000,
+    "to": 1693440000000,
+    "productId": "qnt/vATpBIGyJlC45aRPcw==",
+    "code": "24943",
+    "name": {
+      "fr": "paracétamol rectal 600 mg",
+      "nl": "paracetamol rectaal 600 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "158191a3b878c7188ec0a578c544d04e",
+    "rev": "273-48848fc3486a8556dd008ea6c54ed87b",
+    "from": 1740700800000,
+    "productId": "YHCRIMOrpMGEBWoERL109Q==",
+    "code": "24968",
+    "name": {
+      "fr": "paracétamol rectal 80 mg",
+      "nl": "paracetamol rectaal 80 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1740700800000,
+        "code": 2658,
+        "targetGroup": "PAEDIATRICS",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 5,
+            "upperBound": 8
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "66",
+          "name": {
+            "fr": "Voie rectale",
+            "nl": "Rectaal gebruik",
+            "de": "rektale Anwendung",
+            "en": "Rectal use"
+          },
+          "standardRoutes": []
+        }
+      },
+      {
+        "from": 1740700800000,
+        "code": 27,
+        "targetGroup": "NEONATE",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "149",
+            "name": {
+              "fr": "douleur et/ou fièvre",
+              "nl": "pijn en/of koorts"
+            }
+          }
+        ],
+        "parameterBounds": [
+          {
+            "dosageParameter": {
+              "code": "weight",
+              "name": {
+                "fr": "poids [kg]",
+                "nl": "weight [kg]"
+              },
+              "definition": {
+                "fr": "poids",
+                "nl": "gewicht",
+                "de": "gewicht",
+                "en": "weight"
+              },
+              "standardUnit": "kg"
+            },
+            "lowerBound": 5,
+            "upperBound": 8
+          }
+        ],
+        "routeOfAdministration": {
+          "code": "66",
+          "name": {
+            "fr": "Voie rectale",
+            "nl": "Rectaal gebruik",
+            "de": "rektale Anwendung",
+            "en": "Rectal use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "3994f86bde6d1109ef8f9e3f6b001ca1",
+    "rev": "1-dbc6c9f8a471899a6fa6f4d161641e48",
+    "from": 1475280000000,
+    "to": 1740614400000,
+    "productId": "YHCRIMOrpMGEBWoERL109Q==",
+    "code": "24968",
+    "name": {
+      "fr": "paracétamol rectal 80 mg",
+      "nl": "paracetamol rectaal 80 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "bbea85840e22cfa80988a3b6efc65287",
+    "rev": "273-8a1f5f71b2a65803b498664c2ae34abd",
+    "from": 1734652800000,
+    "productId": "cfA7HaexPQWMUrPoAFEd8w==",
+    "code": "24919",
+    "name": {
+      "fr": "pseudoéphédrine + paracétamol oral 30 mg + 500 mg",
+      "nl": "pseudo-efedrine + paracetamol oraal 30 mg + 500 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 1509,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "maximum 6 fois par jour pendant 5 jours",
+          "nl": "maximum 6 keer per dag gedurende 5 dagen"
+        },
+        "indication": [
+          {
+            "code": "186",
+            "name": {
+              "fr": "rhinite/sinusite",
+              "nl": "rhinitis/sinusitis"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "ee76e69996f330bc1a4c5608ca68612d",
+    "rev": "1-c3e19e156ab881ec17fb05007b8564d7",
+    "from": 1721952000000,
+    "to": 1734566400000,
+    "productId": "cfA7HaexPQWMUrPoAFEd8w==",
+    "code": "24919",
+    "name": {
+      "fr": "pseudoéphédrine + paracétamol oral 30 mg + 500 mg",
+      "nl": "pseudo-efedrine + paracetamol oraal 30 mg + 500 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "272fe2e4e9c0620498892c3d228569c1",
+    "rev": "1-b34621308ab9722cefa0da9a315d3fae",
+    "from": 1731628800000,
+    "to": 1734566400000,
+    "productId": "Ox71zPfcaNRSvsGov2OpWQ==",
+    "code": "24927",
+    "name": {
+      "fr": "pseudoéphédrine + paracétamol oral 60 mg + 500 mg",
+      "nl": "pseudo-efedrine + paracetamol oraal 60 mg + 500 mg"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "b1747cb20a3bc0d2f7055ae4e4fef6d6",
+    "rev": "273-51aced86607a1bac1047bf3795edf04c",
+    "from": 1734652800000,
+    "productId": "Ox71zPfcaNRSvsGov2OpWQ==",
+    "code": "24927",
+    "name": {
+      "fr": "pseudoéphédrine + paracétamol oral 60 mg + 500 mg",
+      "nl": "pseudo-efedrine + paracetamol oraal 60 mg + 500 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 1511,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "maximum 3 fois par jour pendant 5 jours",
+          "nl": "maximum 3 keer per dag gedurende 5 dagen"
+        },
+        "indication": [
+          {
+            "code": "120",
+            "name": {
+              "fr": "congestion nasale",
+              "nl": "nasale congestie"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "112f40c87dcb25beddf1bb6d320f5b13",
+    "rev": "1-7c4d3a3095d7c06fa8d04d0cd3691479",
+    "from": 1721952000000,
+    "to": 1731542400000,
+    "productId": "Ox71zPfcaNRSvsGov2OpWQ==",
+    "code": "24927",
+    "name": {
+      "fr": "pseudoéphédrine + paracétamol oral 60 mg + 500 mg [CAVE solide/liq.]",
+      "nl": "pseudo-efedrine + paracetamol oraal 60 mg + 500 mg [CAVE vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "10d6aa9a2e2d2f47e5e3988dae95d384",
+    "rev": "1-b8c6f884c5c1b44fd22961b4897a895f",
+    "from": 1685664000000,
+    "to": 1734566400000,
+    "productId": "S4eDJZ3w5ukFpZWIYWzxdw==",
+    "code": "31203",
+    "name": {
+      "fr": "tramadol + paracétamol oral 37,5 mg + 325 mg [CAVE séc.]",
+      "nl": "tramadol + paracetamol oraal 37,5 mg + 325 mg [CAVE deelb.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "ffb3969cae5e49a029968e201637dafe",
+    "rev": "273-dd1ecbeaa47dfe6f728d42456e481508",
+    "from": 1734652800000,
+    "productId": "S4eDJZ3w5ukFpZWIYWzxdw==",
+    "code": "31203",
+    "name": {
+      "fr": "tramadol + paracétamol oral 37,5 mg + 325 mg [CAVE séc.]",
+      "nl": "tramadol + paracetamol oraal 37,5 mg + 325 mg [CAVE deelb.]"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 61,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "147",
+            "name": {
+              "fr": "douleur",
+              "nl": "pijn"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "0d5693166d406342a1b1c69c91ec0cf2",
+    "rev": "1-0d598249ae993fcdcc1f94c291f9a69b",
+    "from": 1580947200000,
+    "to": 1685577600000,
+    "productId": "S4eDJZ3w5ukFpZWIYWzxdw==",
+    "code": "31203",
+    "name": {
+      "fr": "tramadol + paracétamol oral 37,5 mg + 325 mg [CAVE séc., solide/liq.]",
+      "nl": "tramadol + paracetamol oraal 37,5 mg + 325 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "1f586e660f629adb4c7ac5aa23410fda",
+    "rev": "1-a7130e621579f11d2eff78511644f70f",
+    "from": 1475280000000,
+    "to": 1504137600000,
+    "productId": "S4eDJZ3w5ukFpZWIYWzxdw==",
+    "code": "31203",
+    "name": {
+      "fr": "tramadol + paracétamol oral 37,5 mg + 325 mg [CAVE séc., solide/liq.]",
+      "nl": "tramadol + paracetamol oraal 37,5 mg + 325 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "9967542843990a5ed438b93407dd1f06",
+    "rev": "1-e4221a898ad206e4891e6650885900ae",
+    "from": 1504224000000,
+    "to": 1580860800000,
+    "productId": "S4eDJZ3w5ukFpZWIYWzxdw==",
+    "code": "31203",
+    "name": {
+      "fr": "tramadol + paracétamol oral 37,5 mg + 325 mg [CAVE solide/liq., séc.]",
+      "nl": "tramadol + paracetamol oraal 37,5 mg + 325 mg [CAVE deelb., vast/vloeib.]"
+    },
+    "standardDosage": []
+  },
+  {
+    "id": "ad05b6c3c15615204f6ec197a90668e8",
+    "rev": "273-48d810d07f41b18cee70982dcf51a897",
+    "from": 1734652800000,
+    "productId": "pviaCbTARwWfPhAJj7+bng==",
+    "code": "47431",
+    "name": {
+      "fr": "tramadol + paracétamol oral 75 mg + 650 mg",
+      "nl": "tramadol + paracetamol oraal 75 mg + 650 mg"
+    },
+    "standardDosage": [
+      {
+        "from": 1734652800000,
+        "code": 2745,
+        "targetGroup": "ADULT",
+        "kidneyFailureClass": 2,
+        "liverFailureClass": 1,
+        "treatmentDurationType": "IF_NECESSARY",
+        "temporalityUserProvided": false,
+        "quantity": 1,
+        "administrationFrequencyQuantity": 1,
+        "administrationFrequencyIsMax": false,
+        "administrationFrequencyTimeframe": {
+          "value": 1,
+          "unit": "d"
+        },
+        "supplementaryInfo": {
+          "fr": "Maximum 4 fois par jour",
+          "nl": "Maximum 4 keer per dag"
+        },
+        "indication": [
+          {
+            "code": "147",
+            "name": {
+              "fr": "douleur",
+              "nl": "pijn"
+            }
+          }
+        ],
+        "parameterBounds": [],
+        "routeOfAdministration": {
+          "code": "57",
+          "name": {
+            "fr": "Voie orale",
+            "nl": "Oraal gebruik",
+            "de": "zum Einnehmen",
+            "en": "Oral use"
+          },
+          "standardRoutes": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "f934a9533f5ebdf6b5222d1226246b0e",
+    "rev": "1-ee43704ba79e8600e5f04ec7bdee05ca",
+    "from": 1689552000000,
+    "to": 1734566400000,
+    "productId": "pviaCbTARwWfPhAJj7+bng==",
+    "code": "47431",
+    "name": {
+      "fr": "tramadol + paracétamol oral 75 mg + 650 mg",
+      "nl": "tramadol + paracetamol oraal 75 mg + 650 mg"
+    },
+    "standardDosage": []
+  }
+]

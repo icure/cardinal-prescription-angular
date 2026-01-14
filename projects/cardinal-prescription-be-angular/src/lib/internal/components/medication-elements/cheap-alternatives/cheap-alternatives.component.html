@@ -2,8 +2,11 @@
   <div class="cheap-alternatives__header" (click)="toggleExpanded()">
     <div class="cheap-alternatives__header__content">
       <cardinal-warning-icn color="#3D87C5" />
-      <span>
+      <span *ngIf="!isCheap">
         {{ t('medication.drugInfographic.cheapAlternativesMessage') }}
+      </span>
+      <span *ngIf="isCheap">
+        {{ t('medication.drugInfographic.otherCheapAlternativesMessage') }}
       </span>
     </div>
     <button

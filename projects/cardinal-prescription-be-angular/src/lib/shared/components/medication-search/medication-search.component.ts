@@ -32,8 +32,9 @@ import { TooltipContextService } from '../../../internal/services/common/tooltip
 
 import { TranslationService } from '../../services/translation/translation.service';
 import { SamSdkService } from '../../services/api/sam-sdk.service';
-import { MedicationType } from '../../types';
+import { Med, MedicationProductType, MedicationType } from '../../types';
 import { SpinnerComponent } from '../../../internal/components/common/spinner/spinner.component';
+import { MedicinalProductType } from '@icure/be-fhc-lite-api';
 
 @Component({
   selector: 'cardinal-medication-search',
@@ -90,13 +91,26 @@ export class MedicationSearchComponent
   molecules: PaginatedListIterator<VmpGroup> | undefined;
   products: PaginatedListIterator<Nmp> | undefined;
 
-  pages: MedicationType[] = [];
-  medicationsPage: MedicationType[] = [];
+  pages: MedOrProduct[] = [];
+
+  medicationsPage: MedicationProductType[] = [];
   moleculesPage: MedicationType[] = [];
   productsPage: MedicationType[] = [];
 
   focusedMedicationIndex: number | undefined = undefined;
+  focusedSubMedicationIndex: number | undefined = undefined;
   searchControl = new FormControl<string | null>('');
+
+  private medMapper = (item: Med) => {
+    return {
+      medications: (item as MedicationProductType).medications ?? [
+        item as MedicationType,
+      ],
+      product: (item as MedicationProductType).medications
+        ? (item as MedicationProductType)
+        : undefined,
+    };
+  };
 
   get totalPagesLength(): number {
     return this.pages.length;
@@ -137,40 +151,28 @@ export class MedicationSearchComponent
             this.molecules = mols;
             this.products = prods;
 
-            const [medicationsPage, moleculesPage, productsPage] =
-              await Promise.all([
-                meds
-                  ? this.loader.loadMedicationsPage(
-                      meds,
-                      10,
-                      this.deliveryEnvironment
-                    )
-                  : [],
-                mols ? this.loader.loadMoleculesPage(mols, 10) : [],
-                prods ? this.loader.loadNonMedicinalPage(prods, 10) : [],
-              ]);
-
-            this.medicationsPage = medicationsPage;
-            this.moleculesPage = moleculesPage;
-            this.productsPage = productsPage;
-
-            if (q !== this.searchControl.value?.trim()) return;
+            this.medicationsPage = [];
+            this.moleculesPage = [];
+            this.productsPage = [];
 
             const { result, updated } = await this.loader.loadMore({
-              medicationsPage: this.medicationsPage,
-              moleculesPage: this.moleculesPage,
-              productsPage: this.productsPage,
-              medications: this.medications,
-              molecules: this.molecules,
-              products: this.products,
+              untreatedLoadedMedicationProducts: this.medicationsPage,
+              untreatedLoadedMolecules: this.moleculesPage,
+              untreatedLoadNonMedicinals: this.productsPage,
+              medicationProductsIterator: this.medications,
+              moleculesIterator: this.molecules,
+              nonMedicinalesIterator: this.products,
               deliveryEnvironment: this.deliveryEnvironment,
             });
+
+            if(q !== this.searchControl.value?.trim()) return;
 
             this.showSpinner = false;
             this.medicationsPage = updated.medicationsPage;
             this.moleculesPage = updated.moleculesPage;
             this.productsPage = updated.productsPage;
-            this.pages = result;
+
+            this.pages = result.map(this.medMapper);
 
             this.showNoMatchesPlaceholder = !result.length;
 
@@ -215,9 +217,8 @@ export class MedicationSearchComponent
     this.addPrescription.emit([
       {
         ...med,
-        standardDosage: med.vmp?.vmpGroup?.code
-          ? (await this.samSdkService.loadVmpGroup(med.vmp?.vmpGroup?.code))
-              ?.standardDosage
+        vmpGroup: med.vmp?.vmpGroup?.code
+          ? await this.samSdkService.loadVmpGroup(med.vmp?.vmpGroup?.code)
           : undefined,
       },
       med.cheap || !med.vmp?.vmpGroup?.code
@@ -256,15 +257,24 @@ export class MedicationSearchComponent
     const pageCount = this.totalPagesLength;
     const viewCount = this.resultRefs.length;
 
-    if (this.focusedMedicationIndex !== undefined) {
+    if (this.focusedMedicationIndex !== undefined && this.focusedSubMedicationIndex != undefined) {
       if (event.key === 'ArrowDown') {
-        this.focusedMedicationIndex =
-          (this.focusedMedicationIndex + 1) % pageCount;
+        this.focusedSubMedicationIndex++
+        if (this.focusedSubMedicationIndex >= this.pages[this.focusedMedicationIndex]?.medications?.length!) {
+          this.focusedSubMedicationIndex = 0;
+          this.focusedMedicationIndex =
+            (this.focusedMedicationIndex + 1) % pageCount;
+        }
       } else if (event.key === 'ArrowUp') {
-        this.focusedMedicationIndex =
-          (this.focusedMedicationIndex - 1 + pageCount) % pageCount;
-      } else if (event.key === 'Enter' && this.focusedMedicationIndex >= 0) {
-        this.handleAddPrescription(this.pages[this.focusedMedicationIndex]);
+        this.focusedSubMedicationIndex--
+        if (this.focusedSubMedicationIndex < 0) {
+          this.focusedMedicationIndex =
+            (this.focusedMedicationIndex - 1 + pageCount) % pageCount;
+          this.focusedSubMedicationIndex =
+            this.pages[this.focusedMedicationIndex]?.medications?.length! - 1;
+        }
+      } else if (event.key === 'Enter' && this.focusedMedicationIndex >= 0 && this.focusedSubMedicationIndex >= 0) {
+        this.handleAddPrescription(this.pages[this.focusedMedicationIndex]?.medications?.[this.focusedSubMedicationIndex ?? 0]!);
       }
 
       if (viewCount > 0) {
@@ -295,28 +305,19 @@ export class MedicationSearchComponent
         for (const entry of entries) {
           if (entry.isIntersecting) {
             const res = await this.loader.loadMore({
-              medicationsPage: this.medicationsPage,
-              moleculesPage: this.moleculesPage,
-              productsPage: this.productsPage,
-              medications: this.medications,
-              molecules: this.molecules,
-              products: this.products,
+              untreatedLoadedMedicationProducts: this.medicationsPage,
+              untreatedLoadedMolecules: this.moleculesPage,
+              untreatedLoadNonMedicinals: this.productsPage,
+              medicationProductsIterator: this.medications,
+              moleculesIterator: this.molecules,
+              nonMedicinalesIterator: this.products,
               deliveryEnvironment: this.deliveryEnvironment,
             });
 
-            this.medicationsPage = [
-              ...this.medicationsPage,
-              ...res.updated.medicationsPage,
-            ];
-            this.moleculesPage = [
-              ...this.moleculesPage,
-              ...res.updated.moleculesPage,
-            ];
-            this.productsPage = [
-              ...this.productsPage,
-              ...res.updated.productsPage,
-            ];
-            this.pages = [...this.pages, ...res.result];
+            this.medicationsPage = [...res.updated.medicationsPage];
+            this.moleculesPage = [...res.updated.moleculesPage];
+            this.productsPage = [...res.updated.productsPage];
+            this.pages = [...this.pages, ...res.result.map(this.medMapper)];
             this.cdr.markForCheck();
           }
         }
@@ -335,4 +336,9 @@ export class MedicationSearchComponent
     const value = this.searchControl.value?.trim();
     return !!value && value.length < 3;
   }
+}
+
+interface MedOrProduct {
+  product?: MedicationProductType
+  medications?: MedicationType[]
 }

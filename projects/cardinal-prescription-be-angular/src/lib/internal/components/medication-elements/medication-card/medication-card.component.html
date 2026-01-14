@@ -57,7 +57,7 @@
           </p>
         </div>
 
-        <div class="header__medication__content__description">
+        <div class="header__medication__content__description" *ngIf="!readOnly">
           <div
             class="header__medication__content__description__item price"
             *ngIf="medication.price">
