@@ -518,8 +518,8 @@ export class PrescriptionModalComponent
       this.focusedDosageIndex = (this.focusedDosageIndex - 1 + len) % len;
       event.preventDefault();
       event.stopPropagation();
-    } else if (event.key === 'Enter' && this.focusedDosageIndex >= 0) {
-      this.validateSuggestion(this.focusedDosageIndex);
+    } else if (event.key === 'Enter') {
+      if (this.focusedDosageIndex >= 0) { this.validateSuggestion(this.focusedDosageIndex) }
       event.preventDefault();
       event.stopPropagation();
     } else if (event.key === 'Escape') {
