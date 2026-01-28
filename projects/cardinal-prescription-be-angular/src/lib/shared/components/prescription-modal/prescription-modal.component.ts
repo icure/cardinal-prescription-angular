@@ -18,7 +18,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { makeParser, marshal, RegimenItem as ParsedRegimenItem } from '@icure/medication-sdk';
+import {
+  makeParser,
+  marshal,
+  RegimenItem as ParsedRegimenItem,
+} from '@icure/medication-sdk';
 import { SamText } from '@icure/cardinal-be-sam-sdk';
 
 import { ButtonComponent } from '../../../internal/components/form-elements/button/button.component';
@@ -59,9 +63,7 @@ import { MedicationType, PrescribedMedicationType } from '../../types';
 import { MagistralText } from '@icure/be-fhc-lite-api';
 import { MedicationCardComponent } from '../../../internal/components/medication-elements/medication-card/medication-card.component';
 import { CheapAlternativesComponent } from '../../../internal/components/medication-elements/cheap-alternatives/cheap-alternatives.component';
-import {
-  StandardDosagesComponent
-} from '../../../internal/components/medication-elements/standard-dosages/standard-dosages.component';
+import { StandardDosagesComponent } from '../../../internal/components/medication-elements/standard-dosages/standard-dosages.component';
 
 @Component({
   selector: 'cardinal-prescription-modal',
@@ -170,7 +172,22 @@ export class PrescriptionModalComponent
       changes['prescriptionToModify'].currentValue !==
         changes['prescriptionToModify'].previousValue
     ) {
+      // Only reinitialize if the component has already been initialized
+      // (ngOnChanges can be called before ngOnInit)
+      if (!this.practitionerVisibilityOptions?.length) {
+        return;
+      }
+
+      // Unsubscribe from old form control subscriptions
+      this.subscriptions.forEach(sub => sub.unsubscribe());
+      this.subscriptions = [];
+
+      // Recreate form and re-setup all subscriptions
       this.initForm();
+      this.subscribeToValidationChanges();
+      this.subscribeToLabelChanges();
+      this.setupDosageSuggestionLogic();
+
       this.cdr.markForCheck();
     }
   }
@@ -203,6 +220,7 @@ export class PrescriptionModalComponent
         value: medicationTitleValue,
         disabled: true,
       },
+      dosage: this.prescriptionToModify?.medication.instructionForPatient ?? '',
       duration:
         getDurationFromDays(
           this.prescriptionToModify?.medication.duration?.value ?? 1
@@ -233,7 +251,37 @@ export class PrescriptionModalComponent
     };
   }
   private initForm(): void {
-    this.prescriptionForm = this.fb.group(this.getInitialFormValues());
+    const initialValues = this.getInitialFormValues();
+    this.prescriptionForm = this.fb.group({
+      medicationTitle: initialValues['medicationTitle'],
+      dosage: [initialValues['dosage'], [Validators.required]],
+      duration: [initialValues['duration'], [Validators.required]],
+      durationTimeUnit: [
+        initialValues['durationTimeUnit'],
+        [Validators.required],
+      ],
+      treatmentStartDate: [
+        initialValues['treatmentStartDate'],
+        [Validators.required],
+      ],
+      executableUntil: [
+        initialValues['executableUntil'],
+        [Validators.required],
+      ],
+      prescriptionsNumber: initialValues['prescriptionsNumber'],
+      substitutionAllowed: [
+        initialValues['substitutionAllowed'],
+        [Validators.required],
+      ],
+      showExtraFields: initialValues['showExtraFields'],
+      periodicityTimeUnit: initialValues['periodicityTimeUnit'],
+      periodicityDaysNumber: initialValues['periodicityDaysNumber'],
+      recipeInstructionForPatient: initialValues['recipeInstructionForPatient'],
+      instructionsForReimbursement:
+        initialValues['instructionsForReimbursement'],
+      prescriberVisibility: initialValues['prescriberVisibility'],
+      pharmacistVisibility: initialValues['pharmacistVisibility'],
+    });
 
     this.recipeInstructionForPatientLabel =
       this.prescriptionToModify?.medication.recipeInstructionForPatient ??
@@ -409,6 +457,7 @@ export class PrescriptionModalComponent
           // Only act if value hasn't changed since we captured it
           if (dosageControl.value !== snapshot) return;
           this.dosageSuggestions = completeDosage(snapshot) ?? [];
+          console.log({ dosageSuggestions: this.dosageSuggestions, snapshot });
           this.cdr.markForCheck();
         }, 100);
       })
@@ -534,6 +583,5 @@ export class PrescriptionModalComponent
     if (medicationDosageCtrl) {
       medicationDosageCtrl.setValue(marshal($event, this.language));
     }
-
   }
 }
