@@ -61,10 +61,7 @@
           </div>
 
           <cardinal-standard-dosages
-            *ngIf="
-              standardDosages &&
-              standardDosages.length > 0
-            "
+            *ngIf="standardDosages && standardDosages.length > 0"
             [dosages]="standardDosages"
             [language]="language"
             (selectDosage)="onSelectStandardDosage($event)" />
@@ -242,10 +239,7 @@
           (handleClick)="onCancel()">
           {{ t('prescription.form.cancel') }}
         </cardinal-button>
-        <cardinal-button
-          [type]="'submit'"
-          (handleClick)="onSubmit()"
-          [view]="'primary'">
+        <cardinal-button [type]="'submit'" [view]="'primary'">
           {{ t('prescription.form.submit') }}
         </cardinal-button>
       </div>

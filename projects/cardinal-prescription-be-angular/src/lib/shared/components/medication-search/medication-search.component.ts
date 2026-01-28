@@ -304,18 +304,29 @@ export class MedicationSearchComponent
   }
 
   scrollToFocusedItem(): void {
-    setTimeout(() => {
-      const refs = this.resultRefs?.toArray();
-      const index = this.focusedMedicationIndex;
-      const subIndex = this.focusedSubMedicationIndex;
-      if (index !== undefined && refs && refs[index]) {
-        refs[index].nativeElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-        });
-      }
-    }, 0);
-    this.cdr.markForCheck();
+    const refs = this.resultRefs?.toArray();
+    if (
+      !refs ||
+      refs.length === 0 ||
+      this.focusedMedicationIndex === undefined ||
+      this.focusedSubMedicationIndex === undefined
+    ) {
+      return;
+    }
+
+    // Calculate the actual index in the flat list of all medication cards
+    let flatIndex = 0;
+    for (let i = 0; i < this.focusedMedicationIndex; i++) {
+      flatIndex += this.pages[i]?.medications?.length ?? 0;
+    }
+    flatIndex += this.focusedSubMedicationIndex;
+
+    if (refs[flatIndex]) {
+      refs[flatIndex].nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    }
   }
 
   private initIntersectionObserver(): void {

@@ -456,8 +456,9 @@ export class PrescriptionModalComponent
         setTimeout(() => {
           // Only act if value hasn't changed since we captured it
           if (dosageControl.value !== snapshot) return;
-          this.dosageSuggestions = completeDosage(snapshot) ?? [];
-          console.log({ dosageSuggestions: this.dosageSuggestions, snapshot });
+          this.dosageSuggestions = (completeDosage(snapshot) ?? []).filter(
+            s => s.trim() !== ''
+          );
           this.cdr.markForCheck();
         }, 100);
       })

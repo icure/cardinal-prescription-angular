@@ -35,6 +35,7 @@
           *ngIf="med.product"
           [productTitle]="med.product?.title ?? 'error'" />
         <div
+          #resultRef
           class="medicationSearchDropdown__cardWrap"
           *ngFor="let smed of med.medications; let j = index"
           [class.focused]="
@@ -43,7 +44,6 @@
           [class.subMedication]="!!med.product">
           <cardinal-medication-card
             class="medication-card"
-            #resultRef
             [medication]="smed"
             [index]="j"
             [subMedication]="!!med.product"
